@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Hager_Ind_CRM.Models.BillingTerms>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<form asp-action="Index" method="post">
+    <h1 class="mt-4">Billing Terms</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item active"><a asp-area="" asp-controller="Home" asp-action="Management">Configuration</a></li>
+        <li class="breadcrumb-item active"><a asp-area="" asp-controller="Home" asp-action="EditLists">Editable lists</a></li>
+        <li class="breadcrumb-item active">Billing Terms</li>
+    </ol>
+
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table mr-1"></i>
+            Results
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered display" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.OrderID)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ID)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Terms)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OrderID)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ID)
+                                    <input type="hidden" name="reorderedId" value="@item.ID" />
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Terms)
+                                </td>
+                                <td>
+                                    <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+                                    <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ID">Details</a>
+                                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6  align-self-end">
+                    <div class="form-group">
+                        <input type="submit" name="actionButton" value="Apply new order" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+@section Scripts {
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.23/rr-1.2.7/datatables.min.js"></script>
+    <script type="text/javascript">
+        $('#dataTable').DataTable({
+            rowReorder: {
+                selector: 'tr'
+            }
+        });
+    </script>
+}

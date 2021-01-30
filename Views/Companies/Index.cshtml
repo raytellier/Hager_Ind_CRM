@@ -1,0 +1,264 @@
+﻿@model IEnumerable<Hager_Ind_CRM.Models.Company>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="mt-4">Companies</h1>
+
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+    <li class="breadcrumb-item active">Companies</li>
+</ol>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
+</p>
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table mr-1"></i>
+        Results
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered display" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CompanyTypes)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Location)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CredCheck)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BillingTerms)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Currency)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Phone)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Website)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BillingAddress1)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BillingAddress2)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BillingProvince)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BillingPostalCode)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BillingCountry)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ShippingAddress1)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ShippingAddress2)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ShippingProvince)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ShippingPostalCode)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ShippingCountry)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Active)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Notes)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CompanyTypes)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Location)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CredCheck)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BillingTerms)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Currency)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Phone)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Website)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BillingAddress1)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BillingAddress2)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BillingProvince)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BillingPostalCode)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BillingCountry)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ShippingAddress1)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ShippingAddress2)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ShippingProvince)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ShippingPostalCode)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ShippingCountry)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Active)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Notes)
+                        </th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @{
+                                int typesCount = item.CompanyTypes.Count;
+                                if (typesCount > 0)
+                                {
+                                    string firstType = item.CompanyTypes.FirstOrDefault().Type.Name;
+                                    if (typesCount > 1)
+                                    {
+                                        string typeList = "";
+                                        var c = item.CompanyTypes.ToList();
+                                        for (int i = 1; i < typesCount; i++)
+                                        {
+                                            typeList += c[i].Type.Name + " <br />";
+                                        }
+                                        <a class="" role="button" data-toggle="collapse" href="#collapseSum@(item.ID)" aria-expanded="false" aria-controls="collapseSum@(item.ID)">
+                                            @firstType <span class="badge badge-info">@typesCount</span>
+                                        </a>
+                                        <div class="collapse" id="collapseSum@(item.ID)">
+                                            @Html.Raw(typeList)
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @firstType
+                                    }
+                                }
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Location)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CredCheck)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BillingTerms.Terms)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Currency.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Phone)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Website)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BillingAddress1)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BillingAddress2)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BillingProvince.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BillingPostalCode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BillingCountry.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ShippingAddress1)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ShippingAddress2)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ShippingProvince.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ShippingPostalCode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ShippingCountry.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Active)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Notes)
+                        </td>
+                        <td>
+                            <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+                            <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ID">Details</a>
+                            <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#dataTable').DataTable();
+        });
+    </script>
+}

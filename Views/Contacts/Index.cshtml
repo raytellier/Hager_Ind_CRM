@@ -1,0 +1,154 @@
+﻿@model IEnumerable<Hager_Ind_CRM.Models.Contact>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="mt-4">Contacts</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+    <li class="breadcrumb-item active">Contacts</li>
+</ol>
+<p>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
+</p>
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table mr-1"></i>
+        Results
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered display" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FullName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.JobTitle)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CellPhone)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Company)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ContactCatagories)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.WorkPhone)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Email)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Active)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FullName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.JobTitle)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CellPhone)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Company)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ContactCatagories)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.WorkPhone)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Email)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Active)
+                        </th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FullName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.JobTitle)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CellPhone)
+                        </td>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Company.Name)
+                        </th>
+                        <td>
+                            @{
+                                int categoriesCount = item.ContactCatagories.Count;
+                                if (categoriesCount > 0)
+                                {
+                                    string firstCategory = item.ContactCatagories.FirstOrDefault().Catagory.Name;
+                                    if (categoriesCount > 1)
+                                    {
+                                        string categoryList = "";
+                                        var c = item.ContactCatagories.ToList();
+                                        for (int i = 1; i < categoriesCount; i++)
+                                        {
+                                            categoryList += c[i].Catagory.Name + " <br />";
+                                        }
+                                        <a class="" role="button" data-toggle="collapse" href="#collapseSum@(item.ID)" aria-expanded="false" aria-controls="collapseSum@(item.ID)">
+                                            @firstCategory <span class="badge badge-info">@categoriesCount</span>
+                                        </a>
+                                        <div class="collapse" id="collapseSum@(item.ID)">
+                                            @Html.Raw(categoryList)
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @firstCategory
+                                    }
+                                }
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.WorkPhone)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Active)
+                        </td>
+                        <td>
+                            <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+                            <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ID">Details</a>
+                            <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#dataTable').DataTable();
+        });
+    </script>
+}

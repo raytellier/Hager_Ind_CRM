@@ -1,0 +1,23 @@
+﻿Add-Migration -Context HagerIndContext -o Data\HIMigrations Initial
+
+ -Note the output directory only needs to be specified once if using SQL Server 
+  and adding multiple migrations.
+ -However, since we need to REPLACE the migration each time for sqLite, we will 
+  manually delete the migration folder and use the full command again.  
+  Of course, you will need to delete the database as well each time as well!
+
+Update-Database -Context HagerIndContext 
+Update-Database -Context ApplicationDbContext
+
+
+
+
+//for the editable lists
+@section Scripts {
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.23/rr-1.2.7/datatables.min.js"></script>
+    <script type="text/javascript">
+        $('#dataTable').DataTable({
+            rowReorder: true
+        });
+    </script>
+}
