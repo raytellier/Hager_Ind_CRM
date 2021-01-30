@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Hager_Ind_CRM.Models.EmploymentType>
+﻿@model IEnumerable<Hager_Ind_CRM.Models.CType>
 
 @{
     ViewData["Title"] = "Index";
@@ -33,7 +33,7 @@
                                 @Html.DisplayNameFor(model => model.ID)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Type)
+                                @Html.DisplayNameFor(model => model.Name)
                             </th>
                             <th></th>
                         </tr>
@@ -50,7 +50,7 @@
                                     <input type="hidden" name="reorderedId" value="@item.ID" />
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Type)
+                                    @Html.DisplayFor(modelItem => item.Name)
                                 </td>
                                 <td>
                                     <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>

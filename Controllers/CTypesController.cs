@@ -10,38 +10,22 @@ using Hager_Ind_CRM.Models;
 
 namespace Hager_Ind_CRM.Controllers
 {
-    public class SubTypesController : Controller
+    public class CTypesController : Controller
     {
         private readonly HagerIndContext _context;
 
-        public SubTypesController(HagerIndContext context)
+        public CTypesController(HagerIndContext context)
         {
             _context = context;
         }
 
-        // GET: SubTypes
+        // GET: CTypes
         public async Task<IActionResult> Index()
         {
-            var hagerIndContext = _context.SubType.Include(s => s.Type);
-            return View(await hagerIndContext.ToListAsync());
+            return View(await _context.Types.ToListAsync());
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Index(int[] reorderedId)
-        {
-            int preference = 1;
-            foreach (int id in reorderedId)
-            {
-                var record = _context.SubType.Find(id);
-                record.OrderID = preference;
-                _context.SaveChanges();
-                preference += 1;
-            }
-            return View(await _context.SubType.OrderBy(p => p.OrderID).ToListAsync());
-        }
-
-
-        // GET: SubTypes/Details/5
+        // GET: CTypes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -49,42 +33,39 @@ namespace Hager_Ind_CRM.Controllers
                 return NotFound();
             }
 
-            var subType = await _context.SubType
-                .Include(s => s.Type)
+            var @type = await _context.Types
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (subType == null)
+            if (@type == null)
             {
                 return NotFound();
             }
 
-            return View(subType);
+            return View(@type);
         }
 
-        // GET: SubTypes/Create
+        // GET: CTypes/Create
         public IActionResult Create()
         {
-            ViewData["TypeID"] = new SelectList(_context.Types, "ID", "Name");
             return View();
         }
 
-        // POST: SubTypes/Create
+        // POST: CTypes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,OrderID,TypeID")] SubType subType)
+        public async Task<IActionResult> Create([Bind("ID,Name,OrderID")] System.Type @type)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(subType);
+                _context.Add(@type);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TypeID"] = new SelectList(_context.Types, "ID", "Name", subType.TypeID);
-            return View(subType);
+            return View(@type);
         }
 
-        // GET: SubTypes/Edit/5
+        // GET: CTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -92,23 +73,22 @@ namespace Hager_Ind_CRM.Controllers
                 return NotFound();
             }
 
-            var subType = await _context.SubType.FindAsync(id);
-            if (subType == null)
+            var @type = await _context.Types.FindAsync(id);
+            if (@type == null)
             {
                 return NotFound();
             }
-            ViewData["TypeID"] = new SelectList(_context.Types, "ID", "Name", subType.TypeID);
-            return View(subType);
+            return View(@type);
         }
 
-        // POST: SubTypes/Edit/5
+        // POST: CTypes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,OrderID,TypeID")] SubType subType)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,OrderID")] Models.CType @ctype)
         {
-            if (id != subType.ID)
+            if (id != @ctype.ID)
             {
                 return NotFound();
             }
@@ -117,12 +97,12 @@ namespace Hager_Ind_CRM.Controllers
             {
                 try
                 {
-                    _context.Update(subType);
+                    _context.Update(@ctype);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SubTypeExists(subType.ID))
+                    if (!TypeExists(@ctype.ID))
                     {
                         return NotFound();
                     }
@@ -133,11 +113,10 @@ namespace Hager_Ind_CRM.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TypeID"] = new SelectList(_context.Types, "ID", "Name", subType.TypeID);
-            return View(subType);
+            return View(@ctype);
         }
 
-        // GET: SubTypes/Delete/5
+        // GET: CTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -145,31 +124,30 @@ namespace Hager_Ind_CRM.Controllers
                 return NotFound();
             }
 
-            var subType = await _context.SubType
-                .Include(s => s.Type)
+            var @type = await _context.Types
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (subType == null)
+            if (@type == null)
             {
                 return NotFound();
             }
 
-            return View(subType);
+            return View(@type);
         }
 
-        // POST: SubTypes/Delete/5
+        // POST: CTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var subType = await _context.SubType.FindAsync(id);
-            _context.SubType.Remove(subType);
+            var @type = await _context.Types.FindAsync(id);
+            _context.Types.Remove(@type);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SubTypeExists(int id)
+        private bool TypeExists(int id)
         {
-            return _context.SubType.Any(e => e.ID == id);
+            return _context.Types.Any(e => e.ID == id);
         }
     }
 }

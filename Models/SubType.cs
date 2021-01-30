@@ -20,6 +20,6 @@ namespace Hager_Ind_CRM.Models
         public int OrderID { get; set; }
 
         public int TypeID { get; set; }
-        public Type Type { get; set; }
+        public CType Type { get; set; }
     }
 }

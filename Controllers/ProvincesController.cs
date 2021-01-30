@@ -22,8 +22,24 @@ namespace Hager_Ind_CRM.Controllers
         // GET: Provinces
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Provinces.ToListAsync());
+            return View(await _context.Provinces.OrderBy(p => p.OrderID).ToListAsync());
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Index(int[] reorderedId)
+        {
+            int preference = 1;
+            foreach (int id in reorderedId)
+            {
+                var record = _context.Provinces.Find(id);
+                record.OrderID = preference;
+                preference += 1;
+                _context.SaveChanges();
+                
+            }
+            return View(await _context.Provinces.OrderBy(p => p.OrderID).ToListAsync());
+        }
+
 
         // GET: Provinces/Details/5
         public async Task<IActionResult> Details(int? id)
