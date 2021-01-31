@@ -23,6 +23,7 @@ namespace Hager_Ind_CRM.Controllers
         public async Task<IActionResult> Index()
         {
             var hagerIndContext = _context.Contacts
+                .Include(c => c.Company)
                 .Include(c => c.ContactCatagories).ThenInclude(p => p.Catagory);
             return View(await hagerIndContext.ToListAsync());
         }
