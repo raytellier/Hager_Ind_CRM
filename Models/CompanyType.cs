@@ -11,7 +11,7 @@ namespace Hager_Ind_CRM.Models
         public Company Company { get; set; }
 
         public int TypeID { get; set; }
-        public Type Type { get; set; }
+        public CType Type { get; set; }
 
         //collection ?
     }

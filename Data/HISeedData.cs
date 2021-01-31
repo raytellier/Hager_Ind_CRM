@@ -476,7 +476,7 @@ namespace Hager_Ind_CRM.Data
                     foreach (string s in Types)
                     {
                         int star = 1;
-                        Models.Type list = new Models.Type
+                        Models.CType list = new Models.CType
                         {
                             Name = s,
                             OrderID = star

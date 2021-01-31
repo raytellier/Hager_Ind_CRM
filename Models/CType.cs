@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Hager_Ind_CRM.Models
 {
-    public class Type
+    public class CType
     {
-        public Type()
+        public CType()
         {
             this.CompanyTypes = new HashSet<CompanyType>();
 

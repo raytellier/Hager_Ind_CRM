@@ -19,10 +19,27 @@ namespace Hager_Ind_CRM.Controllers
             _context = context;
         }
 
+        
+
+
         // GET: Countries
         public async Task<IActionResult> Index()
         {
             return View(await _context.Countries.ToListAsync());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Index(int[] reorderedId)
+        {
+            int preference = 1;
+            foreach (int id in reorderedId)
+            {
+                var record = _context.Countries.Find(id);
+                record.OrderID = preference;
+                _context.SaveChanges();
+                preference += 1;
+            }
+            return View(await _context.Countries.OrderBy(p => p.OrderID).ToListAsync());
         }
 
         // GET: Countries/Details/5

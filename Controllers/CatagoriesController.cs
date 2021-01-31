@@ -25,6 +25,20 @@ namespace Hager_Ind_CRM.Controllers
             return View(await _context.Catagories.ToListAsync());
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Index(int[] reorderedId)
+        {
+            int preference = 1;
+            foreach (int id in reorderedId)
+            {
+                var record = _context.Currencies.Find(id);
+                record.OrderID = preference;
+                _context.SaveChanges();
+                preference += 1;
+            }
+            return View(await _context.Currencies.OrderBy(p => p.OrderID).ToListAsync());
+        }
+
         // GET: Catagories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
