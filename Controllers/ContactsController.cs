@@ -20,11 +20,30 @@ namespace Hager_Ind_CRM.Controllers
         }
 
         // GET: Contacts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? CompanyType)
         {
-            var hagerIndContext = _context.Contacts
-                .Include(c => c.Company)
-                .Include(c => c.ContactCatagories).ThenInclude(p => p.Catagory);
+            var hagerIndContext = from a in _context.Contacts
+                .Include(c => c.Company).ThenInclude(p => p.CompanyTypes).ThenInclude(p => p.Type)
+                .Include(c => c.ContactCatagories).ThenInclude(p => p.Catagory)
+                select a;
+
+
+            if (CompanyType != null)
+            {
+                if (CompanyType == "Customer")
+                {
+                    hagerIndContext = hagerIndContext.Where(p => p.Company.CompanyTypes.Any(c => c.Type.Name == "Customer"));
+                }
+                else if (CompanyType == "Vendor")
+                {
+                    hagerIndContext = hagerIndContext.Where(p => p.Company.CompanyTypes.Any(c => c.Type.Name == "Vendor"));
+                }
+                else if (CompanyType == "Contractor")
+                {
+                    hagerIndContext = hagerIndContext.Where(p => p.Company.CompanyTypes.Any(c => c.Type.Name == "Contractor"));
+                }
+            }
+
             return View(await hagerIndContext.ToListAsync());
         }
 
