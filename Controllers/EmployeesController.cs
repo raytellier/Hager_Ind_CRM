@@ -59,7 +59,7 @@ namespace Hager_Ind_CRM.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,JobPositionID,EmploymentTypeID,Address1,Address2,BillingProvinceID,BillingPostal,BillingCountryID,CellPhone,HomePhone,Email,DateOfBirth,Wage,Expense,DateJoined,KeyFobNumber,Active,IsUser,PermissionLevel,EmergencyContactName,EmergencyContactPhone,Note")] Employee employee)
+        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,JobPositionID,EmploymentTypeID,Address1,Address2,City,BillingProvinceID,BillingPostal,BillingCountryID,CellPhone,HomePhone,Email,DateOfBirth,Wage,Expense,DateJoined,InactiveDate,KeyFobNumber,Active,IsUser,PermissionLevel,EmergencyContactName,EmergencyContactPhone")] Employee employee)
         {
             if (ModelState.IsValid)
             {
@@ -95,7 +95,7 @@ namespace Hager_Ind_CRM.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,JobPositionID,EmploymentTypeID,Address1,Address2,BillingProvinceID,BillingPostal,BillingCountryID,CellPhone,HomePhone,Email,DateOfBirth,Wage,Expense,DateJoined,KeyFobNumber,Active,IsUser,PermissionLevel,EmergencyContactName,EmergencyContactPhone,Note")] Employee employee)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,JobPositionID,EmploymentTypeID,Address1,Address2,City,BillingProvinceID,BillingPostal,BillingCountryID,CellPhone,HomePhone,Email,DateOfBirth,Wage,Expense,DateJoined,InactiveDate,KeyFobNumber,Active,IsUser,PermissionLevel,EmergencyContactName,EmergencyContactPhone")] Employee employee)
         {
             if (id != employee.ID)
             {

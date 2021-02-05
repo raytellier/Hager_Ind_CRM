@@ -118,6 +118,7 @@ namespace Hager_Ind_CRM.Data
                         JobPositionID = random.Next(1, JobPositions.Length),
                         EmploymentTypeID = random.Next(1, EmpTypes.Length),
                         Address1 = "123 Random Street",
+                        City = "Welland",
                         BillingProvinceID = random.Next(1, CanadianProvinces.Length),
                         BillingPostal = "L5H2J8",
                         BillingCountryID = context.Countries.FirstOrDefault(d => d.Name == "Canada").ID,
@@ -128,13 +129,12 @@ namespace Hager_Ind_CRM.Data
                         Wage = 90000.00M,
                         Expense = 5000.00M,
                         DateJoined = DateTime.Parse("2021-01-01"),
-                        KeyFobNumber = 1234567,
+                        KeyFobNumber = 111234567,
                         Active = true,
                         IsUser = true,
                         PermissionLevel = "Unlimited",
                         EmergencyContactName = "Mitch",
-                        EmergencyContactPhone = 2892892829,
-                        Note = "Testing purposes"
+                        EmergencyContactPhone = 2892892829
                     },
                     new Employee
                     {
@@ -143,6 +143,7 @@ namespace Hager_Ind_CRM.Data
                         JobPositionID = random.Next(1, JobPositions.Length),
                         EmploymentTypeID = random.Next(1, EmpTypes.Length),
                         Address1 = "321 Random Street",
+                        City = "Welland",
                         BillingProvinceID = random.Next(1, CanadianProvinces.Length),
                         BillingPostal = "B5B2B9",
                         BillingCountryID = context.Countries.FirstOrDefault(d => d.Name == "United States").ID,
@@ -153,13 +154,12 @@ namespace Hager_Ind_CRM.Data
                         Wage = 57575.25M,
                         Expense = 5000.09M,
                         DateJoined = DateTime.Parse("2021-01-01"),
-                        KeyFobNumber = 1234566,
+                        KeyFobNumber = 111234566,
                         Active = true,
                         IsUser = true,
                         PermissionLevel = "Unlimited",
                         EmergencyContactName = "Ray",
-                        EmergencyContactPhone = 2892892820,
-                        Note = "Testing purposes"
+                        EmergencyContactPhone = 2892892820
                     },
                     new Employee
                     {
@@ -168,6 +168,7 @@ namespace Hager_Ind_CRM.Data
                         JobPositionID = random.Next(1, JobPositions.Length),
                         EmploymentTypeID = random.Next(1, EmpTypes.Length),
                         Address1 = "32 Random Street",
+                        City = "Hamilton",
                         BillingProvinceID = random.Next(1, CanadianProvinces.Length),
                         BillingPostal = "A5A2A9",
                         BillingCountryID = context.Countries.FirstOrDefault(d => d.Name == "Canada").ID,
@@ -178,13 +179,12 @@ namespace Hager_Ind_CRM.Data
                         Wage = 57575.25M,
                         Expense = 5000.09M,
                         DateJoined = DateTime.Parse("2021-01-01"),
-                        KeyFobNumber = 1234666,
+                        KeyFobNumber = 111234666,
                         Active = true,
                         IsUser = true,
                         PermissionLevel = "Unlimited",
                         EmergencyContactName = "Harry",
-                        EmergencyContactPhone = 2892891820,
-                        Note = "Testing purposes"
+                        EmergencyContactPhone = 2892891820
                     },
                     new Employee
                     {
@@ -193,6 +193,7 @@ namespace Hager_Ind_CRM.Data
                         JobPositionID = random.Next(1, JobPositions.Length),
                         EmploymentTypeID = random.Next(1, EmpTypes.Length),
                         Address1 = "3 Random Street",
+                        City = "Fort Erie",
                         BillingProvinceID = random.Next(1, CanadianProvinces.Length),
                         BillingPostal = "L4H2J9",
                         BillingCountryID = context.Countries.FirstOrDefault(d => d.Name == "Russia").ID,
@@ -203,13 +204,12 @@ namespace Hager_Ind_CRM.Data
                         Wage = 57575.25M,
                         Expense = 5000.09M,
                         DateJoined = DateTime.Parse("2021-01-01"),
-                        KeyFobNumber = 1634566,
+                        KeyFobNumber = 111634566,
                         Active = true,
                         IsUser = true,
                         PermissionLevel = "Unlimited",
                         EmergencyContactName = "Artem",
-                        EmergencyContactPhone = 2892192820,
-                        Note = "Testing purposes"
+                        EmergencyContactPhone = 2892192820
                     },
                     new Employee
                     {
@@ -218,6 +218,7 @@ namespace Hager_Ind_CRM.Data
                         JobPositionID = random.Next(1, JobPositions.Length),
                         EmploymentTypeID = random.Next(1, EmpTypes.Length),
                         Address1 = "21 Random Street",
+                        City = "St. Catharines",
                         BillingProvinceID = random.Next(1, CanadianProvinces.Length),
                         BillingPostal = "L5H7J9",
                         BillingCountryID = context.Countries.FirstOrDefault(d => d.Name == "United States").ID,
@@ -228,13 +229,12 @@ namespace Hager_Ind_CRM.Data
                         Wage = 57575.25M,
                         Expense = 5000.09M,
                         DateJoined = DateTime.Parse("2021-01-01"),
-                        KeyFobNumber = 1234776,
+                        KeyFobNumber = 111234776,
                         Active = true,
                         IsUser = true,
                         PermissionLevel = "Unlimited",
                         EmergencyContactName = "Priya",
-                        EmergencyContactPhone = 2892892820,
-                        Note = "Testing purposes"
+                        EmergencyContactPhone = 2892892820
                     }
                     );
                     context.SaveChanges();

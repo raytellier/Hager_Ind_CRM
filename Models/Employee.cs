@@ -48,7 +48,10 @@ namespace Hager_Ind_CRM.Models
 
         [Display(Name = "Address 2")]
         [StringLength(30, ErrorMessage = "Address cannot be more than 30 characters long.")]
-        public string Address2 { get; set; }
+        public string? Address2 { get; set; }
+
+        [Required(ErrorMessage = "City section is required.")]
+        public string City { get; set; }
 
         [Display(Name = "Province")]
         [Required(ErrorMessage = "Province section is required.")]
@@ -67,45 +70,43 @@ namespace Hager_Ind_CRM.Models
         public Country Country { get; set; }
 
         [Display(Name = "Cell Phone")]
-        [Required(ErrorMessage = "Cell Phone section is required.")]
         [RegularExpression("^\\d{10}$", ErrorMessage = "Please enter a valid 10-digit phone number (no spaces).")]
         [DataType(DataType.PhoneNumber)]
         [DisplayFormat(DataFormatString = "{0:(###) ###-####}", ApplyFormatInEditMode = false)]
-        public Int64 CellPhone { get; set; }
+        public Int64? CellPhone { get; set; }
 
         [Display(Name = "Home Phone")]
         [RegularExpression("^\\d{10}$", ErrorMessage = "Please enter a valid 10-digit phone number (no spaces).")]
         [DataType(DataType.PhoneNumber)]
         [DisplayFormat(DataFormatString = "{0:(###) ###-####}", ApplyFormatInEditMode = false)]
-        public Int64 HomePhone { get; set; }
+        public Int64? HomePhone { get; set; }
 
         [StringLength(50, ErrorMessage = "Email cannot be more than 50 characters long.")]
-        [Required(ErrorMessage = "Email section is required.")]
         [DataType(DataType.EmailAddress)]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         [Display(Name = "Date of Birth")]
-        [Required(ErrorMessage = "Date of Birth section is required.")]
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
-        [Required(ErrorMessage = "Wage section is required.")]
         [RegularExpression(@"^\d+\.\d{0,2}$")]
         [Range(0, 9999999.99)]
-        public decimal Wage { get; set; }
+        public decimal? Wage { get; set; }
 
-        [Required(ErrorMessage = "Expense section is required.")]
         [RegularExpression(@"^\d+\.\d{0,2}$")]
         [Range(0, 99999999.99)]
-        public decimal Expense { get; set; }
+        public decimal? Expense { get; set; }
 
         [Display(Name = "Date Joined")]
         [Required(ErrorMessage = "Date joined section is required.")]
         public DateTime DateJoined { get; set; }
 
+        [Display(Name = "Inactive Date")]
+        public DateTime? InactiveDate { get; set; }
+
         [Display(Name = "Key Fob Number")]
-        [RegularExpression("^\\d{7}$", ErrorMessage = "Please enter a valid 7-digit key fob number (no spaces).")]
-        [DisplayFormat(DataFormatString = "{0:###:####}", ApplyFormatInEditMode = false)]
-        public Int64 KeyFobNumber { get; set; }
+        [RegularExpression("^\\d{9}$", ErrorMessage = "Please enter a valid 9-digit key fob number (no spaces).")]
+        [DisplayFormat(DataFormatString = "{0:####:#####}", ApplyFormatInEditMode = false)]
+        public Int64? KeyFobNumber { get; set; }
 
         public bool Active { get; set; }
         [Required(ErrorMessage = "Active section is required.")]
@@ -120,17 +121,12 @@ namespace Hager_Ind_CRM.Models
 
         [Display(Name = "Emergency Contact Name")]
         [StringLength(30, ErrorMessage = "Emergency contact name cannot be more than 30 characters long.")]
-        [Required(ErrorMessage = "Emergency contact name section is required.")]
-        public string EmergencyContactName { get; set; }
+        public string? EmergencyContactName { get; set; }
 
         [Display(Name = "Emergency Contact Phone")]
-        [Required(ErrorMessage = "Emergency contact phone number section is required.")]
         [RegularExpression("^\\d{10}$", ErrorMessage = "Please enter a valid 10-digit phone number (no spaces).")]
         [DataType(DataType.PhoneNumber)]
         [DisplayFormat(DataFormatString = "{0:(###) ###-####}", ApplyFormatInEditMode = false)]
-        public Int64 EmergencyContactPhone { get; set; }
-
-        [StringLength(255, ErrorMessage = "Notes cannot be more than 255 characters long.")]
-        public string Note { get; set; }
+        public Int64? EmergencyContactPhone { get; set; }
     }
 }
