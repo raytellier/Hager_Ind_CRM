@@ -1,6 +1,14 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+
+
+/*.customized dt {
+    display: -ms-flexbox !important;
+    display: flex !important;
+    -ms-flex-pack: end !important;
+    justify-content: flex-end !important;
+}*/
 /*Hager Title*/
 .display-5 {
     color: #343a40;
