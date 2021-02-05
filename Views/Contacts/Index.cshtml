@@ -62,9 +62,9 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.CellPhone)
                         </td>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Company.Name)
-                        </th>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Company.Name)
+                        </td>
                         <td>
                             @{
                                 int categoriesCount = item.ContactCatagories.Count;
