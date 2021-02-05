@@ -219,10 +219,8 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                     Address2 = table.Column<string>(maxLength: 30, nullable: true),
                     City = table.Column<string>(nullable: false),
                     BillingProvinceID = table.Column<int>(nullable: false),
-                    ProvinceID = table.Column<int>(nullable: true),
                     BillingPostal = table.Column<string>(nullable: false),
                     BillingCountryID = table.Column<int>(nullable: false),
-                    CountryID = table.Column<int>(nullable: true),
                     CellPhone = table.Column<long>(nullable: true),
                     HomePhone = table.Column<long>(nullable: true),
                     Email = table.Column<string>(maxLength: 50, nullable: true),
@@ -242,12 +240,19 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                 {
                     table.PrimaryKey("PK_Employees", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Employees_Countries_CountryID",
-                        column: x => x.CountryID,
+                        name: "FK_Employees_Countries_BillingCountryID",
+                        column: x => x.BillingCountryID,
                         principalSchema: "HI",
                         principalTable: "Countries",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Employees_Provinces_BillingProvinceID",
+                        column: x => x.BillingProvinceID,
+                        principalSchema: "HI",
+                        principalTable: "Provinces",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Employees_EmploymentTypes_EmploymentTypeID",
                         column: x => x.EmploymentTypeID,
@@ -262,13 +267,6 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         principalTable: "JobPositions",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Employees_Provinces_ProvinceID",
-                        column: x => x.ProvinceID,
-                        principalSchema: "HI",
-                        principalTable: "Provinces",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -431,10 +429,16 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                 column: "CompanyID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employees_CountryID",
+                name: "IX_Employees_BillingCountryID",
                 schema: "HI",
                 table: "Employees",
-                column: "CountryID");
+                column: "BillingCountryID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employees_BillingProvinceID",
+                schema: "HI",
+                table: "Employees",
+                column: "BillingProvinceID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_EmploymentTypeID",
@@ -447,12 +451,6 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                 schema: "HI",
                 table: "Employees",
                 column: "JobPositionID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Employees_ProvinceID",
-                schema: "HI",
-                table: "Employees",
-                column: "ProvinceID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SubType_TypeID",

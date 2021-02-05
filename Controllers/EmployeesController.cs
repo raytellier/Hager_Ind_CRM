@@ -22,7 +22,11 @@ namespace Hager_Ind_CRM.Controllers
         // GET: Employees
         public async Task<IActionResult> Index()
         {
-            var hagerIndContext = _context.Employees.Include(e => e.EmploymentType).Include(e => e.JobPosition);
+            var hagerIndContext = _context.Employees
+                .Include(e => e.EmploymentType)
+                .Include(e => e.JobPosition)
+                .Include(e => e.Country)
+                .Include(e => e.Province);
             return View(await hagerIndContext.ToListAsync());
         }
 
@@ -35,6 +39,8 @@ namespace Hager_Ind_CRM.Controllers
             }
 
             var employee = await _context.Employees
+                .Include(e => e.Country)
+                .Include(e => e.Province)
                 .Include(e => e.EmploymentType)
                 .Include(e => e.JobPosition)
                 .FirstOrDefaultAsync(m => m.ID == id);
@@ -42,15 +48,13 @@ namespace Hager_Ind_CRM.Controllers
             {
                 return NotFound();
             }
-
             return View(employee);
         }
 
         // GET: Employees/Create
         public IActionResult Create()
         {
-            ViewData["EmploymentTypeID"] = new SelectList(_context.EmploymentTypes, "ID", "ID");
-            ViewData["JobPositionID"] = new SelectList(_context.JobPositions, "ID", "ID");
+            PopulateDropDownLists();
             return View();
         }
 
@@ -67,8 +71,7 @@ namespace Hager_Ind_CRM.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmploymentTypeID"] = new SelectList(_context.EmploymentTypes, "ID", "ID", employee.EmploymentTypeID);
-            ViewData["JobPositionID"] = new SelectList(_context.JobPositions, "ID", "ID", employee.JobPositionID);
+            PopulateDropDownLists(employee);
             return View(employee);
         }
 
@@ -85,8 +88,7 @@ namespace Hager_Ind_CRM.Controllers
             {
                 return NotFound();
             }
-            ViewData["EmploymentTypeID"] = new SelectList(_context.EmploymentTypes, "ID", "ID", employee.EmploymentTypeID);
-            ViewData["JobPositionID"] = new SelectList(_context.JobPositions, "ID", "ID", employee.JobPositionID);
+            PopulateDropDownLists(employee);
             return View(employee);
         }
 
@@ -122,8 +124,7 @@ namespace Hager_Ind_CRM.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmploymentTypeID"] = new SelectList(_context.EmploymentTypes, "ID", "ID", employee.EmploymentTypeID);
-            ViewData["JobPositionID"] = new SelectList(_context.JobPositions, "ID", "ID", employee.JobPositionID);
+            PopulateDropDownLists(employee);
             return View(employee);
         }
 
@@ -138,6 +139,8 @@ namespace Hager_Ind_CRM.Controllers
             var employee = await _context.Employees
                 .Include(e => e.EmploymentType)
                 .Include(e => e.JobPosition)
+                .Include(e => e.Country)
+                .Include(e => e.Province)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (employee == null)
             {
@@ -161,6 +164,44 @@ namespace Hager_Ind_CRM.Controllers
         private bool EmployeeExists(int id)
         {
             return _context.Employees.Any(e => e.ID == id);
+        }
+        private void PopulateDropDownLists(Employee employee = null)
+        {
+            ViewData["EmploymentTypeID"] = EmployementTypesSelectList(employee?.EmploymentTypeID);
+            ViewData["JobPositionID"] = JobPositionsSelectList(employee?.JobPositionID);
+            ViewData["BillingCountryID"] = CountriesSelectList(employee?.BillingCountryID);
+            ViewData["BillingProvinceID"] = ProvincesSelectList(employee?.BillingProvinceID);
+        }
+        private SelectList EmployementTypesSelectList(int? id)
+        {
+            var dQuery = (from d in _context.EmploymentTypes
+                          orderby d.OrderID
+                          select d).ToList();
+            return new SelectList(dQuery, "ID", "Type", id);
+        }
+
+        private SelectList JobPositionsSelectList(int? id)
+        {
+            var dQuery = (from d in _context.JobPositions
+                          orderby d.OrderID
+                          select d).ToList();
+            return new SelectList(dQuery, "ID", "Name", id);
+        }
+
+        private SelectList CountriesSelectList(int? id)
+        {
+            var dQuery = (from d in _context.Countries
+                          orderby d.OrderID
+                          select d).ToList();
+            return new SelectList(dQuery, "ID", "Name", id);
+        }
+
+        private SelectList ProvincesSelectList(int? id)
+        {
+            var dQuery = (from d in _context.Provinces
+                          orderby d.OrderID
+                          select d).ToList();
+            return new SelectList(dQuery, "ID", "Name", id);
         }
     }
 }

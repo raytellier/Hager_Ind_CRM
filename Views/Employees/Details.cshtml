@@ -78,13 +78,13 @@
                 @Html.DisplayNameFor(model => model.JobPosition)
             </dt>
             <dd class="col-sm-7">
-                @Html.DisplayFor(model => model.JobPosition.ID)
+                @Html.DisplayFor(model => model.JobPosition.Name)
             </dd>
             <dt class="col-sm-5">
                 @Html.DisplayNameFor(model => model.EmploymentType)
             </dt>
             <dd class="col-sm-7">
-                @Html.DisplayFor(model => model.EmploymentType.ID)
+                @Html.DisplayFor(model => model.EmploymentType.Type)
             </dd>
             <dt class="col-sm-5">
                 @Html.DisplayNameFor(model => model.KeyFobNumber)
@@ -184,13 +184,13 @@
                 @Html.DisplayNameFor(model => model.BillingCountryID)
             </dt>
             <dd class="col-sm-7">
-                @Html.DisplayFor(model => model.BillingCountryID)
+                @Html.DisplayFor(model => model.Country.Name)
             </dd>
             <dt class="col-sm-5">
                 @Html.DisplayNameFor(model => model.BillingProvinceID)
             </dt>
             <dd class="col-sm-7">
-                @Html.DisplayFor(model => model.BillingProvinceID)
+                @Html.DisplayFor(model => model.Province.Name)
             </dd>
             <dt class="col-sm-5">
                 @Html.DisplayNameFor(model => model.City)

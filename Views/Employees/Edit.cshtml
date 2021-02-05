@@ -143,12 +143,12 @@
                 </div>
                 <div class="form-group col-lg-6 col-md-12">
                     <label asp-for="BillingCountryID" class="control-label"></label>
-                    <input asp-for="BillingCountryID" class="form-control" />
+                    <select asp-for="BillingCountryID" class="form-control" asp-items="ViewBag.BillingCountryID"></select>
                     <span asp-validation-for="BillingCountryID" class="text-danger"></span>
                 </div>
                 <div class="form-group col-lg-6 col-md-12">
                     <label asp-for="BillingProvinceID" class="control-label"></label>
-                    <input asp-for="BillingProvinceID" class="form-control" />
+                    <select asp-for="BillingProvinceID" class="form-control" asp-items="ViewBag.BillingProvinceID"></select>
                     <span asp-validation-for="BillingProvinceID" class="text-danger"></span>
                 </div>
                 <div class="form-group col-xl-6 col-lg-12">

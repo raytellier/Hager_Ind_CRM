@@ -312,9 +312,6 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("CountryID")
-                        .HasColumnType("INTEGER");
-
                     b.Property<DateTime>("DateJoined")
                         .HasColumnType("TEXT");
 
@@ -368,21 +365,18 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         .HasColumnType("TEXT")
                         .HasMaxLength(30);
 
-                    b.Property<int?>("ProvinceID")
-                        .HasColumnType("INTEGER");
-
                     b.Property<decimal?>("Wage")
                         .HasColumnType("TEXT");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("CountryID");
+                    b.HasIndex("BillingCountryID");
+
+                    b.HasIndex("BillingProvinceID");
 
                     b.HasIndex("EmploymentTypeID");
 
                     b.HasIndex("JobPositionID");
-
-                    b.HasIndex("ProvinceID");
 
                     b.ToTable("Employees");
                 });
@@ -545,7 +539,15 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                 {
                     b.HasOne("Hager_Ind_CRM.Models.Country", "Country")
                         .WithMany("Employees")
-                        .HasForeignKey("CountryID");
+                        .HasForeignKey("BillingCountryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Hager_Ind_CRM.Models.Province", "Province")
+                        .WithMany("Employees")
+                        .HasForeignKey("BillingProvinceID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Hager_Ind_CRM.Models.EmploymentType", "EmploymentType")
                         .WithMany("Employees")
@@ -558,10 +560,6 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         .HasForeignKey("JobPositionID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Hager_Ind_CRM.Models.Province", "Province")
-                        .WithMany("Employees")
-                        .HasForeignKey("ProvinceID");
                 });
 
             modelBuilder.Entity("Hager_Ind_CRM.Models.SubType", b =>

@@ -64,6 +64,11 @@ namespace Hager_Ind_CRM.Data
                     .WithOne(t => t.ShippingProvince)
                     .HasForeignKey(m => m.ShippingProvinceID);
 
+            modelBuilder.Entity<Province>()
+                    .HasMany(m => m.Employees)
+                    .WithOne(t => t.Province)
+                    .HasForeignKey(m => m.BillingProvinceID);
+
             modelBuilder.Entity<Country>()
                     .HasMany(m => m.BillingCompanies)
                     .WithOne(t => t.BillingCountry)
@@ -73,6 +78,11 @@ namespace Hager_Ind_CRM.Data
                     .HasMany(m => m.ShippingCompanies)
                     .WithOne(t => t.ShippingCountry)
                     .HasForeignKey(m => m.ShippingCountryID);
+
+            modelBuilder.Entity<Country>()
+                    .HasMany(m => m.Employees)
+                    .WithOne(t => t.Country)
+                    .HasForeignKey(m => m.BillingCountryID);
 
             modelBuilder.Entity<Company>()
                 .HasMany<Contact>(d => d.Contacts)

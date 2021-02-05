@@ -73,12 +73,16 @@
                 </div>
                 <div class="form-group col-xl-4 col-lg-6 col-sm-12">
                     <label asp-for="JobPositionID" class="control-label"></label>
-                    <select asp-for="JobPositionID" class="form-control" asp-items="ViewBag.JobPositionID"></select>
+                    <select asp-for="JobPositionID" class="form-control" asp-items="ViewBag.JobPositionID">
+                        <option selected disabled value="">Select...</option>
+                    </select>
                     <span asp-validation-for="JobPositionID" class="text-danger"></span>
                 </div>
                 <div class="form-group col-xl-4 col-lg-6 col-sm-12">
                     <label asp-for="EmploymentTypeID" class="control-label"></label>
-                    <select asp-for="EmploymentTypeID" class="form-control" asp-items="ViewBag.EmploymentTypeID"></select>
+                    <select asp-for="EmploymentTypeID" class="form-control" asp-items="ViewBag.EmploymentTypeID">
+                        <option selected disabled value="">Select...</option>
+                    </select>
                     <span asp-validation-for="EmploymentTypeID" class="text-danger"></span>
                 </div>
                 <div class="form-group col-xl-4 col-lg-6 col-sm-12">
@@ -141,12 +145,16 @@
                 </div>
                 <div class="form-group col-lg-6 col-md-12">
                     <label asp-for="BillingCountryID" class="control-label"></label>
-                    <input asp-for="BillingCountryID" class="form-control" />
+                    <select asp-for="BillingCountryID" class="form-control" asp-items="ViewBag.BillingCountryID">
+                        <option selected disabled value="">Select...</option>
+                    </select>
                     <span asp-validation-for="BillingCountryID" class="text-danger"></span>
                 </div>
                 <div class="form-group col-lg-6 col-md-12">
                     <label asp-for="BillingProvinceID" class="control-label"></label>
-                    <input asp-for="BillingProvinceID" class="form-control" />
+                    <select asp-for="BillingProvinceID" class="form-control" asp-items="ViewBag.BillingProvinceID">
+                        <option selected disabled value="">Select...</option>
+                    </select>
                     <span asp-validation-for="BillingProvinceID" class="text-danger"></span>
                 </div>
                 <div class="form-group col-xl-6 col-lg-12">
