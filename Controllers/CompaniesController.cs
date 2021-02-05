@@ -22,16 +22,34 @@ namespace Hager_Ind_CRM.Controllers
 
         // GET: Companies
         [Authorize(Policy = PolicyTypes.Companies.Read)]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? CompanyType)
         {
-            var hagerIndContext = _context.Companies
+            var hagerIndContext = from a in _context.Companies
                 .Include(c => c.BillingCountry)
                 .Include(c => c.BillingProvince)
                 .Include(c => c.BillingTerms)
                 .Include(c => c.Currency)
                 .Include(c => c.ShippingCountry)
                 .Include(c => c.ShippingProvince)
-                .Include(c => c.CompanyTypes).ThenInclude(p => p.Type);
+                .Include(c => c.CompanyTypes).ThenInclude(p => p.Type)
+                select a;
+
+            if (CompanyType != null)
+            {
+                if (CompanyType == "Customer")
+                {
+                    hagerIndContext = hagerIndContext.Where(p => p.CompanyTypes.Any(c => c.Type.Name == "Customer"));
+                }
+                else if (CompanyType == "Vendor")
+                {
+                    hagerIndContext = hagerIndContext.Where(p => p.CompanyTypes.Any(c => c.Type.Name == "Vendor"));
+                }
+                else if (CompanyType == "Contractor")
+                {
+                    hagerIndContext = hagerIndContext.Where(p => p.CompanyTypes.Any(c => c.Type.Name == "Contractor"));
+                }
+            }
+
             return View(await hagerIndContext.ToListAsync());
         }
 
