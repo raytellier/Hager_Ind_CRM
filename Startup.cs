@@ -49,6 +49,21 @@ namespace Hager_Ind_CRM
                 options.AddPolicy(PolicyTypes.Companies.Detail, policy => policy.RequireClaim(CustomClaimTypes.Permission, Companies.Detail));
                 options.AddPolicy(PolicyTypes.Companies.Update, policy => policy.RequireClaim(CustomClaimTypes.Permission, Companies.Update));
                 options.AddPolicy(PolicyTypes.Companies.Delete, policy => policy.RequireClaim(CustomClaimTypes.Permission, Companies.Delete));
+
+                // Contact policies
+                options.AddPolicy(PolicyTypes.Contacts.Create, policy => policy.RequireClaim(CustomClaimTypes.Permission, Contacts.Create));
+                options.AddPolicy(PolicyTypes.Contacts.Read, policy => policy.RequireClaim(CustomClaimTypes.Permission, Contacts.Read));
+                options.AddPolicy(PolicyTypes.Contacts.Detail, policy => policy.RequireClaim(CustomClaimTypes.Permission, Contacts.Detail));
+                options.AddPolicy(PolicyTypes.Contacts.Update, policy => policy.RequireClaim(CustomClaimTypes.Permission, Contacts.Update));
+                options.AddPolicy(PolicyTypes.Contacts.Delete, policy => policy.RequireClaim(CustomClaimTypes.Permission, Contacts.Delete));
+
+                // Employee policies
+                options.AddPolicy(PolicyTypes.Employees.Create, policy => policy.RequireClaim(CustomClaimTypes.Permission, Employees.Create));
+                options.AddPolicy(PolicyTypes.Employees.Read, policy => policy.RequireClaim(CustomClaimTypes.Permission, Employees.Read));
+                options.AddPolicy(PolicyTypes.Employees.Detail, policy => policy.RequireClaim(CustomClaimTypes.Permission, Employees.Detail));
+                options.AddPolicy(PolicyTypes.Employees.Update, policy => policy.RequireClaim(CustomClaimTypes.Permission, Employees.Update));
+                options.AddPolicy(PolicyTypes.Employees.Delete, policy => policy.RequireClaim(CustomClaimTypes.Permission, Employees.Delete));
+                options.AddPolicy(PolicyTypes.Employees.Privacy, policy => policy.RequireClaim(CustomClaimTypes.Permission, Employees.Privacy));
             });
 
             services.Configure<IdentityOptions>(options =>
