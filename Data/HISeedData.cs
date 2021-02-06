@@ -155,8 +155,7 @@ namespace Hager_Ind_CRM.Data
                         IsUser = true,
                         PermissionLevel = "Unlimited",
                         EmergencyContactName = "Ray",
-                        EmergencyContactPhone = 2892892820,
-                        InactiveDate = DateTime.Parse("2000-23-04")
+                        EmergencyContactPhone = 2892892820
                     },
                     new Employee
                     {
@@ -182,7 +181,7 @@ namespace Hager_Ind_CRM.Data
                         PermissionLevel = "Unlimited",
                         EmergencyContactName = "Harry",
                         EmergencyContactPhone = 2892891820,
-                        InactiveDate = DateTime.Parse("2019-01-01")
+                        InactiveDate = DateTime.Parse("2021-01-01")
                     },
                     new Employee
                     {
@@ -232,8 +231,7 @@ namespace Hager_Ind_CRM.Data
                         IsUser = true,
                         PermissionLevel = "Unlimited",
                         EmergencyContactName = "Priya",
-                        EmergencyContactPhone = 2892892820,
-                        InactiveDate = DateTime.Parse("2021-01-01")
+                        EmergencyContactPhone = 2892892820
                     }
                     );
                     context.SaveChanges();
