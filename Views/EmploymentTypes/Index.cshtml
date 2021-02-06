@@ -5,12 +5,12 @@
 }
 
 <form asp-action="Index" method="post">
-    <h1 class="mt-4">Billing Terms</h1>
+    <h1 class="mt-4">Employment Types</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
         <li class="breadcrumb-item active"><a asp-area="" asp-controller="Home" asp-action="Management">Configuration</a></li>
         <li class="breadcrumb-item active"><a asp-area="" asp-controller="Home" asp-action="EditLists">Editable lists</a></li>
-        <li class="breadcrumb-item active">Billing Terms</li>
+        <li class="breadcrumb-item active">Employment Types</li>
     </ol>
 
     <p>
@@ -54,7 +54,7 @@
                                 </td>
                                 <td>
                                     <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
-                                    <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ID">Details</a>
+                                    @*<a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ID">Details</a>*@
                                     <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
                                 </td>
                             </tr>

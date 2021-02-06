@@ -26,22 +26,22 @@ namespace Hager_Ind_CRM.Controllers
         }
 
         // GET: CTypes/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var @type = await _context.Types
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (@type == null)
-            {
-                return NotFound();
-            }
+        //    var @type = await _context.Types
+        //        .FirstOrDefaultAsync(m => m.ID == id);
+        //    if (@type == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(@type);
-        }
+        //    return View(@type);
+        //}
 
         // GET: CTypes/Create
         public IActionResult Create()

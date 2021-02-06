@@ -44,22 +44,22 @@ namespace Hager_Ind_CRM.Controllers
 
 
         // GET: BillingTerms/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var billingTerms = await _context.BillingTerms
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (billingTerms == null)
-            {
-                return NotFound();
-            }
+        //    var billingTerms = await _context.BillingTerms
+        //        .FirstOrDefaultAsync(m => m.ID == id);
+        //    if (billingTerms == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(billingTerms);
-        }
+        //    return View(billingTerms);
+        //}
 
         // GET: BillingTerms/Create
         public IActionResult Create()

@@ -40,22 +40,22 @@ namespace Hager_Ind_CRM.Controllers
         }
 
         // GET: EmploymentTypes/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var employmentType = await _context.EmploymentTypes
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (employmentType == null)
-            {
-                return NotFound();
-            }
+        //    var employmentType = await _context.EmploymentTypes
+        //        .FirstOrDefaultAsync(m => m.ID == id);
+        //    if (employmentType == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(employmentType);
-        }
+        //    return View(employmentType);
+        //}
 
         // GET: EmploymentTypes/Create
         public IActionResult Create()

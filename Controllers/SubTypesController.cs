@@ -42,23 +42,23 @@ namespace Hager_Ind_CRM.Controllers
 
 
         // GET: SubTypes/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var subType = await _context.SubType
-                .Include(s => s.Type)
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (subType == null)
-            {
-                return NotFound();
-            }
+        //    var subType = await _context.SubType
+        //        .Include(s => s.Type)
+        //        .FirstOrDefaultAsync(m => m.ID == id);
+        //    if (subType == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(subType);
-        }
+        //    return View(subType);
+        //}
 
         // GET: SubTypes/Create
         public IActionResult Create()

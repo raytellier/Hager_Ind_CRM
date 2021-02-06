@@ -258,9 +258,9 @@ namespace Hager_Ind_CRM.Data
                 string[] Currencies = new string[] { "USD", "CAD", "MXN"};
                 if (!context.Currencies.Any())
                 {
+                    int star = 1;
                     foreach (string s in Currencies)
                     {
-                        int star = 1;
                         Currency moneyType = new Currency
                         {
                             Name = s,
@@ -428,9 +428,9 @@ namespace Hager_Ind_CRM.Data
                 string[] Catagories = new string[] { "Christmas Card", "News letter", "Marketing Material" };
                 if (!context.Catagories.Any())
                 {
+                    int star = 1;
                     foreach (string s in Catagories)
                     {
-                        int star = 1;
                         Catagory list = new Catagory
                         {
                             Name = s,
@@ -470,9 +470,9 @@ namespace Hager_Ind_CRM.Data
                 string[] Types = new string[] { "Customer", "Vendor", "Contractor" };
                 if (!context.Types.Any())
                 {
+                    int star = 1;
                     foreach (string s in Types)
                     {
-                        int star = 1;
                         Models.CType list = new Models.CType
                         {
                             Name = s,
@@ -491,9 +491,9 @@ namespace Hager_Ind_CRM.Data
 
                 if (!context.SubTypes.Any())
                 {
-                    if(SubTypesCustomer.Length != 0)
+                    int star = 1;
+                    if (SubTypesCustomer.Length != 0)
                     {
-                        int star = 1;
                         foreach (string s in SubTypesCustomer)
                         {
 
@@ -510,7 +510,6 @@ namespace Hager_Ind_CRM.Data
 
                     if (SubTypesVendor.Length != 0)
                     {
-                        int star = 1;
                         foreach (string s in SubTypesVendor)
                         {
                             SubType list = new SubType
@@ -527,7 +526,6 @@ namespace Hager_Ind_CRM.Data
 
                     if (SubTypesContractor.Length != 0)
                     {
-                        int star = 1;
                         foreach (string s in SubTypesContractor)
                         {
 

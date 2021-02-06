@@ -40,22 +40,22 @@ namespace Hager_Ind_CRM.Controllers
         }
 
         // GET: Catagories/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var catagory = await _context.Catagories
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (catagory == null)
-            {
-                return NotFound();
-            }
+        //    var catagory = await _context.Catagories
+        //        .FirstOrDefaultAsync(m => m.ID == id);
+        //    if (catagory == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(catagory);
-        }
+        //    return View(catagory);
+        //}
 
         // GET: Catagories/Create
         public IActionResult Create()

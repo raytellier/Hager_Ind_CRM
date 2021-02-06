@@ -40,22 +40,22 @@ namespace Hager_Ind_CRM.Controllers
         }
 
         // GET: JobPositions/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var jobPosition = await _context.JobPositions
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (jobPosition == null)
-            {
-                return NotFound();
-            }
+        //    var jobPosition = await _context.JobPositions
+        //        .FirstOrDefaultAsync(m => m.ID == id);
+        //    if (jobPosition == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(jobPosition);
-        }
+        //    return View(jobPosition);
+        //}
 
         // GET: JobPositions/Create
         public IActionResult Create()

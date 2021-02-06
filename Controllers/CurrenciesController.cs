@@ -42,22 +42,22 @@ namespace Hager_Ind_CRM.Controllers
 
 
         // GET: Currencies/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var currency = await _context.Currencies
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (currency == null)
-            {
-                return NotFound();
-            }
+        //    var currency = await _context.Currencies
+        //        .FirstOrDefaultAsync(m => m.ID == id);
+        //    if (currency == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(currency);
-        }
+        //    return View(currency);
+        //}
 
         // GET: Currencies/Create
         public IActionResult Create()

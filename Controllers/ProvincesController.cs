@@ -42,22 +42,22 @@ namespace Hager_Ind_CRM.Controllers
 
 
         // GET: Provinces/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var province = await _context.Provinces
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (province == null)
-            {
-                return NotFound();
-            }
+        //    var province = await _context.Provinces
+        //        .FirstOrDefaultAsync(m => m.ID == id);
+        //    if (province == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(province);
-        }
+        //    return View(province);
+        //}
 
         // GET: Provinces/Create
         public IActionResult Create()
