@@ -35,16 +35,10 @@
                             @Html.DisplayNameFor(model => model.Company.Name)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.ContactCatagories)
-                        </th>
-                        <th>
                             @Html.DisplayNameFor(model => model.WorkPhone)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Email)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Active)
                         </th>
                         <th></th>
                     </tr>
@@ -65,7 +59,7 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Company.Name)
                         </td>
-                        <td>
+                        @*<td>
                             @{
                                 int categoriesCount = item.ContactCatagories.Count;
                                 if (categoriesCount > 0)
@@ -92,15 +86,12 @@
                                     }
                                 }
                             }
-                        </td>
+                        </td>*@
                         <td>
                             @Html.DisplayFor(modelItem => item.WorkPhone)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Email)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Active)
                         </td>
                         <td>
                             <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>

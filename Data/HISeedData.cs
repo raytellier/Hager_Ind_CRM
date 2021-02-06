@@ -34,20 +34,15 @@ namespace Hager_Ind_CRM.Data
                      },
                      new Country
                      {
-                         Name = "Russia",
+                         Name = "Mexico",
                          OrderID = 3
-                     },
-                     new Country
-                     {
-                         Name = "India",
-                         OrderID = 4
                      }
                 );
                     context.SaveChanges();
                 }
                 int[] countryIDs = context.Countries.Select(s => s.ID).ToArray();
 
-                string[] CanadianProvinces = new string[] { "AB", "BC", "MB", "NB", "NL", "NT", "NS", "NU", "ON", "PE", "QC", "SK", "YT" };
+                string[] CanadianProvinces = new string[] { "Alberta", "British Columbia", "Manitoba", "New Brunswick", "Newfoundland and Labrador", "Northwest Territories", "Nova Scotia", "Nunavut", "Ontario", "Prince Edward Island", "Quebec", "Saskatchewan", "Yukon", "Alabama", "Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming","Aguascalientes","Baja California","Baja California Sur","Campeche","Chiapas","Chihuahua","Coahuila","Colima","Mexico City","Durango","Guanajuato","Guerrero","Hidalgo","Jalisco","México","Michoacán","Morelos","Nayarit","Nuevo León","Oaxaca","Puebla","Querétaro","Quintana Roo","San Luis Potosí","Sinaloa","Sonora","Tabasco","Tamaulipas","Tlaxcala","Veracruz","Yucatán","Zacatecas"};
                 if (!context.Provinces.Any())
                 {
                     int star = 1;
@@ -196,7 +191,7 @@ namespace Hager_Ind_CRM.Data
                         City = "Fort Erie",
                         BillingProvinceID = random.Next(1, CanadianProvinces.Length),
                         BillingPostal = "L4H2J9",
-                        BillingCountryID = context.Countries.FirstOrDefault(d => d.Name == "Russia").ID,
+                        BillingCountryID = context.Countries.FirstOrDefault(d => d.Name == "Mexico").ID,
                         CellPhone = 2819098902,
                         HomePhone = 2819098902,
                         Email = "ray@gmail.com",
