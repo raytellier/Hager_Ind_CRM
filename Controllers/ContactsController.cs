@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Hager_Ind_CRM.Data;
 using Hager_Ind_CRM.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hager_Ind_CRM.Controllers
 {
@@ -20,6 +21,7 @@ namespace Hager_Ind_CRM.Controllers
         }
 
         // GET: Contacts
+        [Authorize(Policy = PolicyTypes.Contacts.Read)]
         public async Task<IActionResult> Index(string? CompanyType)
         {
             var hagerIndContext = from a in _context.Contacts
@@ -43,11 +45,11 @@ namespace Hager_Ind_CRM.Controllers
                     hagerIndContext = hagerIndContext.Where(p => p.Company.CompanyTypes.Any(c => c.Type.Name == "Contractor"));
                 }
             }
-
             return View(await hagerIndContext.ToListAsync());
         }
 
         // GET: Contacts/Details/5
+        [Authorize(Policy = PolicyTypes.Contacts.Detail)]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -88,6 +90,7 @@ namespace Hager_Ind_CRM.Controllers
         }
 
         // GET: Contacts/Edit/5
+        [Authorize(Policy = PolicyTypes.Contacts.Update)]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -108,6 +111,7 @@ namespace Hager_Ind_CRM.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = PolicyTypes.Contacts.Update)]
         public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,JobTitle,CellPhone,WorkPhone,Email,Active")] Contact contact)
         {
             if (id != contact.ID)
@@ -139,6 +143,7 @@ namespace Hager_Ind_CRM.Controllers
         }
 
         // GET: Contacts/Delete/5
+        [Authorize(Policy = PolicyTypes.Contacts.Delete)]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -157,6 +162,7 @@ namespace Hager_Ind_CRM.Controllers
         }
 
         // POST: Contacts/Delete/5
+        [Authorize(Policy = PolicyTypes.Contacts.Delete)]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

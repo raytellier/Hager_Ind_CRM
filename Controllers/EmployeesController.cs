@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Hager_Ind_CRM.Data;
 using Hager_Ind_CRM.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hager_Ind_CRM.Controllers
 {
@@ -20,6 +21,7 @@ namespace Hager_Ind_CRM.Controllers
         }
 
         // GET: Employees
+        [Authorize(Policy = PolicyTypes.Employees.Read)]
         public async Task<IActionResult> Index()
         {
             var hagerIndContext = _context.Employees
@@ -27,10 +29,18 @@ namespace Hager_Ind_CRM.Controllers
                 .Include(e => e.JobPosition)
                 .Include(e => e.Country)
                 .Include(e => e.Province);
-            return View(await hagerIndContext.ToListAsync());
+            if (User.HasClaim(CustomClaimTypes.Permission, Employees.Privacy))
+            {
+                return View("IndexPrivacy", await hagerIndContext.ToListAsync());
+            }
+            else
+            {
+                return View(await hagerIndContext.ToListAsync());
+            }
         }
 
         // GET: Employees/Details/5
+        [Authorize(Policy = PolicyTypes.Employees.Detail)]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -52,6 +62,7 @@ namespace Hager_Ind_CRM.Controllers
         }
 
         // GET: Employees/Create
+        [Authorize(Policy = PolicyTypes.Employees.Create)]
         public IActionResult Create()
         {
             PopulateDropDownLists();
@@ -61,6 +72,7 @@ namespace Hager_Ind_CRM.Controllers
         // POST: Employees/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Policy = PolicyTypes.Employees.Create)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,JobPositionID,EmploymentTypeID,Address1,Address2,City,BillingProvinceID,BillingPostal,BillingCountryID,CellPhone,HomePhone,Email,DateOfBirth,Wage,Expense,DateJoined,InactiveDate,KeyFobNumber,Active,IsUser,PermissionLevel,EmergencyContactName,EmergencyContactPhone")] Employee employee)
@@ -76,6 +88,7 @@ namespace Hager_Ind_CRM.Controllers
         }
 
         // GET: Employees/Edit/5
+        [Authorize(Policy = PolicyTypes.Employees.Update)]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -95,6 +108,7 @@ namespace Hager_Ind_CRM.Controllers
         // POST: Employees/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Policy = PolicyTypes.Employees.Update)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,JobPositionID,EmploymentTypeID,Address1,Address2,City,BillingProvinceID,BillingPostal,BillingCountryID,CellPhone,HomePhone,Email,DateOfBirth,Wage,Expense,DateJoined,InactiveDate,KeyFobNumber,Active,IsUser,PermissionLevel,EmergencyContactName,EmergencyContactPhone")] Employee employee)
@@ -129,6 +143,7 @@ namespace Hager_Ind_CRM.Controllers
         }
 
         // GET: Employees/Delete/5
+        [Authorize(Policy = PolicyTypes.Employees.Delete)]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -151,6 +166,7 @@ namespace Hager_Ind_CRM.Controllers
         }
 
         // POST: Employees/Delete/5
+        [Authorize(Policy = PolicyTypes.Employees.Delete)]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

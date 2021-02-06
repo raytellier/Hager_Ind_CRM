@@ -15,5 +15,24 @@ namespace Hager_Ind_CRM.Data
             public const string Update = "companies.update.policy";
             public const string Delete = "companies.delete.policy";
         }
+
+        public static class Contacts
+        {
+            public const string Create = "contacts.create.policy";
+            public const string Read = "contacts.read.policy";
+            public const string Detail = "contacts.detail.policy";
+            public const string Update = "contacts.update.policy";
+            public const string Delete = "contacts.delete.policy";
+        }
+
+        public static class Employees
+        {
+            public const string Create = "employees.create.policy";
+            public const string Read = "employees.read.policy";
+            public const string Detail = "employees.detail.policy";
+            public const string Update = "employees.update.policy";
+            public const string Delete = "employees.delete.policy";
+            public const string Privacy = "employees.privacy.policy";
+        }
     }
 }
