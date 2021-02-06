@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hager_Ind_CRM.Data.HIMigrations
 {
     [DbContext(typeof(HagerIndContext))]
-    [Migration("20210206000324_Initial")]
+    [Migration("20210206005536_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

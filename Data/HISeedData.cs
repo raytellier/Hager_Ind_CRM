@@ -129,7 +129,8 @@ namespace Hager_Ind_CRM.Data
                         IsUser = true,
                         PermissionLevel = "Unlimited",
                         EmergencyContactName = "Mitch",
-                        EmergencyContactPhone = 2892892829
+                        EmergencyContactPhone = 2892892829,
+                        InactiveDate = DateTime.Parse("2021-01-01")
                     },
                     new Employee
                     {
@@ -154,7 +155,8 @@ namespace Hager_Ind_CRM.Data
                         IsUser = true,
                         PermissionLevel = "Unlimited",
                         EmergencyContactName = "Ray",
-                        EmergencyContactPhone = 2892892820
+                        EmergencyContactPhone = 2892892820,
+                        InactiveDate = DateTime.Parse("2000-23-04")
                     },
                     new Employee
                     {
@@ -179,7 +181,8 @@ namespace Hager_Ind_CRM.Data
                         IsUser = true,
                         PermissionLevel = "Unlimited",
                         EmergencyContactName = "Harry",
-                        EmergencyContactPhone = 2892891820
+                        EmergencyContactPhone = 2892891820,
+                        InactiveDate = DateTime.Parse("2019-01-01")
                     },
                     new Employee
                     {
@@ -229,7 +232,8 @@ namespace Hager_Ind_CRM.Data
                         IsUser = true,
                         PermissionLevel = "Unlimited",
                         EmergencyContactName = "Priya",
-                        EmergencyContactPhone = 2892892820
+                        EmergencyContactPhone = 2892892820,
+                        InactiveDate = DateTime.Parse("2021-01-01")
                     }
                     );
                     context.SaveChanges();
@@ -253,7 +257,7 @@ namespace Hager_Ind_CRM.Data
                 //Create collection of the primary keys of the Provinces
                 int[] BillingTermIDs = context.BillingTerms.Select(s => s.ID).ToArray();
 
-                string[] Currencies = new string[] { "USD", "CAD", "GBP", "JPY", "CNY" };
+                string[] Currencies = new string[] { "USD", "CAD", "MXN"};
                 if (!context.Currencies.Any())
                 {
                     foreach (string s in Currencies)
