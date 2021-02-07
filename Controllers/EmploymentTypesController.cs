@@ -11,9 +11,11 @@ using Microsoft.AspNetCore.Http;
 using OfficeOpenXml;
 using System.IO;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hager_Ind_CRM.Controllers
 {
+    [Authorize(Policy = PolicyTypes.Lists.Manage)]
     public class EmploymentTypesController : Controller
     {
         private readonly HagerIndContext _context;

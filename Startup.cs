@@ -64,6 +64,16 @@ namespace Hager_Ind_CRM
                 options.AddPolicy(PolicyTypes.Employees.Update, policy => policy.RequireClaim(CustomClaimTypes.Permission, Employees.Update));
                 options.AddPolicy(PolicyTypes.Employees.Delete, policy => policy.RequireClaim(CustomClaimTypes.Permission, Employees.Delete));
                 options.AddPolicy(PolicyTypes.Employees.Privacy, policy => policy.RequireClaim(CustomClaimTypes.Permission, Employees.Privacy));
+
+                // Users policies
+                options.AddPolicy(PolicyTypes.Users.Create, policy => policy.RequireClaim(CustomClaimTypes.Permission, Users.Create));
+                options.AddPolicy(PolicyTypes.Users.Read, policy => policy.RequireClaim(CustomClaimTypes.Permission, Users.Read));
+                options.AddPolicy(PolicyTypes.Users.Detail, policy => policy.RequireClaim(CustomClaimTypes.Permission, Users.Detail));
+                options.AddPolicy(PolicyTypes.Users.Update, policy => policy.RequireClaim(CustomClaimTypes.Permission, Users.Update));
+                options.AddPolicy(PolicyTypes.Users.Delete, policy => policy.RequireClaim(CustomClaimTypes.Permission, Users.Delete));
+
+                // Lists policy
+                options.AddPolicy(PolicyTypes.Lists.Manage, policy => policy.RequireClaim(CustomClaimTypes.Permission, Lists.Manage));
             });
 
             services.Configure<IdentityOptions>(options =>

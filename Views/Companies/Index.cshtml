@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Hager_Ind_CRM.Models.Company>
+﻿@using Hager_Ind_CRM.Data
+@model IEnumerable<Hager_Ind_CRM.Models.Company>
 
 @{
     ViewData["Title"] = "Index";
@@ -12,7 +13,11 @@
 </ol>
 
 <p>
-    <a class="btn btn-primary" asp-action="Create">Create New</a>
+    @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Create))
+        {
+            <a class="btn btn-primary" asp-action="Create">Create New</a>
+        }
+    }
 </p>
 <div class="card mb-4">
     <div class="card-header">
@@ -93,9 +98,21 @@
                             @Html.DisplayFor(modelItem => item.Website)
                         </td>
                         <td>
-                            <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
-                            <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ID">Details</a>
-                            <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                            @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Update))
+                                {
+                                    <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+                                }
+                            }
+                            @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Detail))
+                                {
+                                    <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ID">Details</a>
+                                }
+                            }
+                            @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Delete))
+                                {
+                                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                                }
+                            }
                         </td>
                     </tr>
                     }

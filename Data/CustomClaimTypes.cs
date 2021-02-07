@@ -35,4 +35,18 @@ namespace Hager_Ind_CRM.Data
         public const string Delete = "employees.delete";
         public const string Privacy = "employees.privacy";
     }
+
+    public static class Users
+    {
+        public const string Create = "users.create";
+        public const string Read = "users.read";
+        public const string Detail = "users.detail";
+        public const string Update = "users.update";
+        public const string Delete = "users.delete";
+    }
+
+    public static class Lists
+    {
+        public const string Manage = "lists.manage";
+    }
 }

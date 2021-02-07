@@ -62,7 +62,13 @@ namespace Hager_Ind_CRM.Controllers
             {
                 return NotFound();
             }
-            return View(employee);
+            if (User.HasClaim(CustomClaimTypes.Permission, Employees.Privacy))
+            {
+                return View("DetailsPrivacy", employee);
+            }
+            else {
+                return View("Details", employee);
+            }
         }
 
         // GET: Employees/Create

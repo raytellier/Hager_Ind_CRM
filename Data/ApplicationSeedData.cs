@@ -22,24 +22,36 @@ namespace Hager_Ind_CRM.Data
                 var adminRole = new IdentityRole("Admin");
                 await RoleManager.CreateAsync(adminRole);
 
+                //Companies Claim
                 await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Companies.Create));
                 await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Companies.Read));
                 await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Companies.Detail));
                 await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Companies.Update));
                 await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Companies.Delete));
 
+                //Contacts Claim
                 await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Contacts.Create));
                 await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Contacts.Read));
                 await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Contacts.Detail));
                 await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Contacts.Update));
                 await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Contacts.Delete));
 
+                //Employees Claim
                 await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Employees.Create));
                 await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Employees.Read));
                 await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Employees.Detail));
                 await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Employees.Update));
                 await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Employees.Delete));
                 await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Employees.Privacy));
+
+                //Users Claim
+                await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Users.Create));
+                await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Users.Read));
+                await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Users.Detail));
+                await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Users.Update));
+                await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Users.Delete));
+
+                await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Lists.Manage));
             }
 
             //Employee Role

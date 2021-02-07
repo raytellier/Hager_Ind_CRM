@@ -1,4 +1,5 @@
-﻿@model Hager_Ind_CRM.Models.Contact
+﻿@using Hager_Ind_CRM.Data
+@model Hager_Ind_CRM.Models.Contact
 
 @{
     ViewData["Title"] = "Details";
@@ -55,6 +56,10 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
+    @{ if (User.HasClaim(CustomClaimTypes.Permission, Contacts.Update))
+        {
+            <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> <a>|</a>
+}
+    }
     <a asp-action="Index">Back to List</a>
 </div>

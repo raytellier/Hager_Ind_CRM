@@ -11,13 +11,13 @@
     <li class="breadcrumb-item active">Employees</li>
 </ol>
 <p>
-    @{ if (User.HasClaim(CustomClaimTypes.Permission, Employees.Privacy))
+    @{ if (User.HasClaim(CustomClaimTypes.Permission, Employees.Create))
         {
             <a class="btn btn-primary" asp-action="Create">Create New</a>
         }
     }
 </p>
-<div><form asp-action="InsertFromExcel" asp-controller="Employees" method="post" enctype="multipart/form-data">
+<form asp-action="InsertFromExcel" asp-controller="Employees" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <label class="control-label">Upload Excel File:</label>
         <input type="file" class="" name="theExcel" /><br />
@@ -29,8 +29,7 @@
             </div>
         </div>
     </div>
-</form></div>
-
+</form>
 <div class="card mb-4">
     <div class="card-header">
         <i class="fas fa-table mr-1"></i>
@@ -56,12 +55,6 @@
                         <th>
                             @Html.DisplayNameFor(model => model.Email)
                         </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.KeyFobNumber)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Active)
-                        </th>
                         @*<th></th>*@
                     </tr>
                 </thead>
@@ -85,12 +78,6 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Email)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.KeyFobNumber)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Active)
                         </td>
                         @*<td>
             <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>

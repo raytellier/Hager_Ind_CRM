@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Hager_Ind_CRM.Data;
 using Hager_Ind_CRM.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hager_Ind_CRM.Controllers
 {
+    [Authorize(Policy = PolicyTypes.Lists.Manage)]
     public class CurrenciesController : Controller
     {
         private readonly HagerIndContext _context;

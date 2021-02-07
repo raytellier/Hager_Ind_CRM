@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using Hager_Ind_CRM.Data
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 <!DOCTYPE html>
@@ -103,16 +104,20 @@
                                 <a class="nav-link" asp-area="" asp-controller="Employees" asp-action="Index">Employees</a>
                             </nav>
                         </div>
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAdminOptions" aria-expanded="false" aria-controls="collapseLayouts">
-                            <div class="sb-nav-link-icon"><i class="fa fa-lock" aria-hidden="true"></i></div>
-                            Admin Options
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseAdminOptions" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Management">Configuration</a>
-                            </nav>
-                        </div>
+                        @{ if (User.HasClaim(CustomClaimTypes.Permission, Users.Read) || User.HasClaim(CustomClaimTypes.Permission, Lists.Manage))
+                            {
+                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAdminOptions" aria-expanded="false" aria-controls="collapseLayouts">
+                                    <div class="sb-nav-link-icon"><i class="fa fa-lock" aria-hidden="true"></i></div>
+                                    Admin Options
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="collapseAdminOptions" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Management">Configuration</a>
+                                    </nav>
+                                </div>
+                            }
+                        }
                     </div>
                 </div>
                 @*@if (SignInManager.IsSignedIn(User))

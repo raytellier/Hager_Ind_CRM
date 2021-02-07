@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Hager_Ind_CRM.Controllers
 {
-    //[Authorize(Roles = "Admin")]
     public class UsersController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -23,6 +22,7 @@ namespace Hager_Ind_CRM.Controllers
             _userManager = userManager;
         }
         // GET: User
+        [Authorize(Policy = PolicyTypes.Users.Read)]
         public async Task<IActionResult> Index()
         {
             var users = await (from u in _context.Users
@@ -41,6 +41,7 @@ namespace Hager_Ind_CRM.Controllers
         }
 
         // GET: Users/Create
+        [Authorize(Policy = PolicyTypes.Users.Create)]
         public IActionResult Create()
         {
             //PopulateRoleData();
@@ -50,6 +51,7 @@ namespace Hager_Ind_CRM.Controllers
         // POST: Users/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Policy = PolicyTypes.Users.Create)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(UserVM user, string[] selectedRoles)
@@ -77,6 +79,7 @@ namespace Hager_Ind_CRM.Controllers
         }
 
         // GET: Users/Edit/5
+        [Authorize(Policy = PolicyTypes.Users.Update)]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -99,6 +102,7 @@ namespace Hager_Ind_CRM.Controllers
         }
 
         // POST: Users/Edit/5
+        [Authorize(Policy = PolicyTypes.Users.Update)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string Id, string Email, string[] selectedRoles)
@@ -126,6 +130,7 @@ namespace Hager_Ind_CRM.Controllers
         }
 
         // GET: Users/Delete/5
+        [Authorize(Policy = PolicyTypes.Users.Delete)]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -147,6 +152,7 @@ namespace Hager_Ind_CRM.Controllers
         }
 
         // POST: Users/Delete/5
+        [Authorize(Policy = PolicyTypes.Users.Delete)]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
