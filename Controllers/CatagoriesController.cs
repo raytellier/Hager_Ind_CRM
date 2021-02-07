@@ -33,12 +33,12 @@ namespace Hager_Ind_CRM.Controllers
             int preference = 1;
             foreach (int id in reorderedId)
             {
-                var record = _context.Currencies.Find(id);
+                var record = _context.Catagories.Find(id);
                 record.OrderID = preference;
                 _context.SaveChanges();
                 preference += 1;
             }
-            return View(await _context.Currencies.OrderBy(p => p.OrderID).ToListAsync());
+            return View(await _context.Catagories.OrderBy(p => p.OrderID).ToListAsync());
         }
 
         // GET: Catagories/Details/5
