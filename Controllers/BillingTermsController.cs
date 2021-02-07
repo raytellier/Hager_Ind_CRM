@@ -78,6 +78,7 @@ namespace Hager_Ind_CRM.Controllers
         {
             if (ModelState.IsValid)
             {
+                billingTerms.OrderID = _context.BillingTerms.Count() + 1;
                 _context.Add(billingTerms);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

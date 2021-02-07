@@ -78,6 +78,7 @@ namespace Hager_Ind_CRM.Controllers
         {
             if (ModelState.IsValid)
             {
+                province.OrderID = _context.Provinces.Count() + 1;
                 _context.Add(province);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

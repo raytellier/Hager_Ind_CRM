@@ -78,6 +78,7 @@ namespace Hager_Ind_CRM.Controllers
         {
             if (ModelState.IsValid)
             {
+                employmentType.OrderID = _context.EmploymentTypes.Count() + 1;
                 _context.Add(employmentType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

@@ -78,6 +78,7 @@ namespace Hager_Ind_CRM.Controllers
         {
             if (ModelState.IsValid)
             {
+                subType.OrderID = _context.SubType.Count() + 1;
                 _context.Add(subType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

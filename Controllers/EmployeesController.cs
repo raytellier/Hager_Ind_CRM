@@ -282,7 +282,7 @@ namespace Hager_Ind_CRM.Controllers
 
                     ////Get the foreign keys from the names of the positions
                     int provinceID = (await _context.Provinces
-                        .FirstOrDefaultAsync(p => p.Name == workSheet.Cells[row, 12].Text)).ID;
+                        .FirstOrDefaultAsync(p => p.Name == workSheet.Cells[row, 13].Text)).ID;
 
                     int countryID = (await _context.Countries
                         .FirstOrDefaultAsync(p => p.Name == workSheet.Cells[row, 14].Text)).ID;

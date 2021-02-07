@@ -56,10 +56,11 @@ namespace Hager_Ind_CRM.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,OrderID")] System.Type @type)
+        public async Task<IActionResult> Create([Bind("ID,Name,OrderID")] CType @type)
         {
             if (ModelState.IsValid)
             {
+                @type.OrderID = _context.CompanyTypes.Count() + 1;
                 _context.Add(@type);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

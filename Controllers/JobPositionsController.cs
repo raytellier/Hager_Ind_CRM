@@ -74,6 +74,7 @@ namespace Hager_Ind_CRM.Controllers
         {
             if (ModelState.IsValid)
             {
+                jobPosition.OrderID = _context.JobPositions.Count() + 1;
                 _context.Add(jobPosition);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

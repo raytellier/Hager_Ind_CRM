@@ -74,6 +74,7 @@ namespace Hager_Ind_CRM.Controllers
         {
             if (ModelState.IsValid)
             {
+                catagory.OrderID = _context.Catagories.Count() + 1;
                 _context.Add(catagory);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

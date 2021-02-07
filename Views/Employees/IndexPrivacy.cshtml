@@ -17,19 +17,7 @@
         }
     }
 </p>
-<div><form asp-action="InsertFromExcel" asp-controller="Employees" method="post" enctype="multipart/form-data">
-    <div class="form-group">
-        <label class="control-label">Upload Excel File:</label>
-        <input type="file" class="" name="theExcel" /><br />
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <input type="submit" value="Upload Data" class="btn btn-primary" />
-            </div>
-        </div>
-    </div>
-</form></div>
+
 
 <div class="card mb-4">
     <div class="card-header">
@@ -68,42 +56,62 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                    <tr>
-                        <td>
-                            <a class="btn btn-light" asp-action="Details" asp-route-id="@item.ID">
-                                @Html.DisplayFor(modelItem => item.FullName)
-                            </a>
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.JobPosition.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.EmploymentType.Type)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CellPhone)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Email)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.KeyFobNumber)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Active)
-                        </td>
-                        @*<td>
-            <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
-            <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ID">Details</a>
-            <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-        </td>*@
-                    </tr>
+                        <tr>
+                            <td>
+                                <a class="btn btn-light" asp-action="Details" asp-route-id="@item.ID">
+                                    @Html.DisplayFor(modelItem => item.FullName)
+                                </a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.JobPosition.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EmploymentType.Type)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CellPhone)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.KeyFobNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Active)
+                            </td>
+                            @*<td>
+                                    <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+                                    <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ID">Details</a>
+                                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                                </td>*@
+                        </tr>
                     }
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+@{ if (User.HasClaim(CustomClaimTypes.Permission, Employees.Create))
+    {
+        <div>
+            <form asp-action="InsertFromExcel" asp-controller="Employees" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label class="control-label">Upload Excel File:</label>
+                    <input type="file" class="" name="theExcel" /><br />
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <input type="submit" value="Upload Data" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    }
+}
 @section Scripts {
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>

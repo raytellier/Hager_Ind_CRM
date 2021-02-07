@@ -76,6 +76,7 @@ namespace Hager_Ind_CRM.Controllers
         {
             if (ModelState.IsValid)
             {
+                currency.OrderID = _context.Currencies.Count() + 1;
                 _context.Add(currency);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

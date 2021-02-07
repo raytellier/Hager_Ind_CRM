@@ -16,8 +16,8 @@ namespace Hager_Ind_CRM.Models
         public int ID { get; set; }
 
         [Display(Name = "Currency")]
-        [Required(ErrorMessage = "Type is required.")]
-        [RegularExpression("[A-Z]{3}", ErrorMessage = "Type cannot be more than 3 letters long.")]
+        [Required(ErrorMessage = "Currency Type is required.")]
+        [RegularExpression("[A-Z]{3}", ErrorMessage = "Must be 3 capital letters.")]
         public string Name { get; set; }
 
         [Display(Name = "Entry")]
