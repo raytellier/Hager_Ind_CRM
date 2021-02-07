@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Hager_Ind_CRM.Data;
 using Hager_Ind_CRM.Models;
+using Microsoft.AspNetCore.Http;
+using OfficeOpenXml;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Hager_Ind_CRM.Controllers
 {
@@ -163,5 +167,8 @@ namespace Hager_Ind_CRM.Controllers
         {
             return _context.EmploymentTypes.Any(e => e.ID == id);
         }
+
+        
+
     }
 }
