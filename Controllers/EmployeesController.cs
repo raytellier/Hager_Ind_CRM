@@ -228,7 +228,7 @@ namespace Hager_Ind_CRM.Controllers
         //String To Bool Method
         private bool StringToBool(string str)
         {
-            if (str.ToUpper() == "FALSE") { return false; } else { return true; }
+            if (str == "1") { return true; } else { return false; }
         }
 
         //Grab Numbers From a String Method
@@ -259,21 +259,21 @@ namespace Hager_Ind_CRM.Controllers
         [HttpPost]
         public async Task<IActionResult> InsertFromExcel(IFormFile theExcel)
         {
-            ExcelPackage excel;
-            using (var memoryStream = new MemoryStream())
-            {
-                await theExcel.CopyToAsync(memoryStream);
-                excel = new ExcelPackage(memoryStream);
-            }
-            var workSheet = excel.Workbook.Worksheets[0];
-            var start = workSheet.Dimension.Start;
-            var end = workSheet.Dimension.End;
-
-            //Start a new list to hold imported objects
-            List<Employee> newEmployees = new List<Employee>();
-
             try
             {
+                ExcelPackage excel;
+                using (var memoryStream = new MemoryStream())
+                {
+                    await theExcel.CopyToAsync(memoryStream);
+                    excel = new ExcelPackage(memoryStream);
+                }
+                var workSheet = excel.Workbook.Worksheets[0];
+                var start = workSheet.Dimension.Start;
+                var end = workSheet.Dimension.End;
+
+                //Start a new list to hold imported objects
+                List<Employee> newEmployees = new List<Employee>();
+
                 for (int row = 2; row <= end.Row; row++)
                 {
 
@@ -344,15 +344,17 @@ namespace Hager_Ind_CRM.Controllers
                 _context.Database.ExecuteSqlRaw("DELETE FROM Employees");
                 _context.Employees.AddRange(newEmployees);
                 _context.SaveChanges();
-                return RedirectToAction("Index", "Employees");
+
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                if (ex.GetBaseException().Message.Contains(""))
+                {
+                    ModelState.AddModelError("", "No File Selected or Unknown data in the Excel File");
+                }
 
-                throw;
             }
-            //For each row/employee
-
+            return RedirectToAction("Index", "Employees");
         }
     }
 }
