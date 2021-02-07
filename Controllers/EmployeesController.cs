@@ -265,8 +265,7 @@ namespace Hager_Ind_CRM.Controllers
         [HttpPost]
         public async Task<IActionResult> InsertFromExcel(IFormFile theExcel)
         {
-            try
-            {
+            
                 ExcelPackage excel;
                 using (var memoryStream = new MemoryStream())
                 {
@@ -277,6 +276,8 @@ namespace Hager_Ind_CRM.Controllers
                 var start = workSheet.Dimension.Start;
                 var end = workSheet.Dimension.End;
 
+            try
+            {
                 //Start a new list to hold imported objects
                 List<Employee> newEmployees = new List<Employee>();
 
