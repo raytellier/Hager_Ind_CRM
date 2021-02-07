@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hager_Ind_CRM.Data.HIMigrations
 {
     [DbContext(typeof(HagerIndContext))]
-    [Migration("20210207211427_Initial")]
+    [Migration("20210207215619_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -83,7 +83,6 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("BillingAddress1")
-                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasMaxLength(50);
 
@@ -95,7 +94,6 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("BillingPostalCode")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("BillingProvinceID")
@@ -111,7 +109,6 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Location")
-                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasMaxLength(50);
 
@@ -124,11 +121,10 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         .HasColumnType("TEXT")
                         .HasMaxLength(511);
 
-                    b.Property<long>("Phone")
+                    b.Property<long?>("Phone")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ShippingAddress1")
-                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasMaxLength(50);
 
@@ -140,14 +136,12 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ShippingPostalCode")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("ShippingProvinceID")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Website")
-                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasMaxLength(2000);
 
@@ -192,14 +186,13 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                     b.Property<bool>("Active")
                         .HasColumnType("INTEGER");
 
-                    b.Property<long>("CellPhone")
+                    b.Property<long?>("CellPhone")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("CompanyID")
+                    b.Property<int?>("CompanyID")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasMaxLength(50);
 
@@ -209,7 +202,6 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         .HasMaxLength(30);
 
                     b.Property<string>("JobTitle")
-                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasMaxLength(30);
 
@@ -218,7 +210,7 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         .HasColumnType("TEXT")
                         .HasMaxLength(30);
 
-                    b.Property<long>("WorkPhone")
+                    b.Property<long?>("WorkPhone")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("ID");
@@ -297,14 +289,15 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         .HasColumnType("TEXT")
                         .HasMaxLength(30);
 
-                    b.Property<int>("BillingCountryID")
+                    b.Property<int?>("BillingCountryID")
+                        .IsRequired()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("BillingPostal")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("BillingProvinceID")
+                    b.Property<int?>("BillingProvinceID")
+                        .IsRequired()
                         .HasColumnType("INTEGER");
 
                     b.Property<long?>("CellPhone")
@@ -331,7 +324,8 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                     b.Property<long?>("EmergencyContactPhone")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("EmploymentTypeID")
+                    b.Property<int?>("EmploymentTypeID")
+                        .IsRequired()
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal?>("Expense")
@@ -351,7 +345,8 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                     b.Property<bool>("IsUser")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("JobPositionID")
+                    b.Property<int?>("JobPositionID")
+                        .IsRequired()
                         .HasColumnType("INTEGER");
 
                     b.Property<long?>("KeyFobNumber")
@@ -523,8 +518,7 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                     b.HasOne("Hager_Ind_CRM.Models.Company", "Company")
                         .WithMany("Contacts")
                         .HasForeignKey("CompanyID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Hager_Ind_CRM.Models.ContactCatagory", b =>

@@ -58,18 +58,17 @@ namespace Hager_Ind_CRM.Models
 
         [Display(Name = "Province")]
         [Required(ErrorMessage = "Province section is required.")]
-        public int BillingProvinceID { get; set; }
+        public int? BillingProvinceID { get; set; }
         public Province Province { get; set; }
 
         [Display(Name = "Postal Code")]
-        [Required(ErrorMessage = "Postal Code section is required.")]
         //[RegularExpression("[ABCEGHJKLMNPRSTVXY]\\d[ABCEGHJ-NPRSTV-Z]\\d[ABCEGHJ-NPRSTV-Z]\\d", ErrorMessage = "Please enter a valid 6 character postal code (no spaces).")]
         [DataType(DataType.PostalCode)]
         public string BillingPostal { get; set; }
 
         [Display(Name = "Country")]
         [Required(ErrorMessage = "Country section is required.")]
-        public int BillingCountryID { get; set; }
+        public int? BillingCountryID { get; set; }
         public Country Country { get; set; }
 
         [Display(Name = "Cell Phone")]

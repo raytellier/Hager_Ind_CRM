@@ -36,30 +36,27 @@ namespace Hager_Ind_CRM.Models
 
         [Display(Name ="Job Title")]
         [StringLength(30, ErrorMessage = "Name cannot be more than 30 characters long.")]
-        [Required(ErrorMessage = "Job Title section is required.")]
         public string JobTitle { get; set; }
         
         [Display(Name ="Cell Phone")]
-        [Required(ErrorMessage = "Cell Phone number is required.")]
         [RegularExpression("^\\d{10}$", ErrorMessage = "Please enter a valid 10-digit cell phone number (no spaces).")]
         [DataType(DataType.PhoneNumber)]
         [DisplayFormat(DataFormatString = "{0:(###) ###-####}", ApplyFormatInEditMode = false)]
-        public Int64 CellPhone { get; set; }
+        public Int64? CellPhone { get; set; }
 
         [Display(Name ="Work Phone")]
         [RegularExpression("^\\d{10}$", ErrorMessage = "Please enter a valid 10-digit phone number (no spaces).")]
         [DataType(DataType.PhoneNumber)]
         [DisplayFormat(DataFormatString = "{0:(###) ###-####}", ApplyFormatInEditMode = false)]
-        public Int64 WorkPhone { get; set; }
+        public Int64? WorkPhone { get; set; }
 
         [StringLength(50, ErrorMessage = "Email cannot be more than 50 characters long.")]
-        [Required(ErrorMessage = "Email section is required.")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         public bool Active { get; set; }
 
-        public int CompanyID { get; set; }
+        public int? CompanyID { get; set; }
         public Company Company { get; set; }
 
         [Display(Name = "Catagories")]
