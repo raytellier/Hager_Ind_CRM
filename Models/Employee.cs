@@ -86,24 +86,27 @@ namespace Hager_Ind_CRM.Models
         public string? Email { get; set; }
 
         [Display(Name = "Date of Birth")]
+        [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? DateOfBirth { get; set; }
 
-        [RegularExpression(@"^\d+\.\d{0,2}$")]
+        [RegularExpression(@"^\d+\.\d{0,2}$", ErrorMessage = "Wage must follow the format '1000.00'.")]
         [Range(0, 9999999.99)]
         public decimal? Wage { get; set; }
 
-        [RegularExpression(@"^\d+\.\d{0,2}$")]
+        [RegularExpression(@"^\d+\.\d{0,2}$", ErrorMessage = "Expense must follow the format '1000.00'.")]
         [Range(0, 99999999.99)]
         public decimal? Expense { get; set; }
 
         [Display(Name = "Date Joined")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
         [Required(ErrorMessage = "Date joined section is required.")]
         public DateTime DateJoined { get; set; }
 
         [Display(Name = "Inactive Date")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
         public DateTime? InactiveDate { get; set; }
 
         [Display(Name = "Key Fob Number")]
