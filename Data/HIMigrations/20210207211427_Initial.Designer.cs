@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hager_Ind_CRM.Data.HIMigrations
 {
     [DbContext(typeof(HagerIndContext))]
-    [Migration("20210207203650_Initial")]
+    [Migration("20210207211427_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -314,7 +314,7 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("DateJoined")
+                    b.Property<DateTime?>("DateJoined")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("DateOfBirth")

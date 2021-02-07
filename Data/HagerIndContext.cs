@@ -95,6 +95,16 @@ namespace Hager_Ind_CRM.Data
               .WithOne(p => p.Country)
               .HasForeignKey(p => p.CountryID)
               .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<JobPosition>()
+                    .HasMany(m => m.Employees)
+                    .WithOne(t => t.JobPosition)
+                    .HasForeignKey(m => m.JobPositionID);
+
+            modelBuilder.Entity<EmploymentType>()
+                    .HasMany(m => m.Employees)
+                    .WithOne(t => t.EmploymentType)
+                    .HasForeignKey(m => m.EmploymentTypeID);
         }
         public DbSet<Hager_Ind_CRM.Models.SubType> SubType { get; set; }
     }

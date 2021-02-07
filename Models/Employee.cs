@@ -29,15 +29,18 @@ namespace Hager_Ind_CRM.Models
         [Required(ErrorMessage = "Last name section is required.")]
         public string LastName { get; set; }
 
+
         [Display(Name = "Job Position")]
         [Required(ErrorMessage = "Job position section is required.")]
-        public int JobPositionID { get; set; }
+        public int? JobPositionID { get; set; }
+
         [Display(Name = "Job Position")]
         public JobPosition JobPosition { get; set; }
 
         [Display(Name = "Employment Type")]
         [Required(ErrorMessage = "Employment Type section is required.")]
-        public int EmploymentTypeID { get; set; }
+        public int? EmploymentTypeID { get; set; }
+
         [Display(Name = "Employment Type")]
         public EmploymentType EmploymentType { get; set; }
 
@@ -101,8 +104,7 @@ namespace Hager_Ind_CRM.Models
         [Display(Name = "Date Joined")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
-        [Required(ErrorMessage = "Date joined section is required.")]
-        public DateTime DateJoined { get; set; }
+        public DateTime? DateJoined { get; set; }
 
         [Display(Name = "Inactive Date")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
@@ -115,8 +117,8 @@ namespace Hager_Ind_CRM.Models
         public Int64? KeyFobNumber { get; set; }
 
         public bool Active { get; set; }
-        [Required(ErrorMessage = "Active section is required.")]
 
+        [Required(ErrorMessage = "Is User section is required.")]
         [Display(Name = "Is User")]
         public bool IsUser { get; set; }
 
