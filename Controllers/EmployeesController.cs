@@ -248,10 +248,6 @@ namespace Hager_Ind_CRM.Controllers
         {
             if (!string.IsNullOrEmpty(str)) { return DateTime.Parse(str); } else { return null; }
         }
-        private DateTime DateValid(string str)
-        {
-            if (!string.IsNullOrEmpty(str)) { return DateTime.Parse(str); } else { return DateTime.Parse("01/01/2000"); }
-        }
 
         //Decimal Input Checker
         private Decimal? DecimalValid(string str)
@@ -286,7 +282,7 @@ namespace Hager_Ind_CRM.Controllers
 
                     ////Get the foreign keys from the names of the positions
                     int provinceID = (await _context.Provinces
-                        .FirstOrDefaultAsync(p => p.Name == workSheet.Cells[row, 13].Text)).ID;
+                        .FirstOrDefaultAsync(p => p.Name == workSheet.Cells[row, 12].Text)).ID;
 
                     int countryID = (await _context.Countries
                         .FirstOrDefaultAsync(p => p.Name == workSheet.Cells[row, 14].Text)).ID;
@@ -311,7 +307,7 @@ namespace Hager_Ind_CRM.Controllers
 
                     //Dates
                     DateTime? DOB = DateValidNullable(workSheet.Cells[row, 6].Text);
-                    DateTime startDate = DateValid(workSheet.Cells[row, 17].Text);
+                    DateTime? startDate = DateValidNullable(workSheet.Cells[row, 17].Text);
                     DateTime? InactiveDate = DateValidNullable(workSheet.Cells[row, 18].Text);
 
                     //Decimals

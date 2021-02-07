@@ -312,7 +312,7 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("DateJoined")
+                    b.Property<DateTime?>("DateJoined")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("DateOfBirth")

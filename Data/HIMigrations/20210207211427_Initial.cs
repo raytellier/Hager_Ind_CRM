@@ -258,7 +258,7 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                     DateOfBirth = table.Column<DateTime>(nullable: true),
                     Wage = table.Column<decimal>(nullable: true),
                     Expense = table.Column<decimal>(nullable: true),
-                    DateJoined = table.Column<DateTime>(nullable: false),
+                    DateJoined = table.Column<DateTime>(nullable: true),
                     InactiveDate = table.Column<DateTime>(nullable: true),
                     KeyFobNumber = table.Column<long>(nullable: true),
                     Active = table.Column<bool>(nullable: false),
