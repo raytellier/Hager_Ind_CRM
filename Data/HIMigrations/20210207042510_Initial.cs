@@ -101,21 +101,6 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Provinces",
-                schema: "HI",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(nullable: false),
-                    OrderID = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Provinces", x => x.ID);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Types",
                 schema: "HI",
                 columns: table => new
@@ -128,6 +113,52 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Types", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Provinces",
+                schema: "HI",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(nullable: false),
+                    OrderID = table.Column<int>(nullable: false),
+                    CountryID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Provinces", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Provinces_Countries_CountryID",
+                        column: x => x.CountryID,
+                        principalSchema: "HI",
+                        principalTable: "Countries",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SubType",
+                schema: "HI",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(maxLength: 50, nullable: false),
+                    OrderID = table.Column<int>(nullable: false),
+                    TypeID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SubType", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_SubType_Types_TypeID",
+                        column: x => x.TypeID,
+                        principalSchema: "HI",
+                        principalTable: "Types",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -265,29 +296,6 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         column: x => x.JobPositionID,
                         principalSchema: "HI",
                         principalTable: "JobPositions",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SubType",
-                schema: "HI",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(maxLength: 50, nullable: false),
-                    OrderID = table.Column<int>(nullable: false),
-                    TypeID = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SubType", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_SubType_Types_TypeID",
-                        column: x => x.TypeID,
-                        principalSchema: "HI",
-                        principalTable: "Types",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -453,6 +461,12 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                 column: "JobPositionID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Provinces_CountryID",
+                schema: "HI",
+                table: "Provinces",
+                column: "CountryID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SubType_TypeID",
                 schema: "HI",
                 table: "SubType",
@@ -502,10 +516,6 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                 schema: "HI");
 
             migrationBuilder.DropTable(
-                name: "Countries",
-                schema: "HI");
-
-            migrationBuilder.DropTable(
                 name: "Provinces",
                 schema: "HI");
 
@@ -515,6 +525,10 @@ namespace Hager_Ind_CRM.Data.HIMigrations
 
             migrationBuilder.DropTable(
                 name: "Currencies",
+                schema: "HI");
+
+            migrationBuilder.DropTable(
+                name: "Countries",
                 schema: "HI");
         }
     }

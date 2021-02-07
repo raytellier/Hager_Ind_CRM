@@ -22,7 +22,7 @@ namespace Hager_Ind_CRM.Controllers
         // GET: Provinces
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Provinces.OrderBy(p => p.OrderID).ToListAsync());
+            return View(await _context.Provinces.Include(p => p.Country).OrderBy(p => p.OrderID).ToListAsync());
         }
 
         [HttpPost]
@@ -37,7 +37,7 @@ namespace Hager_Ind_CRM.Controllers
                 _context.SaveChanges();
                 
             }
-            return View(await _context.Provinces.OrderBy(p => p.OrderID).ToListAsync());
+            return View(await _context.Provinces.Include(p => p.Country).OrderBy(p => p.OrderID).ToListAsync());
         }
 
 
@@ -50,6 +50,7 @@ namespace Hager_Ind_CRM.Controllers
         //    }
 
         //    var province = await _context.Provinces
+
         //        .FirstOrDefaultAsync(m => m.ID == id);
         //    if (province == null)
         //    {
@@ -62,6 +63,7 @@ namespace Hager_Ind_CRM.Controllers
         // GET: Provinces/Create
         public IActionResult Create()
         {
+            PopulateDropDownLists();
             return View();
         }
 
@@ -70,7 +72,7 @@ namespace Hager_Ind_CRM.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,OrderID")] Province province)
+        public async Task<IActionResult> Create([Bind("ID,Name,OrderID,CountryID")] Province province)
         {
             if (ModelState.IsValid)
             {
@@ -78,6 +80,7 @@ namespace Hager_Ind_CRM.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            PopulateDropDownLists(province);
             return View(province);
         }
 
@@ -94,6 +97,7 @@ namespace Hager_Ind_CRM.Controllers
             {
                 return NotFound();
             }
+            PopulateDropDownLists(province);
             return View(province);
         }
 
@@ -102,7 +106,7 @@ namespace Hager_Ind_CRM.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,OrderID")] Province province)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,OrderID,CountryID")] Province province)
         {
             if (id != province.ID)
             {
@@ -129,6 +133,7 @@ namespace Hager_Ind_CRM.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            PopulateDropDownLists(province);
             return View(province);
         }
 
@@ -141,6 +146,7 @@ namespace Hager_Ind_CRM.Controllers
             }
 
             var province = await _context.Provinces
+                .Include(m => m.Country)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (province == null)
             {
@@ -160,7 +166,13 @@ namespace Hager_Ind_CRM.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
+        private void PopulateDropDownLists(Province province = null)
+        {
+            var dQuery = from d in _context.Countries
+                         orderby d.Name
+                         select d;
+            ViewData["CountryID"] = new SelectList(dQuery, "ID", "Name", province?.CountryID);
+        }
         private bool ProvinceExists(int id)
         {
             return _context.Provinces.Any(e => e.ID == id);

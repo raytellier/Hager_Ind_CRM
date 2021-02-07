@@ -42,7 +42,20 @@ namespace Hager_Ind_CRM.Data
                 }
                 int[] countryIDs = context.Countries.Select(s => s.ID).ToArray();
 
-                string[] CanadianProvinces = new string[] { "Alberta", "British Columbia", "Manitoba", "New Brunswick", "Newfoundland and Labrador", "Northwest Territories", "Nova Scotia", "Nunavut", "Ontario", "Prince Edward Island", "Quebec", "Saskatchewan", "Yukon", "Alabama", "Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming","Aguascalientes","Baja California","Baja California Sur","Campeche","Chiapas","Chihuahua","Coahuila","Colima","Mexico City","Durango","Guanajuato","Guerrero","Hidalgo","Jalisco","México","Michoacán","Morelos","Nayarit","Nuevo León","Oaxaca","Puebla","Querétaro","Quintana Roo","San Luis Potosí","Sinaloa","Sonora","Tabasco","Tamaulipas","Tlaxcala","Veracruz","Yucatán","Zacatecas"};
+                string[] CanadianProvinces = new string[] { "Alberta (AB)", "British Columbia (BC)", "Manitoba (MB)", "New Brunswick (NB)", "Newfoundland and Labrador (NL)", "Northwest Territories (NT)", "Nova Scotia (NS)", "Nunavut (NU)", "Ontario (ON)", "Prince Edward Island (PE)", "Quebec (QC)", "Saskatchewan (SK)", "Yukon (YT)" };
+                string[] UStates = new string[] {"Alabama (AL)", "Alaska (AK)", "Arizona (AZ)", "Arkansas (AR)", "California (CA)", "Colorado (CO)", "Connecticut (CT)",
+                                                   "Delaware (DE)","Florida (FL)","Georgia (GA)","Hawaii (HI)","Idaho (ID)","Illinois (IL)"," Indiana (IN)","Iowa (IA)",
+                                                   "Kansas (KS)","Kentucky (KY)","Louisiana (LA)","Maine (ME)","Maryland (MD)","Massachusetts (MA)","Michigan (MI)","Minnesota (MN)","Mississippi (MS)",
+                                                    "Missouri (MO)","Montana (MT)","Nebraska (NE)","Nevada (NV)","New Hampshire (NH)","New Jersey (NJ)",
+                                                    "New Mexico (NM)","New York (NY)","North Carolina (NC)","North Dakota (ND)","Ohio (OH)","Oklahoma (OK)",
+                                                    "Oregon (OR)","Pennsylvania (PA)","Rhode Island (RI)","South Carolina (SC)","South Dakota (SD)",
+                                                    "Tennessee (TN)","Texas (TX)","Utah (UT)","Vermont (VT)","Virginia (VA)","Washington (WA)","West Virginia (WV)",
+                                                    "Wisconsin (WI)","Wyoming (WY)"};
+                string[] MexicoStates = new string[] { "Aguascalientes (AG)", "Baja California (BC)", "Baja California Sur (BS)", "Campeche (CM)", "Chiapas (CS)",
+                                                        "Chihuahua (CH)","Coahuila (CO)","Colima (CL)","Mexico City (DF)","Durango (DG)","Guanajuato (GT)",
+                                                        "Guerrero (GR)","Hidalgo (HG)","Jalisco (JA)","México (EM)","Michoacán (MI)","Morelos (MO)","Nayarit (NA)",
+                                                        "Nuevo León (NL)","Oaxaca (OA)","Puebla (PU)","Querétaro (QT)","Quintana Roo (QR)","San Luis Potosí (SL)",
+                                                       "Sinaloa (SI)","Sonora (SO)","Tabasco (TB)","Tamaulipas (TM)","Tlaxcala (TL)","Veracruz (VE)","Yucatán (YU)","Zacatecas (ZA)"};
                 if (!context.Provinces.Any())
                 {
                     int star = 1;
@@ -51,10 +64,33 @@ namespace Hager_Ind_CRM.Data
                         Province prov = new Province
                         {
                             Name = s,
-                            OrderID = star
+                            OrderID = star,
+                            CountryID = 1
                         };
                         context.Provinces.Add(prov);
 
+                        star += 1;
+                    }
+                    foreach (string s in UStates)
+                    {
+                        Province prov = new Province
+                        {
+                            Name = s,
+                            OrderID = star,
+                            CountryID = 2
+                        };
+                        context.Provinces.Add(prov);
+                        star += 1;
+                    }
+                    foreach (string s in MexicoStates)
+                    {
+                        Province prov = new Province
+                        {
+                            Name = s,
+                            OrderID = star,
+                            CountryID = 3
+                        };
+                        context.Provinces.Add(prov);
                         star += 1;
                     }
                     context.SaveChanges();

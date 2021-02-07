@@ -24,6 +24,10 @@ namespace Hager_Ind_CRM.Models
         [Display(Name = "Entry")]
         public int OrderID { get; set; }
 
+        [Display(Name = "Country")]
+        public int CountryID { get; set; }
+        public Country Country { get; set; }
+
         public ICollection<Company> BillingCompanies { get; set; }
         public ICollection<Company> ShippingCompanies { get; set; }
         public ICollection<Employee> Employees { get; set; }

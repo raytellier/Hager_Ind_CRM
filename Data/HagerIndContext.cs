@@ -89,6 +89,12 @@ namespace Hager_Ind_CRM.Data
                 .WithOne(p => p.Company)
                 .HasForeignKey(p => p.CompanyID)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Country>()
+              .HasMany<Province>(d => d.Provinces)
+              .WithOne(p => p.Country)
+              .HasForeignKey(p => p.CountryID)
+              .OnDelete(DeleteBehavior.Restrict);
         }
         public DbSet<Hager_Ind_CRM.Models.SubType> SubType { get; set; }
     }

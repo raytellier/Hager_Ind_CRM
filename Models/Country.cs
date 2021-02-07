@@ -13,6 +13,7 @@ namespace Hager_Ind_CRM.Models
             this.BillingCompanies = new HashSet<Company>();
             this.ShippingCompanies = new HashSet<Company>();
             this.Employees = new HashSet<Employee>();
+            this.Provinces = new HashSet<Province>();
         }
 
         public int ID { get; set; }
@@ -25,6 +26,7 @@ namespace Hager_Ind_CRM.Models
         [Display(Name = "Entry")]
         public int OrderID { get; set; }
 
+        public ICollection<Province> Provinces { get; set; }
 
         public ICollection<Company> BillingCompanies { get; set; }
         public ICollection<Company> ShippingCompanies { get; set; }

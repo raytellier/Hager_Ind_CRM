@@ -34,29 +34,35 @@
                             <th>
                                 Provinces and States
                             </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Country)
+                            </th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.OrderID)
-                                </td>
-                                <td hidden="hidden">
-                                    @Html.DisplayFor(modelItem => item.ID)
-                                    <input type="hidden" name="reorderedId" value="@item.ID" />
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Name)
-                                </td>
-                                <td>
-                                    <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
-                                    @*<a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ID">Details</a>*@
-                                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OrderID)
+                            </td>
+                            <td hidden="hidden">
+                                @Html.DisplayFor(modelItem => item.ID)
+                                <input type="hidden" name="reorderedId" value="@item.ID" />
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Country.Name)
+                            </td>
+                            <td>
+                                <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+                                @*<a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ID">Details</a>*@
+                                <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>

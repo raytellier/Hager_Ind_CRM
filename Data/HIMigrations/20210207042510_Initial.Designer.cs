@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hager_Ind_CRM.Data.HIMigrations
 {
     [DbContext(typeof(HagerIndContext))]
-    [Migration("20210206235459_Initial")]
+    [Migration("20210207042510_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -423,6 +423,9 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("CountryID")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -431,6 +434,8 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("CountryID");
 
                     b.ToTable("Provinces");
                 });
@@ -561,6 +566,15 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         .WithMany("Employees")
                         .HasForeignKey("JobPositionID")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Hager_Ind_CRM.Models.Province", b =>
+                {
+                    b.HasOne("Hager_Ind_CRM.Models.Country", "Country")
+                        .WithMany("Provinces")
+                        .HasForeignKey("CountryID")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
