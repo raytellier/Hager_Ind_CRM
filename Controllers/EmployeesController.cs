@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using Hager_Ind_CRM.Data;
 using Hager_Ind_CRM.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using OfficeOpenXml;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Hager_Ind_CRM.Controllers
 {
@@ -218,6 +222,137 @@ namespace Hager_Ind_CRM.Controllers
                           orderby d.OrderID
                           select d).ToList();
             return new SelectList(dQuery, "ID", "Name", id);
+        }
+
+        //------------------------------Upload Excel File Code-----------------------------------
+        //String To Bool Method
+        private bool StringToBool(string str)
+        {
+            if (str.ToUpper() == "FALSE") { return false; } else { return true; }
+        }
+
+        //Grab Numbers From a String Method
+        private Int64? NumbGrab(string str)
+        {
+            if (!string.IsNullOrEmpty(str)) { return Convert.ToInt64(Regex.Replace(str, "[^0-9]+", string.Empty)); } else { return null; }
+        }
+
+        //Date Input Checker
+        private DateTime? DateValidNullable(string str)
+        {
+            if (!string.IsNullOrEmpty(str)) { return DateTime.Parse(str); } else { return null; }
+        }
+        private DateTime DateValid(string str)
+        {
+            if (!string.IsNullOrEmpty(str)) { return DateTime.Parse(str); } else { return DateTime.Parse("01/01/2000"); }
+        }
+
+        //Decimal Input Checker
+        private Decimal? DecimalValid(string str)
+        {
+            if (!string.IsNullOrEmpty(str)) { return Decimal.Parse(str); } else { return null; }
+        }
+
+
+
+        //Action for Employee file upload
+        [HttpPost]
+        public async Task<IActionResult> InsertFromExcel(IFormFile theExcel)
+        {
+            ExcelPackage excel;
+            using (var memoryStream = new MemoryStream())
+            {
+                await theExcel.CopyToAsync(memoryStream);
+                excel = new ExcelPackage(memoryStream);
+            }
+            var workSheet = excel.Workbook.Worksheets[0];
+            var start = workSheet.Dimension.Start;
+            var end = workSheet.Dimension.End;
+
+            //Start a new list to hold imported objects
+            List<Employee> newEmployees = new List<Employee>();
+
+            try
+            {
+                for (int row = 2; row <= end.Row; row++)
+                {
+
+                    ////Get the foreign keys from the names of the positions
+                    int provinceID = (await _context.Provinces
+                        .FirstOrDefaultAsync(p => p.Name == workSheet.Cells[row, 13].Text)).ID;
+
+                    int countryID = (await _context.Countries
+                        .FirstOrDefaultAsync(p => p.Name == workSheet.Cells[row, 14].Text)).ID;
+
+                    int jobPosID = (await _context.JobPositions
+                        .FirstOrDefaultAsync(p => p.Name == workSheet.Cells[row, 15].Text)).ID;
+
+                    int empTypeID = (await _context.EmploymentTypes
+                        .FirstOrDefaultAsync(p => p.Type == workSheet.Cells[row, 16].Text)).ID;
+
+                    //Bools
+                    bool isUserBool = StringToBool(workSheet.Cells[row, 19].Text);
+                    bool activeBool = StringToBool(workSheet.Cells[row, 20].Text);
+
+                    //Phone Numbers
+                    Int64? homePhoneInt = NumbGrab(workSheet.Cells[row, 4].Text);
+                    Int64? cellPhoneInt = NumbGrab(workSheet.Cells[row, 5].Text);
+                    Int64? emergPhoneInt = NumbGrab(workSheet.Cells[row, 23].Text);
+
+                    //Key Fob Numbers
+                    Int64? keyFobInt = NumbGrab(workSheet.Cells[row, 24].Text);
+
+                    //Dates
+                    DateTime? DOB = DateValidNullable(workSheet.Cells[row, 6].Text);
+                    DateTime startDate = DateValid(workSheet.Cells[row, 17].Text);
+                    DateTime? InactiveDate = DateValidNullable(workSheet.Cells[row, 18].Text);
+
+                    //Decimals
+                    Decimal? wageDec = DecimalValid(workSheet.Cells[row, 7].Text);
+                    Decimal? expenseDec = DecimalValid(workSheet.Cells[row, 8].Text);
+
+                    // Row by row...
+                    Employee a = new Employee
+                    {
+                        FirstName = workSheet.Cells[row, 1].Text,
+                        LastName = workSheet.Cells[row, 2].Text,
+                        Email = workSheet.Cells[row, 3].Text,
+                        HomePhone = homePhoneInt,
+                        CellPhone = cellPhoneInt,
+                        DateOfBirth = DOB,
+                        Wage = wageDec,
+                        Expense = expenseDec,
+                        Address1 = workSheet.Cells[row, 9].Text,
+                        Address2 = workSheet.Cells[row, 10].Text,
+                        City = workSheet.Cells[row, 11].Text,
+                        BillingPostal = workSheet.Cells[row, 12].Text,
+                        BillingProvinceID = provinceID,
+                        BillingCountryID = countryID,
+                        JobPositionID = jobPosID,
+                        EmploymentTypeID = empTypeID,
+                        DateJoined = startDate,
+                        InactiveDate = InactiveDate,
+                        IsUser = isUserBool,
+                        Active = activeBool,
+                        PermissionLevel = workSheet.Cells[row, 21].Text,
+                        EmergencyContactName = workSheet.Cells[row, 22].Text,
+                        EmergencyContactPhone = emergPhoneInt,
+                        KeyFobNumber = keyFobInt
+                    };
+                    newEmployees.Add(a);
+                }
+                _context.Database.ExecuteSqlRaw("DELETE FROM Employees");
+                _context.Employees.AddRange(newEmployees);
+                _context.SaveChanges();
+                return RedirectToAction("Index", "Employees");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            //For each row/employee
+
         }
     }
 }

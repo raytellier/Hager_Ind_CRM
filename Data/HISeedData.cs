@@ -62,7 +62,7 @@ namespace Hager_Ind_CRM.Data
                 //Create collection of the primary keys of the Provinces
                 int[] specialtyIDs = context.Provinces.Select(s => s.ID).ToArray();
 
-                string[] EmpTypes = new string[] { "Part-Time", "Full-Time", "Seasonal", "Co-op Stundent", "Contract" };
+                string[] EmpTypes = new string[] { "Part-Time", "Full-Time", "Seasonal", "Co-op Student", "Contract" };
                 if (!context.EmploymentTypes.Any())
                 {
                     int star = 1;
@@ -82,7 +82,7 @@ namespace Hager_Ind_CRM.Data
                 //Create collection of the primary keys of the Provinces
                 int[] empTypeIDs = context.EmploymentTypes.Select(s => s.ID).ToArray();
 
-                string[] JobPositions = new string[] { "Jr. Fabricator","Fabricator","Sr. Fabricator","Foreman","Apprentice Plumber","Plumber","Field Supervisor","General Labourer","Shipping Receiving","Controller","President","Vice President","Jr. Draftsperson","Mechanical Designer","Professional Engineer","Engineering Manager","Mechanical Estimator / Purchaser","Estimator","Sales Manager" };
+                string[] JobPositions = new string[] { "Jr. Fabricator","Fabricator","Sr. Fabricator","Foreman","Apprentice Plumber","Plumber","Field Supervisor","General Labourer","Shipping Receiving","Controller","President","Vice President","Jr. Draftsperson","Mechanical Designer","Professional Engineer","Engineering Manager","Mechanical Estimator/Purchaser","Estimator","Sales Manager" };
                 if (!context.JobPositions.Any())
                 {
                     int star = 1;
