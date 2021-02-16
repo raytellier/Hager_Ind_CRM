@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FoolProof.Core;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -79,6 +80,7 @@ namespace Hager_Ind_CRM.Models
 
         [StringLength(50, ErrorMessage = "Email cannot be more than 50 characters long.")]
         [DataType(DataType.EmailAddress)]
+        [RequiredIfTrue("IsUser", ErrorMessage = "Email is required if Is User is selected.")]
         public string? Email { get; set; }
 
         [Display(Name = "Date of Birth")]
