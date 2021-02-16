@@ -31,14 +31,12 @@ namespace Hager_Ind_CRM.Models
 
 
         [Display(Name = "Job Position")]
-        [Required(ErrorMessage = "Job position section is required.")]
         public int? JobPositionID { get; set; }
 
         [Display(Name = "Job Position")]
         public JobPosition JobPosition { get; set; }
 
         [Display(Name = "Employment Type")]
-        [Required(ErrorMessage = "Employment Type section is required.")]
         public int? EmploymentTypeID { get; set; }
 
         [Display(Name = "Employment Type")]
@@ -46,18 +44,15 @@ namespace Hager_Ind_CRM.Models
 
         [Display(Name = "Address 1")]
         [StringLength(30, ErrorMessage = "Address cannot be more than 30 characters long.")]
-        [Required(ErrorMessage = "Address 1 section is required.")]
         public string Address1 { get; set; }
 
         [Display(Name = "Address 2")]
         [StringLength(30, ErrorMessage = "Address cannot be more than 30 characters long.")]
         public string? Address2 { get; set; }
 
-        [Required(ErrorMessage = "City section is required.")]
         public string City { get; set; }
 
         [Display(Name = "Province")]
-        [Required(ErrorMessage = "Province section is required.")]
         public int? BillingProvinceID { get; set; }
         public Province Province { get; set; }
 
@@ -67,7 +62,6 @@ namespace Hager_Ind_CRM.Models
         public string BillingPostal { get; set; }
 
         [Display(Name = "Country")]
-        [Required(ErrorMessage = "Country section is required.")]
         public int? BillingCountryID { get; set; }
         public Country Country { get; set; }
 
@@ -117,13 +111,11 @@ namespace Hager_Ind_CRM.Models
 
         public bool Active { get; set; }
 
-        [Required(ErrorMessage = "Is User section is required.")]
         [Display(Name = "Is User")]
         public bool IsUser { get; set; }
 
         [Display(Name = "Permission Level")]
         [StringLength(30, ErrorMessage = "Permission level cannot be more than 30 characters long.")]
-        [Required(ErrorMessage = "Permission level section is required.")]
         public string PermissionLevel { get; set; }
 
         [Display(Name = "Emergency Contact Name")]

@@ -39,12 +39,16 @@
                 </div>
                 <div class="form-group col-xl-3 col-md-6 col-sm-6">
                     <label asp-for="BillingTermsID" class="control-label"></label>
-                    <select asp-for="BillingTermsID" class="form-control" asp-items="ViewBag.BillingTermsID"></select>
+                    <select asp-for="BillingTermsID" class="form-control" asp-items="ViewBag.BillingTermsID">
+                        <option value="">Select...</option>
+                    </select>
                     <span asp-validation-for="BillingTermsID" class="text-danger"></span>
                 </div>
                 <div class="form-group col-xl-2 col-md-3 col-sm-6">
                     <label asp-for="CurrencyID" class="control-label"></label>
-                    <select asp-for="CurrencyID" class="form-control" asp-items="ViewBag.CurrencyID"></select>
+                    <select asp-for="CurrencyID" class="form-control" asp-items="ViewBag.CurrencyID">
+                        <option value="">Select...</option>
+                    </select>
                     <span asp-validation-for="CurrencyID" class="text-danger"></span>
                 </div>
                 <div class="form-group col-xl-3 col-md-4 col-sm-12">
@@ -91,12 +95,16 @@
                 </div>
                 <div class="form-group col-xl-4 col-lg-6 col-sm-6">
                     <label asp-for="BillingCountryID" class="control-label"></label>
-                    <select asp-for="BillingCountryID" class="form-control" asp-items="ViewBag.BillingCountryID"></select>
+                    <select asp-for="BillingCountryID" class="form-control" asp-items="ViewBag.BillingCountryID">
+                        <option value="">Select...</option>
+                    </select>
                     <span asp-validation-for="BillingCountryID" class="text-danger"></span>
                 </div>
                 <div class="form-group col-xl-4 col-lg-6 col-sm-6">
                     <label asp-for="BillingProvinceID" class="control-label"></label>
-                    <select asp-for="BillingProvinceID" class="form-control" asp-items="ViewBag.BillingProvinceID"></select>
+                    <select asp-for="BillingProvinceID" class="form-control" asp-items="ViewBag.BillingProvinceID">
+                        <option value="">Select...</option>
+                    </select>
                     <span asp-validation-for="BillingProvinceID" class="text-danger"></span>
                 </div>
                 <div class="form-group col-xl-4 col-lg-12 col-sm-12">
@@ -124,12 +132,16 @@
                 </div>
                 <div class="form-group col-xl-4 col-lg-6 col-sm-6">
                     <label asp-for="ShippingCountryID" class="control-label"></label>
-                    <select asp-for="ShippingCountryID" class="form-control" asp-items="ViewBag.ShippingCountryID"></select>
+                    <select asp-for="ShippingCountryID" class="form-control" asp-items="ViewBag.ShippingCountryID">
+                        <option value="">Select...</option>
+                    </select>
                     <span asp-validation-for="ShippingCountryID" class="text-danger"></span>
                 </div>
                 <div class="form-group col-xl-4 col-lg-6 col-sm-6">
                     <label asp-for="ShippingProvinceID" class="control-label"></label>
-                    <select asp-for="ShippingProvinceID" class="form-control" asp-items="ViewBag.ShippingProvinceID"></select>
+                    <select asp-for="ShippingProvinceID" class="form-control" asp-items="ViewBag.ShippingProvinceID">
+                        <option value="">Select...</option>
+                    </select>
                     <span asp-validation-for="ShippingProvinceID" class="text-danger"></span>
                 </div>
                 <div class="form-group col-xl-4 col-lg-12 col-sm-12">

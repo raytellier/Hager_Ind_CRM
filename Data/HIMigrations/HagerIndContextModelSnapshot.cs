@@ -279,7 +279,6 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Address1")
-                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasMaxLength(30);
 
@@ -288,21 +287,18 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         .HasMaxLength(30);
 
                     b.Property<int?>("BillingCountryID")
-                        .IsRequired()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("BillingPostal")
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("BillingProvinceID")
-                        .IsRequired()
                         .HasColumnType("INTEGER");
 
                     b.Property<long?>("CellPhone")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("City")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("DateJoined")
@@ -323,7 +319,6 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("EmploymentTypeID")
-                        .IsRequired()
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal?>("Expense")
@@ -344,7 +339,6 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("JobPositionID")
-                        .IsRequired()
                         .HasColumnType("INTEGER");
 
                     b.Property<long?>("KeyFobNumber")
@@ -356,7 +350,6 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         .HasMaxLength(30);
 
                     b.Property<string>("PermissionLevel")
-                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasMaxLength(30);
 
@@ -538,27 +531,19 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                 {
                     b.HasOne("Hager_Ind_CRM.Models.Country", "Country")
                         .WithMany("Employees")
-                        .HasForeignKey("BillingCountryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BillingCountryID");
 
                     b.HasOne("Hager_Ind_CRM.Models.Province", "Province")
                         .WithMany("Employees")
-                        .HasForeignKey("BillingProvinceID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BillingProvinceID");
 
                     b.HasOne("Hager_Ind_CRM.Models.EmploymentType", "EmploymentType")
                         .WithMany("Employees")
-                        .HasForeignKey("EmploymentTypeID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EmploymentTypeID");
 
                     b.HasOne("Hager_Ind_CRM.Models.JobPosition", "JobPosition")
                         .WithMany("Employees")
-                        .HasForeignKey("JobPositionID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("JobPositionID");
                 });
 
             modelBuilder.Entity("Hager_Ind_CRM.Models.Province", b =>

@@ -244,14 +244,14 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         .Annotation("Sqlite:Autoincrement", true),
                     FirstName = table.Column<string>(maxLength: 30, nullable: false),
                     LastName = table.Column<string>(maxLength: 30, nullable: false),
-                    JobPositionID = table.Column<int>(nullable: false),
-                    EmploymentTypeID = table.Column<int>(nullable: false),
-                    Address1 = table.Column<string>(maxLength: 30, nullable: false),
+                    JobPositionID = table.Column<int>(nullable: true),
+                    EmploymentTypeID = table.Column<int>(nullable: true),
+                    Address1 = table.Column<string>(maxLength: 30, nullable: true),
                     Address2 = table.Column<string>(maxLength: 30, nullable: true),
-                    City = table.Column<string>(nullable: false),
-                    BillingProvinceID = table.Column<int>(nullable: false),
+                    City = table.Column<string>(nullable: true),
+                    BillingProvinceID = table.Column<int>(nullable: true),
                     BillingPostal = table.Column<string>(nullable: true),
-                    BillingCountryID = table.Column<int>(nullable: false),
+                    BillingCountryID = table.Column<int>(nullable: true),
                     CellPhone = table.Column<long>(nullable: true),
                     HomePhone = table.Column<long>(nullable: true),
                     Email = table.Column<string>(maxLength: 50, nullable: true),
@@ -263,7 +263,7 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                     KeyFobNumber = table.Column<long>(nullable: true),
                     Active = table.Column<bool>(nullable: false),
                     IsUser = table.Column<bool>(nullable: false),
-                    PermissionLevel = table.Column<string>(maxLength: 30, nullable: false),
+                    PermissionLevel = table.Column<string>(maxLength: 30, nullable: true),
                     EmergencyContactName = table.Column<string>(maxLength: 30, nullable: true),
                     EmergencyContactPhone = table.Column<long>(nullable: true)
                 },
@@ -276,28 +276,28 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         principalSchema: "HI",
                         principalTable: "Countries",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Employees_Provinces_BillingProvinceID",
                         column: x => x.BillingProvinceID,
                         principalSchema: "HI",
                         principalTable: "Provinces",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Employees_EmploymentTypes_EmploymentTypeID",
                         column: x => x.EmploymentTypeID,
                         principalSchema: "HI",
                         principalTable: "EmploymentTypes",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Employees_JobPositions_JobPositionID",
                         column: x => x.JobPositionID,
                         principalSchema: "HI",
                         principalTable: "JobPositions",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
