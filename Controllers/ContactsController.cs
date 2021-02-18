@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Hager_Ind_CRM.Data;
 using Hager_Ind_CRM.Models;
 using Microsoft.AspNetCore.Authorization;
+using MedicalOffice.ViewModels;
 
 namespace Hager_Ind_CRM.Controllers
 {
@@ -58,6 +59,9 @@ namespace Hager_Ind_CRM.Controllers
             }
 
             var contact = await _context.Contacts
+                .Include(d => d.Company).ThenInclude(d => d.CompanyTypes).ThenInclude(d => d.Type)
+                .Include(d => d.Company).ThenInclude(d => d.BillingTerms)
+                .Include(d => d.ContactCatagories).ThenInclude(d => d.Catagory)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (contact == null)
             {
@@ -70,6 +74,9 @@ namespace Hager_Ind_CRM.Controllers
         // GET: Contacts/Create
         public IActionResult Create()
         {
+            Contact contact = new Contact();
+            PopulateAssignedCatagoriesData(contact);
+            PopulateDropDownLists();
             return View();
         }
 
@@ -78,14 +85,18 @@ namespace Hager_Ind_CRM.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,JobTitle,CellPhone,WorkPhone,Email,Active")] Contact contact)
+        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,JobTitle,CellPhone,WorkPhone,Email,Active")] Contact contact,
+            string[] selectedOptions)
         {
+            UpdateContactCatagories(selectedOptions, contact);
             if (ModelState.IsValid)
             {
                 _context.Add(contact);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            PopulateDropDownLists(contact);
+            PopulateAssignedCatagoriesData(contact);
             return View(contact);
         }
 
@@ -98,11 +109,17 @@ namespace Hager_Ind_CRM.Controllers
                 return NotFound();
             }
 
-            var contact = await _context.Contacts.FindAsync(id);
+            var contact = await _context.Contacts
+               .Include(d => d.ContactCatagories).ThenInclude(d => d.Catagory)
+               .Include(d => d.Company)
+               .AsNoTracking()
+               .SingleOrDefaultAsync(d => d.ID == id);
             if (contact == null)
             {
                 return NotFound();
             }
+            PopulateDropDownLists(contact);
+            PopulateAssignedCatagoriesData(contact);
             return View(contact);
         }
 
@@ -112,13 +129,13 @@ namespace Hager_Ind_CRM.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Policy = PolicyTypes.Contacts.Update)]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,JobTitle,CellPhone,WorkPhone,Email,Active")] Contact contact)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,JobTitle,CellPhone,WorkPhone,Email,Active")] Contact contact, string[] selectedOptions)
         {
             if (id != contact.ID)
             {
                 return NotFound();
             }
-
+            UpdateContactCatagories(selectedOptions, contact);
             if (ModelState.IsValid)
             {
                 try
@@ -139,6 +156,8 @@ namespace Hager_Ind_CRM.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            PopulateDropDownLists(contact);
+            PopulateAssignedCatagoriesData(contact);
             return View(contact);
         }
 
@@ -176,6 +195,80 @@ namespace Hager_Ind_CRM.Controllers
         private bool ContactExists(int id)
         {
             return _context.Contacts.Any(e => e.ID == id);
+        }
+
+        private void PopulateDropDownLists(Contact contact = null)
+        {
+            ViewData["CompanyID"] = CompaniesSelectList(contact?.CompanyID);
+        }
+        private SelectList CompaniesSelectList(int? id)
+        {
+            var dQuery = (from d in _context.Companies
+                          orderby d.ID
+                          select d).ToList();
+            return new SelectList(dQuery, "ID", "Name", id);
+        }
+        private void PopulateAssignedCatagoriesData(Contact contact)
+        {
+            var allOptions = _context.Catagories;
+            var currentOptionsHS = new HashSet<int>(contact.ContactCatagories.Select(b => b.CatagoryID));
+            var selected = new List<ListOptionVM>();
+            var available = new List<ListOptionVM>();
+            foreach (var s in allOptions)
+            {
+                if (currentOptionsHS.Contains(s.ID))
+                {
+                    selected.Add(new ListOptionVM
+                    {
+                        ID = s.ID,
+                        DisplayText = s.Name
+                    });
+                }
+                else
+                {
+                    available.Add(new ListOptionVM
+                    {
+                        ID = s.ID,
+                        DisplayText = s.Name
+                    });
+                }
+            }
+
+            ViewData["selOpts"] = new MultiSelectList(selected.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+            ViewData["availOpts"] = new MultiSelectList(available.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+        }
+        private void UpdateContactCatagories(string[] selectedOptions, Contact contactToUpdate)
+        {
+            if (selectedOptions == null)
+            {
+                contactToUpdate.ContactCatagories = new List<ContactCatagory>();
+                return;
+            }
+
+            var selectedOptionsHS = new HashSet<string>(selectedOptions);
+            var currentOptionsHS = new HashSet<int>(contactToUpdate.ContactCatagories.Select(b => b.CatagoryID));
+            foreach (var s in _context.Catagories)
+            {
+                if (selectedOptionsHS.Contains(s.ID.ToString()))
+                {
+                    if (!currentOptionsHS.Contains(s.ID))
+                    {
+                        contactToUpdate.ContactCatagories.Add(new ContactCatagory
+                        {
+                            CatagoryID = s.ID,
+                            ContactID = contactToUpdate.ID
+                        });
+                    }
+                }
+                else
+                {
+                    if (currentOptionsHS.Contains(s.ID))
+                    {
+                        ContactCatagory specToRemove = contactToUpdate.ContactCatagories.SingleOrDefault(d => d.CatagoryID == s.ID);
+                        _context.Remove(specToRemove);
+                    }
+                }
+            }
         }
     }
 }

@@ -4,61 +4,154 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1 class="mt-4">Create Contact</h1>
 
-<h4>Contact</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ID" />
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+    <li class="breadcrumb-item"><a asp-area="" asp-controller="Contacts" asp-action="Index">Contacts</a></li>
+    <li class="breadcrumb-item"><a asp-area="" asp-controller="Contacts" asp-action="Details" asp-route-id="@Model.ID">Details</a></li>
+    <li class="breadcrumb-item active">Edit</li>
+</ol>
+
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="ID" />
+    <div class="row">
+        <div class="col-12">
+            <div class="breadcrumb">
+                <div class="form-group col-12">
+                    <h4>Contact information</h4>
+                    <hr class="mb-0" />
+                </div>
+                <div class="form-group col-lg-4 col-md-6">
+                    <label asp-for="FirstName" class="control-label"></label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group col-lg-4 col-md-6">
+                    <label asp-for="LastName" class="control-label"></label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group col-lg-4 col-md-6">
+                    <label asp-for="JobTitle" class="control-label"></label>
+                    <input asp-for="JobTitle" class="form-control" />
+                    <span asp-validation-for="JobTitle" class="text-danger"></span>
+                </div>
+                <div class="form-group col-lg-2 col-md-6">
+                    <label asp-for="CellPhone" class="control-label"></label>
+                    <input asp-for="CellPhone" class="form-control" />
+                    <span asp-validation-for="CellPhone" class="text-danger"></span>
+                </div>
+                <div class="form-group col-lg-2 col-md-6">
+                    <label asp-for="WorkPhone" class="control-label"></label>
+                    <input asp-for="WorkPhone" class="form-control" />
+                    <span asp-validation-for="WorkPhone" class="text-danger"></span>
+                </div>
+                <div class="form-group col-lg-3 col-md-6">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group col-lg-3 col-md-6">
+                    <label asp-for="CompanyID" class="control-label">Company</label>
+                    <select asp-for="CompanyID" class="form-control" asp-items="ViewBag.CompanyID">
+                        <option value="">Select...</option>
+                    </select>
+                    <span asp-validation-for="CompanyID" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check col-lg-2 col-md-6 d-flex align-items-center justify-content-around">
+                    <div class="custom-control custom-checkbox pt-3 pr-1">
+                        <input class="custom-control-input" id="active" type="checkbox" asp-for="Active" />
+                        <label class="custom-control-label" for="active">@Html.DisplayNameFor(model => model.Active)</label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label class="control-label"> Contact Categories Assigned</label> <button type="button" id="btnRight" class="btn btn-danger btn-sm">
+                                <strong>-</strong>
+                            </button>
+                            @Html.ListBox("selectedOptions", (MultiSelectList)ViewBag.selOpts, new { @size = 5, @class = "form-control", @style = "height: 85%;" })
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="control-label"> Choose Contact Categories</label> <button type="button" id="btnLeft" class="btn btn-success btn-sm">
+                                <strong>+</strong>
+                            </button>
+                            @Html.ListBox("availOptions", (MultiSelectList)ViewBag.availOpts, new { @size = 5, @class = "form-control", @style = "height: 85%;" })
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="JobTitle" class="control-label"></label>
-                <input asp-for="JobTitle" class="form-control" />
-                <span asp-validation-for="JobTitle" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CellPhone" class="control-label"></label>
-                <input asp-for="CellPhone" class="form-control" />
-                <span asp-validation-for="CellPhone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="WorkPhone" class="control-label"></label>
-                <input asp-for="WorkPhone" class="form-control" />
-                <span asp-validation-for="WorkPhone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
+        <div class="form-group col-12">
+            <input type="submit" value="Save" class="btn btn-primary" />
+            <a class="btn btn-outline-danger" asp-action="Index">Cancel</a>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+</form>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/multiselect.js"></script>
 }
+
+@*<h1>Edit</h1>
+
+    <h4>Contact</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="ID" />
+                <div class="form-group">
+                    <label asp-for="FirstName" class="control-label"></label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LastName" class="control-label"></label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="JobTitle" class="control-label"></label>
+                    <input asp-for="JobTitle" class="form-control" />
+                    <span asp-validation-for="JobTitle" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CellPhone" class="control-label"></label>
+                    <input asp-for="CellPhone" class="form-control" />
+                    <span asp-validation-for="CellPhone" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="WorkPhone" class="control-label"></label>
+                    <input asp-for="WorkPhone" class="form-control" />
+                    <span asp-validation-for="WorkPhone" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }*@

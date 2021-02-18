@@ -40,12 +40,15 @@
                             @Html.DisplayNameFor(model => model.Company.Name)
                         </th>
                         <th>
+                            @Html.DisplayNameFor(model => model.ContactCatagories)
+                        </th>
+                        <th>
                             @Html.DisplayNameFor(model => model.WorkPhone)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Email)
                         </th>
-                        <th></th>
+                        @*<th></th>*@
                     </tr>
                 </thead>
                 <tbody>
@@ -53,7 +56,9 @@
                     {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.FullName)
+                            <a class="btn btn-light" asp-action="Details" asp-route-id="@item.ID">
+                                @Html.DisplayFor(modelItem => item.FullName)
+                            </a>
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.JobTitle)
@@ -64,7 +69,7 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Company.Name)
                         </td>
-                        @*<td>
+                        <td>
                             @{
                                 int categoriesCount = item.ContactCatagories.Count;
                                 if (categoriesCount > 0)
@@ -91,14 +96,14 @@
                                     }
                                 }
                             }
-                        </td>*@
+                        </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.WorkPhone)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Email)
                         </td>
-                        <td>
+                        @*<td>
                             @{ if (User.HasClaim(CustomClaimTypes.Permission, Contacts.Update))
                                 {
                                     <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
@@ -114,7 +119,7 @@
                                     <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
                                 }
                             }
-                        </td>
+                        </td>*@
                     </tr>
                     }
                 </tbody>
