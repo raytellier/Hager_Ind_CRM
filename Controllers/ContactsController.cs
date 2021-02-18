@@ -171,6 +171,9 @@ namespace Hager_Ind_CRM.Controllers
             }
 
             var contact = await _context.Contacts
+                .Include(d => d.Company).ThenInclude(d => d.CompanyTypes).ThenInclude(d => d.Type)
+                .Include(d => d.Company).ThenInclude(d => d.BillingTerms)
+                .Include(d => d.ContactCatagories).ThenInclude(d => d.Catagory)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (contact == null)
             {
