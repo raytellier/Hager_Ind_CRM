@@ -12,6 +12,9 @@ using Microsoft.AspNetCore.Http;
 using OfficeOpenXml;
 using System.IO;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Http.Features;
+using OfficeOpenXml.Style;
+using System.Drawing;
 
 namespace Hager_Ind_CRM.Controllers
 {
@@ -230,11 +233,16 @@ namespace Hager_Ind_CRM.Controllers
             return new SelectList(dQuery, "ID", "Name", id);
         }
 
+
+        
+
+
+
         //------------------------------Upload Excel File Code-----------------------------------
         //String To Bool Method
         private bool StringToBool(string str)
         {
-            if (str == "1") { return true; } else { return false; }
+            if (str == "1" || str.ToLower() == "true") { return true; } else { return false; }
         }
 
         //Grab Numbers From a String Method
@@ -358,6 +366,120 @@ namespace Hager_Ind_CRM.Controllers
 
             }
             return RedirectToAction("Index", "Employees");
+        }
+
+
+
+        //------------------------------Download List to Excel File------------------------------
+        
+        public IActionResult DEmployees()
+        {
+            //Get the Employees
+            var emp = from a in _context.Employees
+                          .Include(a => a.JobPosition)
+                          .Include(a => a.EmploymentType)
+                          .Include(a => a.Province)
+                          .Include(a => a.Country)
+                      orderby a.FirstName descending
+                      select new
+                      {
+                          a.FirstName,
+                          a.LastName,
+                          a.Email,
+                          HomePhone = String.Format("{0:(###) ###-####}", a.HomePhone),
+                          CellPhone = String.Format("{0:(###) ###-####}", a.CellPhone),
+                          DateOfBirth = String.Format("{0:yyyy-MM-dd}", a.DateOfBirth),
+                          Wage = a.Wage,
+                          Expense = a.Expense,
+                          a.Address1,
+                          a.Address2,
+                          a.City,
+                          a.BillingPostal,
+                          Province = a.Province.Name,
+                          Country = a.Country.Name,
+                          JobPosition = a.JobPosition.Name,
+                          EmploymentType = a.EmploymentType.Type,
+                          DateJoined = String.Format("{0:yyyy-MM-dd}", a.DateJoined),
+                          InactiveDate = String.Format("{0:yyyy-MM-dd}", a.InactiveDate),
+                          IsUser = a.IsUser,
+                          Active = a.Active,
+                          a.PermissionLevel,
+                          a.EmergencyContactName,
+                          EmergencyContactPhone = String.Format("{0:(###) ###-####}", a.EmergencyContactPhone),
+                          KeyFobNumber = String.Format("{0:####:#####}", a.KeyFobNumber)
+                      };
+            //How many rows?
+            int numRows = emp.Count();
+            
+            if (numRows > 0) //There are employees
+            {
+
+                //New Spreadsheet
+                using ExcelPackage excel = new ExcelPackage();
+                var workSheet = excel.Workbook.Worksheets.Add("Employees");
+
+                //Note: Cells[row, column]
+                workSheet.Cells[1, 1].LoadFromCollection(emp, true);
+
+                //Style first column for dates
+                workSheet.Column(1).Style.Font.Bold = true;
+
+                //Set the names for the headings
+                string[] colNames = {"First Name", "Last Name", "Email", "Home Phone", "Cell Phone", "Date Of Birth", "Wage",
+                    "Expense", "Address 1", "Address 2", "City", "Postal Code", "Province/State", "Country", "Job Title", "Employment Type",
+                    "Start Date", "Inactive Date", "Is User", "Is Active", "Permission Level", "Emergency Contact Name", "Emergency Contact Phone", "Key Cards"};
+                for (int i = 1; i < 24; i++)
+                {
+                    workSheet.Cells[1, i].Value = colNames[i-1];
+                } 
+
+
+                //Set Style and backgound colour of headings
+                using (ExcelRange headings = workSheet.Cells[1, 1, 1, 24])
+                {
+                    headings.Style.Font.Bold = true;
+                    var fill = headings.Style.Fill;
+                    fill.PatternType = ExcelFillStyle.Solid;
+                    fill.BackgroundColor.SetColor(Color.LightGray);
+                }
+
+                //Autofit columns
+                workSheet.Cells.AutoFitColumns();
+
+                //Grab the date as a string variable
+                DateTime utcDate = DateTime.UtcNow;
+                TimeZoneInfo esTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+                DateTime localDate = TimeZoneInfo.ConvertTimeFromUtc(utcDate, esTimeZone);
+                string DlDate = localDate.ToShortDateString();
+
+                //Time To Download!
+                string EFileName = "Employees List - " + DlDate + ".xlsx";
+                var syncIOFeature = HttpContext.Features.Get<IHttpBodyControlFeature>();
+                if (syncIOFeature != null)
+                {
+                    syncIOFeature.AllowSynchronousIO = true;
+                    using var memoryStream = new MemoryStream();
+                    Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    Response.Headers["content-disposition"] = "attachment;  filename=" + EFileName;
+                    excel.SaveAs(memoryStream);
+                    memoryStream.WriteTo(Response.Body);
+                }
+                else
+                {
+                    try
+                    {
+                        Byte[] theData = excel.GetAsByteArray();
+                        string filename = EFileName;
+                        string mimeType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                        return File(theData, mimeType, filename);
+                    }
+                    catch (Exception)
+                    {
+                        return NotFound();
+                    }
+                }
+            }
+            return NotFound();
         }
     }
 }
