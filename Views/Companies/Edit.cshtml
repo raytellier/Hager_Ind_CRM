@@ -9,10 +9,11 @@
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
     <li class="breadcrumb-item"><a asp-area="" asp-controller="Companies" asp-action="Index">Companies</a></li>
+    <li class="breadcrumb-item"><a asp-area="" asp-controller="Companies" asp-action="Details" asp-route-id="@Model.ID">Details</a></li>
     <li class="breadcrumb-item active">Edit</li>
 </ol>
 
-<form asp-action="Edit" class="needs-validation" novalidate>
+<form asp-action="Edit">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="ID" />
     <div class="row">
@@ -24,7 +25,7 @@
                 </div>
                 <div class="form-group col-xl-4 col-md-6 col-sm-12">
                     <label asp-for="Name" class="control-label"></label>
-                    <input asp-for="Name" class="form-control" required />
+                    <input asp-for="Name" class="form-control" />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="form-group col-xl-4 col-md-6 col-sm-12">
@@ -153,7 +154,7 @@
         </div>
         <div class="col-xl-6 col-sm-12">
             <input type="submit" value="Save" class="btn btn-primary" />
-            <a class="btn btn-danger" asp-action="Index">Back to List</a>
+            <a class="btn btn-outline-danger" asp-action="Index">Cancel</a>
         </div>
     </div>
 </form>
@@ -161,7 +162,7 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script type="text/javascript">
+    @*<script type="text/javascript">
         (function () {
             'use strict'
 
@@ -181,5 +182,5 @@
                     }, false)
                 })
         })()
-    </script>
+    </script>*@
 }

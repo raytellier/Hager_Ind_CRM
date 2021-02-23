@@ -47,7 +47,7 @@
                         <th>
                             @Html.DisplayNameFor(model => model.Website)
                         </th>
-                        <th></th>
+                        @*<th></th>*@
                     </tr>
                 </thead>
                 <tbody>
@@ -55,7 +55,9 @@
                     {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Name)
+                            <a class="btn btn-light" asp-action="Details" asp-route-id="@item.ID">
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </a>
                         </td>
                         <td>
                             @{
@@ -97,7 +99,7 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Website)
                         </td>
-                        <td>
+                        @*<td>
                             @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Update))
                                 {
                                     <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
@@ -113,7 +115,7 @@
                                     <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
                                 }
                             }
-                        </td>
+                        </td>*@
                     </tr>
                     }
                 </tbody>
