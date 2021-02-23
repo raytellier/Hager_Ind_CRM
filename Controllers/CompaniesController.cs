@@ -69,6 +69,7 @@ namespace Hager_Ind_CRM.Controllers
                 .Include(c => c.Currency)
                 .Include(c => c.ShippingCountry)
                 .Include(c => c.ShippingProvince)
+                .Include(c => c.CompanyTypes).ThenInclude(p => p.Type).ThenInclude(p => p.SubTypes)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (company == null)
             {

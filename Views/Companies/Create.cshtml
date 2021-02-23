@@ -3,16 +3,18 @@
 @{
     ViewData["Title"] = "Create";
 }
-<h1 class="mt-4">Edit Company</h1>
+<h1 class="mt-4">Create Company</h1>
 
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
     <li class="breadcrumb-item"><a asp-area="" asp-controller="Companies" asp-action="Index">Companies</a></li>
-    <li class="breadcrumb-item active">Edit</li>
+    <li class="breadcrumb-item active">Create</li>
 </ol>
 
-@*<form asp-action="Edit" class="needs-validation" novalidate>
+
+<form asp-action="Create">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    
     <div class="row">
         <div class="col-12">
             <div class="breadcrumb">
@@ -22,48 +24,49 @@
                 </div>
                 <div class="form-group col-xl-4 col-md-6 col-sm-12">
                     <label asp-for="Name" class="control-label"></label>
-                    <input asp-for="Name" class="form-control" required />
+                    <input asp-for="Name" class="form-control" />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="form-group col-xl-4 col-md-6 col-sm-12">
                     <label asp-for="Location" class="control-label"></label>
-                    <input asp-for="Location" class="form-control" required />
+                    <input asp-for="Location" class="form-control" />
                     <span asp-validation-for="Location" class="text-danger"></span>
                 </div>
                 <div class="form-group col-xl-4 col-md-6 col-sm-12">
                     <label asp-for="Website" class="control-label"></label>
-                    <input asp-for="Website" class="form-control" required />
+                    <input asp-for="Website" class="form-control" />
                     <span asp-validation-for="Website" class="text-danger"></span>
                 </div>
-                <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <div class="form-group col-xl-3 col-md-6 col-sm-6">
                     <label asp-for="BillingTermsID" class="control-label"></label>
-                    <select asp-for="BillingTermsID" class="form-control" asp-items="ViewBag.BillingTermsID" required></select>
+                    <select asp-for="BillingTermsID" class="form-control" asp-items="ViewBag.BillingTermsID">
+                        <option value="">Select...</option>
+                    </select>
                     <span asp-validation-for="BillingTermsID" class="text-danger"></span>
                 </div>
-                <div class="form-group col-xl-2 col-md-3 col-sm-12">
+                <div class="form-group col-xl-2 col-md-3 col-sm-6">
                     <label asp-for="CurrencyID" class="control-label"></label>
-                    <select asp-for="CurrencyID" class="form-control" asp-items="ViewBag.CurrencyID" required></select>
+                    <select asp-for="CurrencyID" class="form-control" asp-items="ViewBag.CurrencyID">
+                        <option value="">Select...</option>
+                    </select>
                     <span asp-validation-for="CurrencyID" class="text-danger"></span>
                 </div>
                 <div class="form-group col-xl-3 col-md-4 col-sm-12">
                     <label asp-for="Phone" class="control-label"></label>
-                    <input asp-for="Phone" class="form-control" required />
+                    <input asp-for="Phone" class="form-control" />
                     <span asp-validation-for="Phone" class="text-danger"></span>
                 </div>
                 <div class="form-group form-check col-xl-2 col-md-3 col-sm-6 d-flex align-items-center justify-content-center">
                     <div class="custom-control custom-checkbox pt-4">
-                        <input class="custom-control-input" id="rememberPasswordCheck" type="checkbox" asp-for="CredCheck" />
-                        <label class="custom-control-label" for="rememberPasswordCheck">@Html.DisplayNameFor(model => model.CredCheck)</label>
+                        <input class="custom-control-input" id="credit" type="checkbox" asp-for="CredCheck" />
+                        <label class="custom-control-label" for="credit">@Html.DisplayNameFor(model => model.CredCheck)</label>
                     </div>
                 </div>
                 <div class="form-group form-check col-xl-2 col-md-1 col-sm-6 d-flex align-items-center justify-content-center">
                     <div class="custom-control custom-checkbox pt-4">
-                        <input class="custom-control-input" id="rememberPasswordCheck" type="checkbox" asp-for="Active" />
-                        <label class="custom-control-label" for="rememberPasswordCheck">@Html.DisplayNameFor(model => model.Active)</label>
+                        <input class="custom-control-input" id="active" type="checkbox" asp-for="Active" />
+                        <label class="custom-control-label" for="active">@Html.DisplayNameFor(model => model.Active)</label>
                     </div>
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
-                    </label>
                 </div>
                 <div class="form-group col-12">
                     <label asp-for="Notes" class="control-label"></label>
@@ -82,7 +85,7 @@
                 </div>
                 <div class="form-group col-xl-6 col-sm-12">
                     <label asp-for="BillingAddress1" class="control-label"></label>
-                    <input asp-for="BillingAddress1" class="form-control" required />
+                    <input asp-for="BillingAddress1" class="form-control" />
                     <span asp-validation-for="BillingAddress1" class="text-danger"></span>
                 </div>
                 <div class="form-group col-xl-6 col-sm-12">
@@ -92,17 +95,21 @@
                 </div>
                 <div class="form-group col-xl-4 col-lg-6 col-sm-6">
                     <label asp-for="BillingCountryID" class="control-label"></label>
-                    <select asp-for="BillingCountryID" class="form-control" asp-items="ViewBag.BillingCountryID" required></select>
+                    <select asp-for="BillingCountryID" class="form-control" asp-items="ViewBag.BillingCountryID">
+                        <option value="">Select...</option>
+                    </select>
                     <span asp-validation-for="BillingCountryID" class="text-danger"></span>
                 </div>
                 <div class="form-group col-xl-4 col-lg-6 col-sm-6">
                     <label asp-for="BillingProvinceID" class="control-label"></label>
-                    <select asp-for="BillingProvinceID" class="form-control" asp-items="ViewBag.BillingProvinceID" required></select>
+                    <select asp-for="BillingProvinceID" class="form-control" asp-items="ViewBag.BillingProvinceID">
+                        <option value="">Select...</option>
+                    </select>
                     <span asp-validation-for="BillingProvinceID" class="text-danger"></span>
                 </div>
                 <div class="form-group col-xl-4 col-lg-12 col-sm-12">
                     <label asp-for="BillingPostalCode" class="control-label"></label>
-                    <input asp-for="BillingPostalCode" class="form-control" required />
+                    <input asp-for="BillingPostalCode" class="form-control" />
                     <span asp-validation-for="BillingPostalCode" class="text-danger"></span>
                 </div>
             </div>
@@ -115,7 +122,7 @@
                 </div>
                 <div class="form-group col-xl-6 col-sm-12">
                     <label asp-for="ShippingAddress1" class="control-label"></label>
-                    <input asp-for="ShippingAddress1" class="form-control" required />
+                    <input asp-for="ShippingAddress1" class="form-control" />
                     <span asp-validation-for="ShippingAddress1" class="text-danger"></span>
                 </div>
                 <div class="form-group col-xl-6 col-sm-12">
@@ -125,55 +132,34 @@
                 </div>
                 <div class="form-group col-xl-4 col-lg-6 col-sm-6">
                     <label asp-for="ShippingCountryID" class="control-label"></label>
-                    <select asp-for="ShippingCountryID" class="form-control" asp-items="ViewBag.ShippingCountryID" required></select>
+                    <select asp-for="ShippingCountryID" class="form-control" asp-items="ViewBag.ShippingCountryID">
+                        <option value="">Select...</option>
+                    </select>
                     <span asp-validation-for="ShippingCountryID" class="text-danger"></span>
                 </div>
                 <div class="form-group col-xl-4 col-lg-6 col-sm-6">
                     <label asp-for="ShippingProvinceID" class="control-label"></label>
-                    <select asp-for="ShippingProvinceID" class="form-control" asp-items="ViewBag.ShippingProvinceID" required></select>
+                    <select asp-for="ShippingProvinceID" class="form-control" asp-items="ViewBag.ShippingProvinceID">
+                        <option value="">Select...</option>
+                    </select>
                     <span asp-validation-for="ShippingProvinceID" class="text-danger"></span>
                 </div>
                 <div class="form-group col-xl-4 col-lg-12 col-sm-12">
                     <label asp-for="ShippingPostalCode" class="control-label"></label>
-                    <input asp-for="ShippingPostalCode" class="form-control" required />
+                    <input asp-for="ShippingPostalCode" class="form-control" />
                     <span asp-validation-for="ShippingPostalCode" class="text-danger"></span>
                 </div>
             </div>
         </div>
         <div class="col-xl-6 col-sm-12">
             <input type="submit" value="Save" class="btn btn-primary" />
-            <a class="btn btn-danger" asp-action="Index">Back to List</a>
+            <a class="btn btn-outline-danger" asp-action="Index">Cancel</a>
         </div>
     </div>
 </form>
 
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script type="text/javascript">
-        (function () {
-            'use strict'
-
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.querySelectorAll('.needs-validation')
-
-            // Loop over them and prevent submission
-            Array.prototype.slice.call(forms)
-                .forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (!form.checkValidity()) {
-                            event.preventDefault()
-                            event.stopPropagation()
-                        }
-
-                        form.classList.add('was-validated')
-                    }, false)
-                })
-        })()
-    </script>
-}*@
-
-<div class="row">
+@*<div class="row">
         <div class="col-md-4">
             <form asp-action="Create">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -287,9 +273,9 @@
 
     <div>
         <a asp-action="Index">Back to List</a>
-    </div>
+    </div>*@
 
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
 

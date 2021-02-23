@@ -105,6 +105,7 @@ namespace Hager_Ind_CRM.Data
                     .HasMany(m => m.Employees)
                     .WithOne(t => t.EmploymentType)
                     .HasForeignKey(m => m.EmploymentTypeID);
+
         }
         public DbSet<Hager_Ind_CRM.Models.SubType> SubType { get; set; }
     }
