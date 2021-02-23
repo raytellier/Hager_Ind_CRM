@@ -100,9 +100,21 @@ namespace Hager_Ind_CRM.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(company);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (_context.Companies.ToList().Any(c => c.Name == company.Name))
+                {
+                    var id = (from d in _context.Companies
+                              where d.Name == company.Name
+                              select d.ID).SingleOrDefault();
+                    ViewBag.Msg = id;
+                    ViewBag.Message = "The Company already exists.";
+                }
+                else
+                {
+                    _context.Add(company);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+
+                }
             }
             ViewData["BillingCountryID"] = new SelectList(_context.Countries, "ID", "Name", company.BillingCountryID);
             ViewData["BillingProvinceID"] = new SelectList(_context.Provinces, "ID", "Name", company.BillingProvinceID);
