@@ -15,6 +15,7 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Http.Features;
 using OfficeOpenXml.Style;
 using System.Drawing;
+using System.Windows;
 
 namespace Hager_Ind_CRM.Controllers
 {
@@ -269,9 +270,27 @@ namespace Hager_Ind_CRM.Controllers
         [HttpPost]
         public async Task<IActionResult> InsertFromExcel(IFormFile theExcel, bool replace)
         {
+            if (theExcel is null)
+            {
+                throw new ArgumentNullException(nameof(theExcel));
+            }
 
-                try
+            try
+
                 {
+
+                if (replace == true)
+                {
+                    MessageBoxResult result;
+                    result = MessageBox.Show("Are you sure you want to delete all current employee data and replace it with the new employee data?", "Replace All Data?",
+                        MessageBoxButton.YesNo);
+
+                    if (result == MessageBoxResult.No)
+                    {
+                        return RedirectToAction("Index", "Employees");
+                    }
+                }
+
                 ExcelPackage excel;
                 using (var memoryStream = new MemoryStream())
                 {
@@ -373,7 +392,7 @@ namespace Hager_Ind_CRM.Controllers
                 {
                     if (ex.GetBaseException().Message.Contains(""))
                     {
-                        ModelState.AddModelError("", "No File Selected or Unknown data in the Excel File");
+                        ModelState.AddModelError("Error", "No File Selected or Unknown data in the Excel File");
                     }
 
                 }
