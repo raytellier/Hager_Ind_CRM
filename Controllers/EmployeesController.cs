@@ -265,11 +265,13 @@ namespace Hager_Ind_CRM.Controllers
 
 
 
-        //Action for Employee file upload
+        //Action for Employee file upload-------------------------------------------------------------------
         [HttpPost]
-        public async Task<IActionResult> InsertFromExcel(IFormFile theExcel)
+        public async Task<IActionResult> InsertFromExcel(IFormFile theExcel, bool replace)
         {
-            
+
+                try
+                {
                 ExcelPackage excel;
                 using (var memoryStream = new MemoryStream())
                 {
@@ -280,91 +282,102 @@ namespace Hager_Ind_CRM.Controllers
                 var start = workSheet.Dimension.Start;
                 var end = workSheet.Dimension.End;
 
-            try
-            {
-                //Start a new list to hold imported objects
-                List<Employee> newEmployees = new List<Employee>();
+                //Get all current employe names
+                var ENames = (from d in _context.Employees
+                                  orderby d.FirstName
+                                  select d.FirstName + " " + d.LastName).ToList();
 
-                for (int row = 2; row <= end.Row; row++)
-                {
+                    //Start a new list to hold imported objects
+                    List<Employee> newEmployees = new List<Employee>();
+
+                    for (int row = 2; row <= end.Row; row++)
+                    {
+                        if (replace == false && ENames.Contains(workSheet.Cells[row, 1].Text + " " + workSheet.Cells[row, 2].Text))
+                        {
+                            continue;
+                        }
 
                     ////Get the foreign keys from the names of the positions
                     int provinceID = (await _context.Provinces
-                        .FirstOrDefaultAsync(p => p.Name == workSheet.Cells[row, 13].Text)).ID;
+                            .FirstOrDefaultAsync(p => p.Name == workSheet.Cells[row, 13].Text)).ID;
 
-                    int countryID = (await _context.Countries
-                        .FirstOrDefaultAsync(p => p.Name == workSheet.Cells[row, 14].Text)).ID;
+                        int countryID = (await _context.Countries
+                            .FirstOrDefaultAsync(p => p.Name == workSheet.Cells[row, 14].Text)).ID;
 
-                    int jobPosID = (await _context.JobPositions
-                        .FirstOrDefaultAsync(p => p.Name == workSheet.Cells[row, 15].Text)).ID;
+                        int jobPosID = (await _context.JobPositions
+                            .FirstOrDefaultAsync(p => p.Name == workSheet.Cells[row, 15].Text)).ID;
 
-                    int empTypeID = (await _context.EmploymentTypes
-                        .FirstOrDefaultAsync(p => p.Type == workSheet.Cells[row, 16].Text)).ID;
+                        int empTypeID = (await _context.EmploymentTypes
+                            .FirstOrDefaultAsync(p => p.Type == workSheet.Cells[row, 16].Text)).ID;
 
-                    //Bools
-                    bool isUserBool = StringToBool(workSheet.Cells[row, 19].Text);
-                    bool activeBool = StringToBool(workSheet.Cells[row, 20].Text);
+                        //Bools
+                        bool isUserBool = StringToBool(workSheet.Cells[row, 19].Text);
+                        bool activeBool = StringToBool(workSheet.Cells[row, 20].Text);
 
-                    //Phone Numbers
-                    Int64? homePhoneInt = NumbGrab(workSheet.Cells[row, 4].Text);
-                    Int64? cellPhoneInt = NumbGrab(workSheet.Cells[row, 5].Text);
-                    Int64? emergPhoneInt = NumbGrab(workSheet.Cells[row, 23].Text);
+                        //Phone Numbers
+                        Int64? homePhoneInt = NumbGrab(workSheet.Cells[row, 4].Text);
+                        Int64? cellPhoneInt = NumbGrab(workSheet.Cells[row, 5].Text);
+                        Int64? emergPhoneInt = NumbGrab(workSheet.Cells[row, 23].Text);
 
-                    //Key Fob Numbers
-                    Int64? keyFobInt = NumbGrab(workSheet.Cells[row, 24].Text);
+                        //Key Fob Numbers
+                        Int64? keyFobInt = NumbGrab(workSheet.Cells[row, 24].Text);
 
-                    //Dates
-                    DateTime? DOB = DateValidNullable(workSheet.Cells[row, 6].Text);
-                    DateTime? startDate = DateValidNullable(workSheet.Cells[row, 17].Text);
-                    DateTime? InactiveDate = DateValidNullable(workSheet.Cells[row, 18].Text);
+                        //Dates
+                        DateTime? DOB = DateValidNullable(workSheet.Cells[row, 6].Text);
+                        DateTime? startDate = DateValidNullable(workSheet.Cells[row, 17].Text);
+                        DateTime? InactiveDate = DateValidNullable(workSheet.Cells[row, 18].Text);
 
-                    //Decimals
-                    Decimal? wageDec = DecimalValid(workSheet.Cells[row, 7].Text);
-                    Decimal? expenseDec = DecimalValid(workSheet.Cells[row, 8].Text);
+                        //Decimals
+                        Decimal? wageDec = DecimalValid(workSheet.Cells[row, 7].Text);
+                        Decimal? expenseDec = DecimalValid(workSheet.Cells[row, 8].Text);
 
-                    // Row by row...
-                    Employee a = new Employee
+                        // Row by row...
+                        Employee a = new Employee
+                        {
+                            FirstName = workSheet.Cells[row, 1].Text,
+                            LastName = workSheet.Cells[row, 2].Text,
+                            Email = workSheet.Cells[row, 3].Text,
+                            HomePhone = homePhoneInt,
+                            CellPhone = cellPhoneInt,
+                            DateOfBirth = DOB,
+                            Wage = wageDec,
+                            Expense = expenseDec,
+                            Address1 = workSheet.Cells[row, 9].Text,
+                            Address2 = workSheet.Cells[row, 10].Text,
+                            City = workSheet.Cells[row, 11].Text,
+                            BillingPostal = workSheet.Cells[row, 12].Text,
+                            BillingProvinceID = provinceID,
+                            BillingCountryID = countryID,
+                            JobPositionID = jobPosID,
+                            EmploymentTypeID = empTypeID,
+                            DateJoined = startDate,
+                            InactiveDate = InactiveDate,
+                            IsUser = isUserBool,
+                            Active = activeBool,
+                            PermissionLevel = workSheet.Cells[row, 21].Text,
+                            EmergencyContactName = workSheet.Cells[row, 22].Text,
+                            EmergencyContactPhone = emergPhoneInt,
+                            KeyFobNumber = keyFobInt
+                        };
+                        newEmployees.Add(a);
+                    }
+                    if(replace == true)
                     {
-                        FirstName = workSheet.Cells[row, 1].Text,
-                        LastName = workSheet.Cells[row, 2].Text,
-                        Email = workSheet.Cells[row, 3].Text,
-                        HomePhone = homePhoneInt,
-                        CellPhone = cellPhoneInt,
-                        DateOfBirth = DOB,
-                        Wage = wageDec,
-                        Expense = expenseDec,
-                        Address1 = workSheet.Cells[row, 9].Text,
-                        Address2 = workSheet.Cells[row, 10].Text,
-                        City = workSheet.Cells[row, 11].Text,
-                        BillingPostal = workSheet.Cells[row, 12].Text,
-                        BillingProvinceID = provinceID,
-                        BillingCountryID = countryID,
-                        JobPositionID = jobPosID,
-                        EmploymentTypeID = empTypeID,
-                        DateJoined = startDate,
-                        InactiveDate = InactiveDate,
-                        IsUser = isUserBool,
-                        Active = activeBool,
-                        PermissionLevel = workSheet.Cells[row, 21].Text,
-                        EmergencyContactName = workSheet.Cells[row, 22].Text,
-                        EmergencyContactPhone = emergPhoneInt,
-                        KeyFobNumber = keyFobInt
-                    };
-                    newEmployees.Add(a);
-                }
-                _context.Database.ExecuteSqlRaw("DELETE FROM Employees");
-                _context.Employees.AddRange(newEmployees);
-                _context.SaveChanges();
+                        _context.Database.ExecuteSqlRaw("DELETE FROM Employees");
+                    }
+                    _context.Employees.AddRange(newEmployees);
+                    _context.SaveChanges();
 
-            }
-            catch (Exception ex)
-            {
-                if (ex.GetBaseException().Message.Contains(""))
+                }
+                catch (Exception ex)
                 {
-                    ModelState.AddModelError("", "No File Selected or Unknown data in the Excel File");
-                }
+                    if (ex.GetBaseException().Message.Contains(""))
+                    {
+                        ModelState.AddModelError("", "No File Selected or Unknown data in the Excel File");
+                    }
 
-            }
+                }
+            
             return RedirectToAction("Index", "Employees");
         }
 
