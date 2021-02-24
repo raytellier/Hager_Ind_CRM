@@ -8,7 +8,6 @@ namespace Hager_Ind_CRM.Models
 {
     public class SubType
     {
-
         public int ID { get; set; }
 
         [Display(Name = "Sub Type")]
