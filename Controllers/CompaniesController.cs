@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Hager_Ind_CRM.Data;
 using Hager_Ind_CRM.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace Hager_Ind_CRM.Controllers
 {
@@ -25,13 +26,14 @@ namespace Hager_Ind_CRM.Controllers
         public async Task<IActionResult> Index(string? CompanyType)
         {
             var hagerIndContext = from a in _context.Companies
+                .Include(c => c.Contacts)
                 .Include(c => c.BillingCountry)
                 .Include(c => c.BillingProvince)
                 .Include(c => c.BillingTerms)
                 .Include(c => c.Currency)
                 .Include(c => c.ShippingCountry)
                 .Include(c => c.ShippingProvince)
-                .Include(c => c.CompanyTypes).ThenInclude(p => p.Type)
+                .Include(c => c.CompanyTypes).ThenInclude(p => p.Type).ThenInclude(p => p.SubTypes)
                 select a;
 
             if (CompanyType != null)
@@ -63,6 +65,7 @@ namespace Hager_Ind_CRM.Controllers
             }
 
             var company = await _context.Companies
+                .Include(c => c.Contacts)
                 .Include(c => c.BillingCountry)
                 .Include(c => c.BillingProvince)
                 .Include(c => c.BillingTerms)
@@ -76,6 +79,7 @@ namespace Hager_Ind_CRM.Controllers
                 return NotFound();
             }
 
+            GetContacts(id);
             return View(company);
         }
         // GET: Companies/Create
@@ -243,6 +247,15 @@ namespace Hager_Ind_CRM.Controllers
                           orderby d.OrderID
                           select d).ToList();
             return new SelectList(dQuery, "ID", "Terms", id);
+        }
+
+        private void GetContacts (int? id)
+        {
+            var contacts = (from d in _context.Contacts
+                            where d.CompanyID == id
+                            orderby d.FirstName
+                            select d);
+            ViewData["Contacts"] = contacts;
         }
     }
 }
