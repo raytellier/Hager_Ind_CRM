@@ -15,7 +15,7 @@ namespace Hager_Ind_CRM.Data.HIMigrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("HI")
-                .HasAnnotation("ProductVersion", "3.1.11");
+                .HasAnnotation("ProductVersion", "3.1.12");
 
             modelBuilder.Entity("Hager_Ind_CRM.Models.BillingTerms", b =>
                 {
@@ -448,6 +448,20 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                     b.HasIndex("TypeID");
 
                     b.ToTable("SubType");
+                });
+
+            modelBuilder.Entity("Hager_Ind_CRM.Support.Announcement", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Notice")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Announcements");
                 });
 
             modelBuilder.Entity("Hager_Ind_CRM.Models.Company", b =>

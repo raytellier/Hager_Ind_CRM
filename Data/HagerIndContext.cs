@@ -1,4 +1,5 @@
 ﻿using Hager_Ind_CRM.Models;
+using Hager_Ind_CRM.Support;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,7 @@ namespace Hager_Ind_CRM.Data
         public DbSet<JobPosition> JobPositions { get; set; }
         public DbSet<Province> Provinces { get; set; }
         public DbSet<SubType> SubTypes { get; set; }
+        public DbSet<Announcement> Announcements { get; set; }
         public DbSet<Hager_Ind_CRM.Models.CType> Types { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

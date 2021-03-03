@@ -1,8 +1,38 @@
-﻿@{
+﻿@using Hager_Ind_CRM.Data
+@using Hager_Ind_CRM.Support
+@{
     ViewData["Title"] = "Home Page";
+    IEnumerable<Announcement> announcements = ViewData["Announcements"] as IEnumerable<Announcement>;
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>This is where your dashboard will be</p>
+</div>
+<div class="text-lg-center">
+    @* Access to the Notice Page : <a asp-area="" asp-controller="Announcements" asp-action="Index">Announcemnets</a>*@
+</div>
+<div class="table-responsive">
+    <table class="table table-bordered display" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th>
+                    Notice
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in announcements)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Notice)
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-dark" asp-controller="Announcements" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

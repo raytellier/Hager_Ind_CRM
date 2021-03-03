@@ -11,6 +11,20 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                 name: "HI");
 
             migrationBuilder.CreateTable(
+                name: "Announcements",
+                schema: "HI",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Notice = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Announcements", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "BillingTerms",
                 schema: "HI",
                 columns: table => new
@@ -475,6 +489,10 @@ namespace Hager_Ind_CRM.Data.HIMigrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Announcements",
+                schema: "HI");
+
             migrationBuilder.DropTable(
                 name: "CompanyTypes",
                 schema: "HI");

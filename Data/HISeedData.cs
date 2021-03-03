@@ -1,4 +1,5 @@
 ﻿using Hager_Ind_CRM.Models;
+using Hager_Ind_CRM.Support;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -621,6 +622,16 @@ namespace Hager_Ind_CRM.Data
                     }
                     );
                     context.SaveChanges();
+                }
+
+                if (!context.Announcements.Any())
+                {
+                    context.Announcements.AddRange(
+                        new Announcement
+                        {
+                            Notice = "Bananas are yummy my guy"
+                        }
+                        );
                 }
             }
         }

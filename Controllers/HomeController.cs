@@ -1,4 +1,5 @@
-﻿using Hager_Ind_CRM.Models;
+﻿using Hager_Ind_CRM.Data;
+using Hager_Ind_CRM.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -13,13 +14,17 @@ namespace Hager_Ind_CRM.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly HagerIndContext _context;
+
+        public HomeController(ILogger<HomeController> logger, HagerIndContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
+            GetAnnouncements();
             return View();
         }
 
@@ -42,6 +47,14 @@ namespace Hager_Ind_CRM.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        private void GetAnnouncements()
+        {
+            var announcements = (from d in _context.Announcements
+                                 orderby d.Notice
+                                 select d);
+            ViewData["Announcements"] = announcements;
         }
     }
 }

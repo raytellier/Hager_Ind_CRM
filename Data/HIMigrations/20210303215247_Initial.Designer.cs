@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hager_Ind_CRM.Data.HIMigrations
 {
     [DbContext(typeof(HagerIndContext))]
-    [Migration("20210223211913_Initial")]
+    [Migration("20210303215247_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -17,7 +17,7 @@ namespace Hager_Ind_CRM.Data.HIMigrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("HI")
-                .HasAnnotation("ProductVersion", "3.1.11");
+                .HasAnnotation("ProductVersion", "3.1.12");
 
             modelBuilder.Entity("Hager_Ind_CRM.Models.BillingTerms", b =>
                 {
@@ -450,6 +450,20 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                     b.HasIndex("TypeID");
 
                     b.ToTable("SubType");
+                });
+
+            modelBuilder.Entity("Hager_Ind_CRM.Support.Announcement", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Notice")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Announcements");
                 });
 
             modelBuilder.Entity("Hager_Ind_CRM.Models.Company", b =>
