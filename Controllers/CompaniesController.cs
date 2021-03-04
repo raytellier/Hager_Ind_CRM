@@ -65,7 +65,7 @@ namespace Hager_Ind_CRM.Controllers
             }
 
             var company = await _context.Companies
-                .Include(c => c.Contacts)
+                .Include(c => c.Contacts).ThenInclude(c => c.ContactCatagories).ThenInclude(c => c.Catagory)
                 .Include(c => c.BillingCountry)
                 .Include(c => c.BillingProvince)
                 .Include(c => c.BillingTerms)
