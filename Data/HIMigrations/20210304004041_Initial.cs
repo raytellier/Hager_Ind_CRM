@@ -301,6 +301,33 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CompanySubTypes",
+                schema: "HI",
+                columns: table => new
+                {
+                    CompanyID = table.Column<int>(nullable: false),
+                    SubTypeID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CompanySubTypes", x => new { x.SubTypeID, x.CompanyID });
+                    table.ForeignKey(
+                        name: "FK_CompanySubTypes_Companies_CompanyID",
+                        column: x => x.CompanyID,
+                        principalSchema: "HI",
+                        principalTable: "Companies",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CompanySubTypes_SubType_SubTypeID",
+                        column: x => x.SubTypeID,
+                        principalSchema: "HI",
+                        principalTable: "SubType",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CompanyTypes",
                 schema: "HI",
                 columns: table => new
@@ -419,6 +446,12 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                 column: "ShippingProvinceID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CompanySubTypes_CompanyID",
+                schema: "HI",
+                table: "CompanySubTypes",
+                column: "CompanyID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CompanyTypes_CompanyID",
                 schema: "HI",
                 table: "CompanyTypes",
@@ -475,6 +508,10 @@ namespace Hager_Ind_CRM.Data.HIMigrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "CompanySubTypes",
+                schema: "HI");
+
             migrationBuilder.DropTable(
                 name: "CompanyTypes",
                 schema: "HI");

@@ -622,6 +622,33 @@ namespace Hager_Ind_CRM.Data
                     );
                     context.SaveChanges();
                 }
+
+                if (!context.CompanySubTypes.Any())
+                {
+                    context.CompanySubTypes.AddRange(
+                    new CompanySubType
+                    {
+                        CompanyID = context.Companies.FirstOrDefault(d => d.Name == "Maple Leaf Foods").ID,
+                        SubTypeID = context.SubTypes.FirstOrDefault(d => d.Name == "Beef").ID
+                    },
+                    new CompanySubType
+                    {
+                        CompanyID = context.Companies.FirstOrDefault(d => d.Name == "Maple Leaf Foods").ID,
+                        SubTypeID = context.SubTypes.FirstOrDefault(d => d.Name == "Bakery").ID
+                    },
+                    new CompanySubType
+                    {
+                        CompanyID = context.Companies.FirstOrDefault(d => d.Name == "Maple Leaf Foods").ID,
+                        SubTypeID = context.SubTypes.FirstOrDefault(d => d.Name == "Professional Service").ID
+                    },
+                    new CompanySubType
+                    {
+                        CompanyID = context.Companies.FirstOrDefault(d => d.Name == "Maple Leaf Foods").ID,
+                        SubTypeID = context.SubTypes.FirstOrDefault(d => d.Name == "Office Supplies").ID
+                    }
+                    );
+                    context.SaveChanges();
+                }
             }
         }
     }

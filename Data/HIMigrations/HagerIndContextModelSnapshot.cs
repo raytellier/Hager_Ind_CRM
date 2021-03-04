@@ -15,7 +15,7 @@ namespace Hager_Ind_CRM.Data.HIMigrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("HI")
-                .HasAnnotation("ProductVersion", "3.1.11");
+                .HasAnnotation("ProductVersion", "3.1.12");
 
             modelBuilder.Entity("Hager_Ind_CRM.Models.BillingTerms", b =>
                 {
@@ -158,6 +158,21 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                     b.HasIndex("ShippingProvinceID");
 
                     b.ToTable("Companies");
+                });
+
+            modelBuilder.Entity("Hager_Ind_CRM.Models.CompanySubType", b =>
+                {
+                    b.Property<int>("SubTypeID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CompanyID")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("SubTypeID", "CompanyID");
+
+                    b.HasIndex("CompanyID");
+
+                    b.ToTable("CompanySubTypes");
                 });
 
             modelBuilder.Entity("Hager_Ind_CRM.Models.CompanyType", b =>
@@ -485,6 +500,21 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                     b.HasOne("Hager_Ind_CRM.Models.Province", "ShippingProvince")
                         .WithMany("ShippingCompanies")
                         .HasForeignKey("ShippingProvinceID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Hager_Ind_CRM.Models.CompanySubType", b =>
+                {
+                    b.HasOne("Hager_Ind_CRM.Models.Company", "Company")
+                        .WithMany("CompanySubTypes")
+                        .HasForeignKey("CompanyID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Hager_Ind_CRM.Models.SubType", "SubType")
+                        .WithMany("CompanySubTypes")
+                        .HasForeignKey("SubTypeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

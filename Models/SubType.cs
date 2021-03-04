@@ -8,7 +8,11 @@ namespace Hager_Ind_CRM.Models
 {
     public class SubType
     {
-        public int ID { get; set; }
+        public SubType()
+        {
+            this.CompanySubTypes = new HashSet<CompanySubType>();
+        }
+    public int ID { get; set; }
 
         [Display(Name = "Sub Type")]
         [Required(ErrorMessage = "You cannot leave the name of the Sub Type blank.")]
@@ -20,5 +24,6 @@ namespace Hager_Ind_CRM.Models
 
         public int TypeID { get; set; }
         public CType Type { get; set; }
+        public ICollection<CompanySubType> CompanySubTypes { get; set; }
     }
 }

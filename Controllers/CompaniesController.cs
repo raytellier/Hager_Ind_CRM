@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Hager_Ind_CRM.Data;
 using Hager_Ind_CRM.Models;
 using Microsoft.AspNetCore.Authorization;
-using System.Data;
 
 namespace Hager_Ind_CRM.Controllers
 {
@@ -34,7 +33,7 @@ namespace Hager_Ind_CRM.Controllers
                 .Include(c => c.ShippingCountry)
                 .Include(c => c.ShippingProvince)
                 .Include(c => c.CompanyTypes).ThenInclude(p => p.Type).ThenInclude(p => p.SubTypes)
-                select a;
+                                  select a;
 
             if (CompanyType != null)
             {
@@ -82,14 +81,15 @@ namespace Hager_Ind_CRM.Controllers
             GetContacts(id);
             return View(company);
         }
+
         // GET: Companies/Create
         [Authorize(Policy = PolicyTypes.Companies.Create)]
         public IActionResult Create()
         {
-            PopulateDropDownLists();
             ViewData["BillingCountryID"] = new SelectList(_context.Countries, "ID", "Name");
             ViewData["BillingProvinceID"] = new SelectList(_context.Provinces, "ID", "Name");
-            ViewData["CurrencyID"] = new SelectList(_context.Set<Currency>(), "ID", "Name");
+            ViewData["BillingTermsID"] = new SelectList(_context.BillingTerms, "ID", "Terms");
+            ViewData["CurrencyID"] = new SelectList(_context.Currencies, "ID", "Name");
             ViewData["ShippingCountryID"] = new SelectList(_context.Countries, "ID", "Name");
             ViewData["ShippingProvinceID"] = new SelectList(_context.Provinces, "ID", "Name");
             return View();
@@ -124,7 +124,7 @@ namespace Hager_Ind_CRM.Controllers
             ViewData["BillingCountryID"] = new SelectList(_context.Countries, "ID", "Name", company.BillingCountryID);
             ViewData["BillingProvinceID"] = new SelectList(_context.Provinces, "ID", "Name", company.BillingProvinceID);
             ViewData["BillingTermsID"] = new SelectList(_context.BillingTerms, "ID", "Terms", company.BillingTermsID);
-            ViewData["CurrencyID"] = new SelectList(_context.Set<Currency>(), "ID", "Name", company.CurrencyID);
+            ViewData["CurrencyID"] = new SelectList(_context.Currencies, "ID", "Name", company.CurrencyID);
             ViewData["ShippingCountryID"] = new SelectList(_context.Countries, "ID", "Name", company.ShippingCountryID);
             ViewData["ShippingProvinceID"] = new SelectList(_context.Provinces, "ID", "Name", company.ShippingProvinceID);
             return View(company);
@@ -147,7 +147,7 @@ namespace Hager_Ind_CRM.Controllers
             ViewData["BillingCountryID"] = new SelectList(_context.Countries, "ID", "Name", company.BillingCountryID);
             ViewData["BillingProvinceID"] = new SelectList(_context.Provinces, "ID", "Name", company.BillingProvinceID);
             ViewData["BillingTermsID"] = new SelectList(_context.BillingTerms, "ID", "Terms", company.BillingTermsID);
-            ViewData["CurrencyID"] = new SelectList(_context.Set<Currency>(), "ID", "Name", company.CurrencyID);
+            ViewData["CurrencyID"] = new SelectList(_context.Currencies, "ID", "Name", company.CurrencyID);
             ViewData["ShippingCountryID"] = new SelectList(_context.Countries, "ID", "Name", company.ShippingCountryID);
             ViewData["ShippingProvinceID"] = new SelectList(_context.Provinces, "ID", "Name", company.ShippingProvinceID);
             return View(company);
@@ -189,7 +189,7 @@ namespace Hager_Ind_CRM.Controllers
             ViewData["BillingCountryID"] = new SelectList(_context.Countries, "ID", "Name", company.BillingCountryID);
             ViewData["BillingProvinceID"] = new SelectList(_context.Provinces, "ID", "Name", company.BillingProvinceID);
             ViewData["BillingTermsID"] = new SelectList(_context.BillingTerms, "ID", "Terms", company.BillingTermsID);
-            ViewData["CurrencyID"] = new SelectList(_context.Set<Currency>(), "ID", "Name", company.CurrencyID);
+            ViewData["CurrencyID"] = new SelectList(_context.Currencies, "ID", "Name", company.CurrencyID);
             ViewData["ShippingCountryID"] = new SelectList(_context.Countries, "ID", "Name", company.ShippingCountryID);
             ViewData["ShippingProvinceID"] = new SelectList(_context.Provinces, "ID", "Name", company.ShippingProvinceID);
             return View(company);
@@ -249,7 +249,7 @@ namespace Hager_Ind_CRM.Controllers
             return new SelectList(dQuery, "ID", "Terms", id);
         }
 
-        private void GetContacts (int? id)
+        private void GetContacts(int? id)
         {
             var contacts = (from d in _context.Contacts
                             where d.CompanyID == id

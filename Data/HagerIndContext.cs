@@ -27,6 +27,7 @@ namespace Hager_Ind_CRM.Data
         public DbSet<Province> Provinces { get; set; }
         public DbSet<SubType> SubTypes { get; set; }
         public DbSet<Hager_Ind_CRM.Models.CType> Types { get; set; }
+        public DbSet<CompanySubType> CompanySubTypes { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema("HI");
@@ -53,6 +54,8 @@ namespace Hager_Ind_CRM.Data
             modelBuilder.Entity<CompanyType>()
             .HasKey(t => new { t.TypeID, t.CompanyID });
 
+            modelBuilder.Entity<CompanySubType>()
+            .HasKey(t => new { t.SubTypeID, t.CompanyID });
 
             modelBuilder.Entity<Province>()
                     .HasMany(m => m.BillingCompanies)
