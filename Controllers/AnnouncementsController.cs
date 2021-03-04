@@ -78,6 +78,7 @@ namespace Hager_Ind_CRM.Controllers
             {
                 return NotFound();
             }
+            
             return View(announcement);
         }
 
@@ -111,7 +112,7 @@ namespace Hager_Ind_CRM.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Home");
             }
             return View(announcement);
         }
