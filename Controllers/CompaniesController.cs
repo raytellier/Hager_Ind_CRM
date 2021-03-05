@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Hager_Ind_CRM.Data;
 using Hager_Ind_CRM.Models;
 using Microsoft.AspNetCore.Authorization;
+using Hager_Ind_CRM.ViewModels;
 
 namespace Hager_Ind_CRM.Controllers
 {
@@ -86,12 +87,14 @@ namespace Hager_Ind_CRM.Controllers
         [Authorize(Policy = PolicyTypes.Companies.Create)]
         public IActionResult Create()
         {
+            Company company = new Company();
             ViewData["BillingCountryID"] = new SelectList(_context.Countries, "ID", "Name");
             ViewData["BillingProvinceID"] = new SelectList(_context.Provinces, "ID", "Name");
             ViewData["BillingTermsID"] = new SelectList(_context.BillingTerms, "ID", "Terms");
             ViewData["CurrencyID"] = new SelectList(_context.Currencies, "ID", "Name");
             ViewData["ShippingCountryID"] = new SelectList(_context.Countries, "ID", "Name");
             ViewData["ShippingProvinceID"] = new SelectList(_context.Provinces, "ID", "Name");
+            PopulateAssignedCatagoriesData(company);
             return View();
         }
 
@@ -127,6 +130,7 @@ namespace Hager_Ind_CRM.Controllers
             ViewData["CurrencyID"] = new SelectList(_context.Currencies, "ID", "Name", company.CurrencyID);
             ViewData["ShippingCountryID"] = new SelectList(_context.Countries, "ID", "Name", company.ShippingCountryID);
             ViewData["ShippingProvinceID"] = new SelectList(_context.Provinces, "ID", "Name", company.ShippingProvinceID);
+            PopulateAssignedCatagoriesData(company);
             return View(company);
         }
 
@@ -139,7 +143,13 @@ namespace Hager_Ind_CRM.Controllers
                 return NotFound();
             }
 
-            var company = await _context.Companies.FindAsync(id);
+            //var company = await _context.Companies.FindAsync(id);
+
+            var company = await _context.Companies
+               .Include(d => d.CompanySubTypes).ThenInclude(d => d.SubType)
+               .AsNoTracking()
+               .SingleOrDefaultAsync(d => d.ID == id);
+
             if (company == null)
             {
                 return NotFound();
@@ -150,6 +160,7 @@ namespace Hager_Ind_CRM.Controllers
             ViewData["CurrencyID"] = new SelectList(_context.Currencies, "ID", "Name", company.CurrencyID);
             ViewData["ShippingCountryID"] = new SelectList(_context.Countries, "ID", "Name", company.ShippingCountryID);
             ViewData["ShippingProvinceID"] = new SelectList(_context.Provinces, "ID", "Name", company.ShippingProvinceID);
+            PopulateAssignedCatagoriesData(company);
             return View(company);
         }
 
@@ -192,6 +203,7 @@ namespace Hager_Ind_CRM.Controllers
             ViewData["CurrencyID"] = new SelectList(_context.Currencies, "ID", "Name", company.CurrencyID);
             ViewData["ShippingCountryID"] = new SelectList(_context.Countries, "ID", "Name", company.ShippingCountryID);
             ViewData["ShippingProvinceID"] = new SelectList(_context.Provinces, "ID", "Name", company.ShippingProvinceID);
+            PopulateAssignedCatagoriesData(company);
             return View(company);
         }
 
@@ -256,6 +268,88 @@ namespace Hager_Ind_CRM.Controllers
                             orderby d.FirstName
                             select d);
             ViewData["Contacts"] = contacts;
+        }
+
+        private void PopulateAssignedCatagoriesData(Company company)
+        {
+            var allOptions = _context.SubTypes.Include(s => s.Type);
+            var currentOptionsHS = new HashSet<int>(company.CompanySubTypes.Select(b => b.SubTypeID));
+            
+            var selectedCustomer = new List<ListOptionVM>();
+            var availableCustomer = new List<ListOptionVM>();
+
+            var selectedVendor = new List<ListOptionVM>();
+            var availableVendor = new List<ListOptionVM>();
+
+            var selectedContractor = new List<ListOptionVM>();
+            var availableContractor = new List<ListOptionVM>();
+
+            foreach (var s in allOptions)
+            {
+                if (currentOptionsHS.Contains(s.ID))
+                {
+                    if(s.Type.Name == "Customer")
+                    {
+                        selectedCustomer.Add(new ListOptionVM
+                        {
+                            ID = s.ID,
+                            DisplayText = s.Name
+                        });
+                    }
+                    else if (s.Type.Name == "Vendor")
+                    {
+                        selectedVendor.Add(new ListOptionVM
+                        {
+                            ID = s.ID,
+                            DisplayText = s.Name
+                        });
+                    }
+                    else if (s.Type.Name == "Contractor")
+                    {
+                        selectedContractor.Add(new ListOptionVM
+                        {
+                            ID = s.ID,
+                            DisplayText = s.Name
+                        });
+                    }
+                }
+                else
+                {
+                    if (s.Type.Name == "Customer")
+                    {
+                        availableCustomer.Add(new ListOptionVM
+                        {
+                            ID = s.ID,
+                            DisplayText = s.Name
+                        });
+                    }
+                    else if (s.Type.Name == "Vendor")
+                    {
+                        availableVendor.Add(new ListOptionVM
+                        {
+                            ID = s.ID,
+                            DisplayText = s.Name
+                        });
+                    }
+                    else if (s.Type.Name == "Contractor")
+                    {
+                        availableContractor.Add(new ListOptionVM
+                        {
+                            ID = s.ID,
+                            DisplayText = s.Name
+                        });
+                    }
+                }
+            }
+
+            ViewData["selOptsCustomer"] = new MultiSelectList(selectedCustomer.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+            ViewData["availOptsCustomer"] = new MultiSelectList(availableCustomer.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+
+            ViewData["selOptsVendor"] = new MultiSelectList(selectedVendor.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+            ViewData["availOptsVendor"] = new MultiSelectList(availableVendor.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+
+            ViewData["selOptsContractor"] = new MultiSelectList(selectedContractor.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+            ViewData["availOptsContractor"] = new MultiSelectList(availableContractor.OrderBy(s => s.DisplayText), "ID", "DisplayText");
         }
     }
 }
