@@ -8,7 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Hager_Ind_CRM.Data;
 using Hager_Ind_CRM.Models;
 using Microsoft.AspNetCore.Authorization;
-using MedicalOffice.ViewModels;
+using Hager_Ind_CRM.ViewModels;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Hager_Ind_CRM.Controllers
 {
@@ -85,7 +86,7 @@ namespace Hager_Ind_CRM.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,JobTitle,CellPhone,WorkPhone,Email,Active")] Contact contact,
+        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,JobTitle,CellPhone,WorkPhone,Email,Active,CompanyID")] Contact contact,
             string[] selectedOptions)
         {
             UpdateContactCatagories(selectedOptions, contact);
@@ -129,19 +130,33 @@ namespace Hager_Ind_CRM.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Policy = PolicyTypes.Contacts.Update)]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,JobTitle,CellPhone,WorkPhone,Email,Active")] Contact contact, string[] selectedOptions)
+        public async Task<IActionResult> Edit(int id, string[] selectedOptions)
         {
-            if (id != contact.ID)
+            var contact = await _context.Contacts
+                .Include(d => d.ContactCatagories).ThenInclude(d => d.Contact)
+                .SingleOrDefaultAsync(p => p.ID == id);
+
+            //Check that you got it or exit with a not found error
+            if (contact == null)
             {
                 return NotFound();
             }
+
             UpdateContactCatagories(selectedOptions, contact);
-            if (ModelState.IsValid)
+
+            if (await TryUpdateModelAsync<Contact>(contact, "",
+                d => d.FirstName, d => d.LastName, d => d.JobTitle,
+                d => d.CellPhone, d => d.WorkPhone, d => d.Email,
+                d => d.Active, d => d.CompanyID))
             {
                 try
                 {
-                    _context.Update(contact);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (RetryLimitExceededException /* dex */)
+                {
+                    ModelState.AddModelError("", "Unable to save changes after multiple attempts. Try again, and if the problem persists, see your system administrator.");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -154,8 +169,13 @@ namespace Hager_Ind_CRM.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                catch (DbUpdateException)
+                {
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+                }
+
             }
+            
             PopulateDropDownLists(contact);
             PopulateAssignedCatagoriesData(contact);
             return View(contact);
