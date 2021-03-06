@@ -54,6 +54,29 @@ namespace Hager_Ind_CRM.Data
                 await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Lists.Manage));
             }
 
+            //Supervisor Role
+            var supervisorExist = await RoleManager.RoleExistsAsync("Supervisor");
+            if (!supervisorExist)
+            {
+                var supRole = new IdentityRole("Supervisor");
+                await RoleManager.CreateAsync(supRole);
+
+                await RoleManager.AddClaimAsync(supRole, new Claim(CustomClaimTypes.Permission, Companies.Read));
+                await RoleManager.AddClaimAsync(supRole, new Claim(CustomClaimTypes.Permission, Companies.Detail));
+                await RoleManager.AddClaimAsync(supRole, new Claim(CustomClaimTypes.Permission, Companies.Create));
+                await RoleManager.AddClaimAsync(supRole, new Claim(CustomClaimTypes.Permission, Companies.Update));
+                await RoleManager.AddClaimAsync(supRole, new Claim(CustomClaimTypes.Permission, Companies.Delete));
+
+                await RoleManager.AddClaimAsync(supRole, new Claim(CustomClaimTypes.Permission, Contacts.Read));
+                await RoleManager.AddClaimAsync(supRole, new Claim(CustomClaimTypes.Permission, Contacts.Detail));
+                await RoleManager.AddClaimAsync(supRole, new Claim(CustomClaimTypes.Permission, Contacts.Create));
+                await RoleManager.AddClaimAsync(supRole, new Claim(CustomClaimTypes.Permission, Contacts.Update));
+                await RoleManager.AddClaimAsync(supRole, new Claim(CustomClaimTypes.Permission, Contacts.Delete));
+
+                await RoleManager.AddClaimAsync(supRole, new Claim(CustomClaimTypes.Permission, Employees.Read));
+                await RoleManager.AddClaimAsync(supRole, new Claim(CustomClaimTypes.Permission, Employees.Detail));
+            }
+
             //Employee Role
             var employeeExist = await RoleManager.RoleExistsAsync("Employee");
             if (!employeeExist)
@@ -64,7 +87,6 @@ namespace Hager_Ind_CRM.Data
                 await RoleManager.AddClaimAsync(empRole, new Claim(CustomClaimTypes.Permission, Companies.Read));
                 await RoleManager.AddClaimAsync(empRole, new Claim(CustomClaimTypes.Permission, Companies.Detail));
 
-                await RoleManager.AddClaimAsync(empRole, new Claim(CustomClaimTypes.Permission, Contacts.Create));
                 await RoleManager.AddClaimAsync(empRole, new Claim(CustomClaimTypes.Permission, Contacts.Read));
                 await RoleManager.AddClaimAsync(empRole, new Claim(CustomClaimTypes.Permission, Contacts.Detail));
 
@@ -87,6 +109,21 @@ namespace Hager_Ind_CRM.Data
                 if (result.Succeeded)
                 {
                     userManager.AddToRoleAsync(user, "Admin").Wait();
+                }
+            }
+            if (userManager.FindByEmailAsync("supervisor1@outlook.com").Result == null)
+            {
+                IdentityUser user = new IdentityUser
+                {
+                    UserName = "supervisor1@outlook.com",
+                    Email = "supervisor1@outlook.com"
+                };
+
+                IdentityResult result = userManager.CreateAsync(user, "password").Result;
+
+                if (result.Succeeded)
+                {
+                    userManager.AddToRoleAsync(user, "Supervisor").Wait();
                 }
             }
             if (userManager.FindByEmailAsync("employee1@outlook.com").Result == null)
