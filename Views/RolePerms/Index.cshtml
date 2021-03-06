@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Hager_Ind_CRM.ViewModels.UserVM>
+﻿@model IEnumerable<Hager_Ind_CRM.ViewModels.RolePerms>
 
 @{
     ViewBag.Title = "Index";
@@ -8,10 +8,10 @@
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
     <li class="breadcrumb-item active"><a asp-area="" asp-controller="Home" asp-action="Management">Configuration</a></li>
-    <li class="breadcrumb-item active">User Management</li>
+    <li class="breadcrumb-item active">Role Management</li>
 </ol>
 <p>
-    <a class="btn btn-primary" asp-action="Create">Create New User</a>
+    <a class="btn btn-primary" asp-action="Create">Create New Role</a>
 </p>
 
 <div class="card mb-4">
@@ -25,10 +25,10 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.Email)
+                            @Html.DisplayNameFor(model => model.Name)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.userRoles)
+                            @Html.DisplayNameFor(model => model.rolePerms)
                         </th>
                         <th></th>
                     </tr>
@@ -36,23 +36,23 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Email)
-                        </td>
-                        <td>
-                            @{
-                                foreach (var r in item.userRoles)
-                                {
-                                    @:  @r <br />
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @{
+                                    foreach (var r in item.rolePerms)
+                                    {
+                                        @:  @r <br />
+                                    }
                                 }
-                            }
-                        </td>
-                        <td>
-                            <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                            <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        </td>
-                    </tr>
+                            </td>
+                            <td>
+                                <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
