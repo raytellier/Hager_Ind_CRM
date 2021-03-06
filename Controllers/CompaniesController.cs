@@ -105,10 +105,10 @@ namespace Hager_Ind_CRM.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_context.Companies.ToList().Any(c => c.Name == company.Name))
+                if (_context.Companies.ToList().Any(c => (c.Name == company.Name)&&(c.Phone==company.Phone)))
                 {
                     var id = (from d in _context.Companies
-                              where d.Name == company.Name
+                              where d.Name == company.Name && d.Phone==company.Phone
                               select d.ID).SingleOrDefault();
                     ViewBag.Msg = id;
                     ViewBag.Message = "The Company already exists.";

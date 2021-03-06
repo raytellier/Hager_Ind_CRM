@@ -4,17 +4,43 @@
     ViewData["Title"] = "Create";
 }
 <h1 class="mt-4">Create Company</h1>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
     <li class="breadcrumb-item"><a asp-area="" asp-controller="Companies" asp-action="Index">Companies</a></li>
     <li class="breadcrumb-item active">Create</li>
 </ol>
 
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
 
-<form asp-action="Create">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Alert!</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <br />
+                <b> @Html.Raw(ViewBag.Message)</b><br /><br />
+                <b>What would you like to do?</b><br /><br />
+            </div>
+            <div class="modal-footer">
+                @Html.ActionLink("View", "Details", "Companies", new
+                {
+                    id = ViewBag.Msg
+                }, new { @class = "btn btn-outline-info" })
+                <button class="btn btn-outline-primary" data-dismiss="modal" id="btnUpdate">Merge</button>
+                @Html.ActionLink("Cancel", "Index", "Companies", new { }, new { @class = "btn btn-outline-secondary" })
+            </div>
+        </div>
+
+    </div>
+</div>
+<form asp-action="Create" id="CreateCompanyForm">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    
+
     <div class="row">
         <div class="col-12">
             <div class="breadcrumb">
@@ -278,4 +304,30 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<script>
+    $(function () {
+        if ('@ViewBag.Message' != "") {
+            $('#myModal').modal('show');
+        }
+    });
+    $('#btnUpdate').click(function (event) {
+        event.preventDefault();
+        var form = $('#CreateCompanyForm');
+        if (form.valid()) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Edit","Companies",new {id= ViewBag.Msg})',
+                data: form.serialize(),
+                success: function () {
+                  window.location.href = "@Url.Action("Index", "Companies")";
+                },
+                error: function () {
+                    alert("Merge Failed. There was a problem merging the record.");
+                }
+            });
+        }
+        return false;
+    });
+</script>
+
 
