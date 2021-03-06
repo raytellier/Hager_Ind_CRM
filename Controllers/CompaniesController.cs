@@ -147,6 +147,7 @@ namespace Hager_Ind_CRM.Controllers
 
             var company = await _context.Companies
                .Include(d => d.CompanySubTypes).ThenInclude(d => d.SubType)
+               .Include(d => d.CompanyTypes).ThenInclude(d => d.Type)
                .AsNoTracking()
                .SingleOrDefaultAsync(d => d.ID == id);
 
@@ -170,7 +171,10 @@ namespace Hager_Ind_CRM.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Policy = PolicyTypes.Companies.Update)]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Location,CredCheck,BillingTermsID,CurrencyID,Phone,Website,BillingAddress1,BillingAddress2,BillingProvinceID,BillingPostalCode,BillingCountryID,ShippingAddress1,ShippingAddress2,ShippingProvinceID,ShippingPostalCode,ShippingCountryID,Active,Notes")] Company company)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Location,CredCheck,BillingTermsID,CurrencyID,Phone,Website,BillingAddress1,BillingAddress2,BillingProvinceID,BillingPostalCode,BillingCountryID,ShippingAddress1,ShippingAddress2,ShippingProvinceID,ShippingPostalCode,ShippingCountryID,Active,Notes")] Company company,
+            string[] selectedOptionsCustomer, string[] selectedOptionsVendor, string[] selectedOptionsContractor,
+            string isCustomer, string isVendor, string isContractor
+            )
         {
             if (id != company.ID)
             {
@@ -203,6 +207,7 @@ namespace Hager_Ind_CRM.Controllers
             ViewData["CurrencyID"] = new SelectList(_context.Currencies, "ID", "Name", company.CurrencyID);
             ViewData["ShippingCountryID"] = new SelectList(_context.Countries, "ID", "Name", company.ShippingCountryID);
             ViewData["ShippingProvinceID"] = new SelectList(_context.Provinces, "ID", "Name", company.ShippingProvinceID);
+            
             PopulateAssignedCatagoriesData(company);
             return View(company);
         }
