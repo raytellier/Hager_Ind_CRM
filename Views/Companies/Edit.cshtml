@@ -16,6 +16,9 @@
 <form asp-action="Edit">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="ID" />
+    <input id="inputCustomer" name="isCustomer" type="hidden" value="false" />
+    <input id="inputVendor" name="isVendor" type="hidden" value="false" />
+    <input id="inputContractor" name="isContractor" type="hidden" value="false" />
     <div class="row">
         <div class="col-12">
             <div class="breadcrumb">
@@ -110,7 +113,7 @@
                 </div>
                 <div class="form-group col-xl-4 col-lg-12 col-sm-12">
                     <label asp-for="BillingPostalCode" class="control-label"></label>
-                    <input asp-for="BillingPostalCode" class="form-control"/>
+                    <input asp-for="BillingPostalCode" class="form-control" />
                     <span asp-validation-for="BillingPostalCode" class="text-danger"></span>
                 </div>
             </div>
@@ -147,13 +150,207 @@
                 </div>
                 <div class="form-group col-xl-4 col-lg-12 col-sm-12">
                     <label asp-for="ShippingPostalCode" class="control-label"></label>
-                    <input asp-for="ShippingPostalCode" class="form-control"/>
+                    <input asp-for="ShippingPostalCode" class="form-control" />
                     <span asp-validation-for="ShippingPostalCode" class="text-danger"></span>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-4 col-sm-12 d-flex align-items-stretch">
+            <div class="breadcrumb">
+                <div class="form-group col-12">
+                    <h4>Customer Type</h4>
+                    <hr class="mb-0" />
+                </div>
+
+                @{
+                    int typesCount = Model.CompanyTypes.Count;
+                    bool customer = false;
+                    if (typesCount > 0)
+                    {
+                        foreach (CompanyType companyType in Model.CompanyTypes)
+                        {
+                            if (companyType.Type.Name == "Customer")
+                            {
+                                customer = true;
+                                break;
+                            }
+                        }
+
+                        if (customer == true)
+                        {
+                            <div class="col-12">
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" id="isCustomer" type="checkbox" checked="checked" />
+                                    <label class="custom-control-label" for="isCustomer">Is this company a customer?</label>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-12">
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" id="isCustomer" type="checkbox" />
+                                    <label class="custom-control-label" for="isCustomer">Is this company a customer?</label>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="col-12">
+                            <div class="custom-control custom-checkbox">
+                                <input class="custom-control-input" id="isCustomer" type="checkbox"/>
+                                <label class="custom-control-label" for="isCustomer">Is this company a customer?</label>
+                            </div>
+                        </div>
+                    }
+                }
+
+                <div class="form-group col-md-12">
+                    <label class="control-label"> Customer Subtypes Assigned</label> <button type="button" id="btnRightCustomer" class="btn btn-danger btn-sm">
+                        <strong>-</strong>
+                    </button>
+                    @Html.ListBox("selectedOptionsCustomer", (MultiSelectList)ViewBag.selOptsCustomer, new { @size = 5, @class = "form-control", @style = "height: 85%;", @id = "selectedOptionsCustomer" })
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label class="control-label"> Customer Subtypes Available</label> <button type="button" id="btnLeftCustomer" class="btn btn-success btn-sm">
+                        <strong>+</strong>
+                    </button>
+                    @Html.ListBox("availOptionsCustomer", (MultiSelectList)ViewBag.availOptsCustomer, new { @size = 5, @class = "form-control", @style = "height: 85%;", @id = "availOptionsCustomer" })
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-sm-12 d-flex align-items-stretch">
+            <div class="breadcrumb">
+                <div class="form-group col-12">
+                    <h4>Vendor Type</h4>
+                    <hr class="mb-0" />
+                </div>
+                @{
+                    bool vendor = false;
+                    if (typesCount > 0)
+                    {
+                        foreach (CompanyType companyType in Model.CompanyTypes)
+                        {
+                            if (companyType.Type.Name == "Vendor")
+                            {
+                                vendor = true;
+                                break;
+                            }
+                        }
+
+                        if (vendor == true)
+                        {
+                            <div class="col-12">
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" id="isVendor" type="checkbox" checked="checked" />
+                                    <label class="custom-control-label" for="isVendor">Is this company a vendor?</label>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-12">
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" id="isVendor" type="checkbox" />
+                                    <label class="custom-control-label" for="isVendor">Is this company a vendor?</label>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="col-12">
+                            <div class="custom-control custom-checkbox">
+                                <input class="custom-control-input" id="isVendor" type="checkbox" />
+                                <label class="custom-control-label" for="isVendor">Is this company a vendor?</label>
+                            </div>
+                        </div>
+                    }
+                }
+                <div class="form-group col-md-12">
+                    <label class="control-label"> Vendor Subtypes Assigned</label> <button type="button" id="btnRightVendor" class="btn btn-danger btn-sm">
+                        <strong>-</strong>
+                    </button>
+                    @Html.ListBox("selectedOptionsVendor", (MultiSelectList)ViewBag.selOptsVendor, new { @size = 5, @class = "form-control", @style = "height: 85%;", @id = "selectedOptionsVendor" })
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label class="control-label"> Vendor Subtypes Available</label> <button type="button" id="btnLeftVendor" class="btn btn-success btn-sm">
+                        <strong>+</strong>
+                    </button>
+                    @Html.ListBox("availOptionsVendor", (MultiSelectList)ViewBag.availOptsVendor, new { @size = 5, @class = "form-control", @style = "height: 85%;", @id = "availOptionsVendor" })
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-sm-12 d-flex align-items-stretch">
+            <div class="breadcrumb">
+                <div class="form-group col-12">
+                    <h4>Contractor Type</h4>
+                    <hr class="mb-0" />
+                </div>
+                @{
+                    bool contractor = false;
+                    if (typesCount > 0)
+                    {
+                        foreach (CompanyType companyType in Model.CompanyTypes)
+                        {
+                            if (companyType.Type.Name == "Contractor")
+                            {
+                                contractor = true;
+                                break;
+                            }
+                        }
+
+                        if (contractor == true)
+                        {
+                            <div class="col-12">
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" id="isContractor" type="checkbox" checked="checked" />
+                                    <label class="custom-control-label" for="isContractor">Is this company a contractor?</label>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-12">
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" id="isContractor" type="checkbox" />
+                                    <label class="custom-control-label" for="isContractor">Is this company a contractor?</label>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="col-12">
+                            <div class="custom-control custom-checkbox">
+                                <input class="custom-control-input" id="isContractor" type="checkbox" />
+                                <label class="custom-control-label" for="isContractor">Is this company a contractor?</label>
+                            </div>
+                        </div>
+                    }
+                }
+                <div class="form-group col-md-12">
+                    <label class="control-label"> Contractor Subtypes Assigned</label> <button type="button" id="btnRightContractor" class="btn btn-danger btn-sm">
+                        <strong>-</strong>
+                    </button>
+                    @Html.ListBox("selectedOptionsContractor", (MultiSelectList)ViewBag.selOptsContractor, new { @size = 5, @class = "form-control", @style = "height: 85%;", @id = "selectedOptionsContractor" })
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label class="control-label"> Contractor Subtypes Available</label> <button type="button" id="btnLeftContractor" class="btn btn-success btn-sm">
+                        <strong>+</strong>
+                    </button>
+                    @Html.ListBox("availOptionsContractor", (MultiSelectList)ViewBag.availOptsContractor, new { @size = 5, @class = "form-control", @style = "height: 85%;", @id = "availOptionsContractor" })
+                </div>
+            </div>
+        </div>
         <div class="col-xl-6 col-sm-12">
-            <input type="submit" value="Save" class="btn btn-primary" />
+            <input type="submit" id="btnSubmit" value="Save" class="btn btn-primary" />
             <a class="btn btn-outline-danger" asp-action="Index">Cancel</a>
         </div>
     </div>
@@ -162,25 +359,26 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/companies_script.js"></script>
     @*<script type="text/javascript">
-        (function () {
-            'use strict'
+            (function () {
+                'use strict'
 
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.querySelectorAll('.needs-validation')
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.querySelectorAll('.needs-validation')
 
-            // Loop over them and prevent submission
-            Array.prototype.slice.call(forms)
-                .forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (!form.checkValidity()) {
-                            event.preventDefault()
-                            event.stopPropagation()
-                        }
+                // Loop over them and prevent submission
+                Array.prototype.slice.call(forms)
+                    .forEach(function (form) {
+                        form.addEventListener('submit', function (event) {
+                            if (!form.checkValidity()) {
+                                event.preventDefault()
+                                event.stopPropagation()
+                            }
 
-                        form.classList.add('was-validated')
-                    }, false)
-                })
-        })()
-    </script>*@
+                            form.classList.add('was-validated')
+                        }, false)
+                    })
+            })()
+        </script>*@
 }

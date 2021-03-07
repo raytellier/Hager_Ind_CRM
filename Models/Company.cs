@@ -12,6 +12,7 @@ namespace Hager_Ind_CRM.Models
         {
             this.Contacts = new HashSet<Contact>();
             this.CompanyTypes = new HashSet<CompanyType>();
+            this.CompanySubTypes = new HashSet<CompanySubType>();
         }
 
         public int ID { get; set; }
@@ -99,5 +100,6 @@ namespace Hager_Ind_CRM.Models
 
         public ICollection<Contact> Contacts { get; set; }
         public ICollection<CompanyType> CompanyTypes { get; set; }
+        public ICollection<CompanySubType> CompanySubTypes { get; set; }
     }
 }

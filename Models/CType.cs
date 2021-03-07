@@ -11,7 +11,7 @@ namespace Hager_Ind_CRM.Models
         public CType()
         {
             this.CompanyTypes = new HashSet<CompanyType>();
-
+            
             this.SubTypes = new HashSet<SubType>();
         }
 

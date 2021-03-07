@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MedicalOffice.ViewModels
+namespace Hager_Ind_CRM.ViewModels
 {
     public class ListOptionVM
     {
