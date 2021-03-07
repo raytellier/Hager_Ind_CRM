@@ -185,20 +185,20 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                     Name = table.Column<string>(maxLength: 30, nullable: false),
                     Location = table.Column<string>(maxLength: 50, nullable: true),
                     CredCheck = table.Column<bool>(nullable: false),
-                    BillingTermsID = table.Column<int>(nullable: false),
-                    CurrencyID = table.Column<int>(nullable: false),
+                    BillingTermsID = table.Column<int>(nullable: true),
+                    CurrencyID = table.Column<int>(nullable: true),
                     Phone = table.Column<long>(nullable: true),
                     Website = table.Column<string>(maxLength: 2000, nullable: true),
                     BillingAddress1 = table.Column<string>(maxLength: 50, nullable: true),
                     BillingAddress2 = table.Column<string>(maxLength: 50, nullable: true),
-                    BillingProvinceID = table.Column<int>(nullable: false),
+                    BillingProvinceID = table.Column<int>(nullable: true),
                     BillingPostalCode = table.Column<string>(nullable: true),
-                    BillingCountryID = table.Column<int>(nullable: false),
+                    BillingCountryID = table.Column<int>(nullable: true),
                     ShippingAddress1 = table.Column<string>(maxLength: 50, nullable: true),
                     ShippingAddress2 = table.Column<string>(maxLength: 50, nullable: true),
-                    ShippingProvinceID = table.Column<int>(nullable: false),
+                    ShippingProvinceID = table.Column<int>(nullable: true),
                     ShippingPostalCode = table.Column<string>(nullable: true),
-                    ShippingCountryID = table.Column<int>(nullable: false),
+                    ShippingCountryID = table.Column<int>(nullable: true),
                     Active = table.Column<bool>(nullable: false),
                     Notes = table.Column<string>(maxLength: 511, nullable: true)
                 },
@@ -211,42 +211,42 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         principalSchema: "HI",
                         principalTable: "Countries",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Companies_Provinces_BillingProvinceID",
                         column: x => x.BillingProvinceID,
                         principalSchema: "HI",
                         principalTable: "Provinces",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Companies_BillingTerms_BillingTermsID",
                         column: x => x.BillingTermsID,
                         principalSchema: "HI",
                         principalTable: "BillingTerms",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Companies_Currencies_CurrencyID",
                         column: x => x.CurrencyID,
                         principalSchema: "HI",
                         principalTable: "Currencies",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Companies_Countries_ShippingCountryID",
                         column: x => x.ShippingCountryID,
                         principalSchema: "HI",
                         principalTable: "Countries",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Companies_Provinces_ShippingProvinceID",
                         column: x => x.ShippingProvinceID,
                         principalSchema: "HI",
                         principalTable: "Provinces",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -312,6 +312,33 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         principalTable: "JobPositions",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CompanySubTypes",
+                schema: "HI",
+                columns: table => new
+                {
+                    CompanyID = table.Column<int>(nullable: false),
+                    SubTypeID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CompanySubTypes", x => new { x.SubTypeID, x.CompanyID });
+                    table.ForeignKey(
+                        name: "FK_CompanySubTypes_Companies_CompanyID",
+                        column: x => x.CompanyID,
+                        principalSchema: "HI",
+                        principalTable: "Companies",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CompanySubTypes_SubType_SubTypeID",
+                        column: x => x.SubTypeID,
+                        principalSchema: "HI",
+                        principalTable: "SubType",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -433,6 +460,12 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                 column: "ShippingProvinceID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CompanySubTypes_CompanyID",
+                schema: "HI",
+                table: "CompanySubTypes",
+                column: "CompanyID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CompanyTypes_CompanyID",
                 schema: "HI",
                 table: "CompanyTypes",
@@ -491,6 +524,10 @@ namespace Hager_Ind_CRM.Data.HIMigrations
         {
             migrationBuilder.DropTable(
                 name: "Announcements",
+                schema: "HI");
+
+            migrationBuilder.DropTable(
+                name: "CompanySubTypes",
                 schema: "HI");
 
             migrationBuilder.DropTable(

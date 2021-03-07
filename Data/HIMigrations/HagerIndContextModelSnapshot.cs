@@ -88,22 +88,22 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         .HasColumnType("TEXT")
                         .HasMaxLength(50);
 
-                    b.Property<int>("BillingCountryID")
+                    b.Property<int?>("BillingCountryID")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("BillingPostalCode")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("BillingProvinceID")
+                    b.Property<int?>("BillingProvinceID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("BillingTermsID")
+                    b.Property<int?>("BillingTermsID")
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("CredCheck")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("CurrencyID")
+                    b.Property<int?>("CurrencyID")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Location")
@@ -130,13 +130,13 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                         .HasColumnType("TEXT")
                         .HasMaxLength(50);
 
-                    b.Property<int>("ShippingCountryID")
+                    b.Property<int?>("ShippingCountryID")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ShippingPostalCode")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ShippingProvinceID")
+                    b.Property<int?>("ShippingProvinceID")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Website")
@@ -158,6 +158,21 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                     b.HasIndex("ShippingProvinceID");
 
                     b.ToTable("Companies");
+                });
+
+            modelBuilder.Entity("Hager_Ind_CRM.Models.CompanySubType", b =>
+                {
+                    b.Property<int>("SubTypeID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CompanyID")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("SubTypeID", "CompanyID");
+
+                    b.HasIndex("CompanyID");
+
+                    b.ToTable("CompanySubTypes");
                 });
 
             modelBuilder.Entity("Hager_Ind_CRM.Models.CompanyType", b =>
@@ -468,37 +483,40 @@ namespace Hager_Ind_CRM.Data.HIMigrations
                 {
                     b.HasOne("Hager_Ind_CRM.Models.Country", "BillingCountry")
                         .WithMany("BillingCompanies")
-                        .HasForeignKey("BillingCountryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BillingCountryID");
 
                     b.HasOne("Hager_Ind_CRM.Models.Province", "BillingProvince")
                         .WithMany("BillingCompanies")
-                        .HasForeignKey("BillingProvinceID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BillingProvinceID");
 
                     b.HasOne("Hager_Ind_CRM.Models.BillingTerms", "BillingTerms")
                         .WithMany("Companies")
-                        .HasForeignKey("BillingTermsID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BillingTermsID");
 
                     b.HasOne("Hager_Ind_CRM.Models.Currency", "Currency")
                         .WithMany("Companies")
-                        .HasForeignKey("CurrencyID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CurrencyID");
 
                     b.HasOne("Hager_Ind_CRM.Models.Country", "ShippingCountry")
                         .WithMany("ShippingCompanies")
-                        .HasForeignKey("ShippingCountryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ShippingCountryID");
 
                     b.HasOne("Hager_Ind_CRM.Models.Province", "ShippingProvince")
                         .WithMany("ShippingCompanies")
-                        .HasForeignKey("ShippingProvinceID")
+                        .HasForeignKey("ShippingProvinceID");
+                });
+
+            modelBuilder.Entity("Hager_Ind_CRM.Models.CompanySubType", b =>
+                {
+                    b.HasOne("Hager_Ind_CRM.Models.Company", "Company")
+                        .WithMany("CompanySubTypes")
+                        .HasForeignKey("CompanyID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Hager_Ind_CRM.Models.SubType", "SubType")
+                        .WithMany("CompanySubTypes")
+                        .HasForeignKey("SubTypeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

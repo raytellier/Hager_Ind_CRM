@@ -157,8 +157,8 @@ namespace Hager_Ind_CRM.Data
                         Expense = 5000.00M,
                         DateJoined = DateTime.Parse("2021-01-01"),
                         KeyFobNumber = 111234567,
-                        Active = true,
-                        IsUser = true,
+                        Active = false,
+                        IsUser = false,
                         PermissionLevel = "Unlimited",
                         EmergencyContactName = "Mitch",
                         EmergencyContactPhone = 2892892829,
@@ -208,8 +208,8 @@ namespace Hager_Ind_CRM.Data
                         Expense = 5000.09M,
                         DateJoined = DateTime.Parse("2021-01-01"),
                         KeyFobNumber = 111234666,
-                        Active = true,
-                        IsUser = true,
+                        Active = false,
+                        IsUser = false,
                         PermissionLevel = "Unlimited",
                         EmergencyContactName = "Harry",
                         EmergencyContactPhone = 2892891820,
@@ -314,7 +314,7 @@ namespace Hager_Ind_CRM.Data
                     {
                         Name = "No Indigo",
                         Location = "123 Random Street",
-                        CredCheck = true,
+                        CredCheck = false,
                         BillingTermsID = random.Next(1, BillingTerms.Length),
                         CurrencyID = random.Next(1, Currencies.Length),
                         Phone = 2899098901,
@@ -328,7 +328,7 @@ namespace Hager_Ind_CRM.Data
                         ShippingProvinceID = random.Next(1, CanadianProvinces.Length),
                         ShippingPostalCode = "L2A3A1",
                         ShippingCountryID = context.Countries.FirstOrDefault(d => d.Name == "United States").ID,
-                        Active = true,
+                        Active = false,
                         Notes = "Good Company"
                     },
                     new Company
@@ -612,6 +612,7 @@ namespace Hager_Ind_CRM.Data
                     ,
                     new CompanyType
                     {
+                        
                         CompanyID = context.Companies.FirstOrDefault(d => d.Name == "No Indigo").ID,
                         TypeID = context.Types.FirstOrDefault(d => d.Name == "Vendor").ID
                     },
@@ -629,9 +630,10 @@ namespace Hager_Ind_CRM.Data
                     context.Announcements.AddRange(
                         new Announcement
                         {
-                            Notice = "Bananas are yummy my guy"
+                            Notice = "Announcements Here..."
                         }
                         );
+                    context.SaveChanges();
                 }
             }
         }

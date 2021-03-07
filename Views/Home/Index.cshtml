@@ -7,7 +7,7 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>This is where your dashboard will be</p>
+    <p>This is where your dashboard will be </p>
 </div>
 <div class="text-lg-center">
     @* Access to the Notice Page : <a asp-area="" asp-controller="Announcements" asp-action="Index">Announcemnets</a>*@
@@ -29,7 +29,6 @@
                         @Html.DisplayFor(modelItem => item.Notice)
                     </td>
                     <td>
-                        
                         <a class="btn btn-outline-dark" asp-controller="Announcements" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
                     </td>
                 </tr>

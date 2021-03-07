@@ -28,13 +28,13 @@ namespace Hager_Ind_CRM.Models
         public bool CredCheck { get; set; }
 
         [Display(Name = "Billing Terms")]
-        public int BillingTermsID { get; set; }
+        public int? BillingTermsID { get; set; }
 
         [Display(Name = "Billing Terms")]
         public BillingTerms BillingTerms { get; set; }
 
         [Display(Name = "Currency")]
-        public int CurrencyID { get; set; }
+        public int? CurrencyID { get; set; }
 
         [Display(Name = "Currency")]
         public Currency Currency { get; set; }
@@ -56,7 +56,7 @@ namespace Hager_Ind_CRM.Models
         public string BillingAddress2 { get; set; }
 
         [Display(Name = "Billing Province")]
-        public int BillingProvinceID { get; set; }
+        public int? BillingProvinceID { get; set; }
         [Display(Name = "Billing Province")]
         public Province BillingProvince { get; set; }
 
@@ -66,7 +66,7 @@ namespace Hager_Ind_CRM.Models
         public string BillingPostalCode { get; set; }
 
         [Display(Name = "Billing Country")]
-        public int BillingCountryID { get; set; }
+        public int? BillingCountryID { get; set; }
         [Display(Name = "Billing Country")]
         public Country BillingCountry { get; set; }
 
@@ -79,7 +79,7 @@ namespace Hager_Ind_CRM.Models
         public string ShippingAddress2 { get; set; }
 
         [Display(Name = "Shipping Province")]
-        public int ShippingProvinceID { get; set; }
+        public int? ShippingProvinceID { get; set; }
         [Display(Name = "Billing Province")]
         public Province ShippingProvince { get; set; }
 
@@ -89,7 +89,7 @@ namespace Hager_Ind_CRM.Models
         public string ShippingPostalCode { get; set; }
 
         [Display(Name = "Shipping Country")]
-        public int ShippingCountryID { get; set; }
+        public int? ShippingCountryID { get; set; }
         [Display(Name = "Billing Country")]
         public Country ShippingCountry { get; set; }
 
