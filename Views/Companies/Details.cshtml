@@ -109,7 +109,37 @@
                                 @c[i].Type.Name
                             </dt>
                             <dd class="col-sm-7">
-                                @c[i].Type.Name
+                                @{
+                                    var subtypes = (from d in Model.CompanySubTypes
+                                                    where d.SubType.Type.Name == c[i].Type.Name
+                                                    select d.SubType.Name).ToList();
+
+                                   
+
+                                    if (subtypes.Count > 0)
+                                    {
+                                        string firstSubType = subtypes[0].ToString();
+                                        if (subtypes.Count > 1)
+                                        {
+                                            string subtypeList = "";
+                                            var s = subtypes.ToList();
+                                            for (int j = 1; j < subtypes.Count; j++)
+                                            {
+                                                subtypeList += s[j].ToString() + " <br />";
+                                            }
+                                            <a class="" role="button" data-toggle="collapse" href="#collapseSum@(Model.ID)" aria-expanded="false" aria-controls="collapseSum@(Model.ID)">
+                                                @firstSubType <span class="badge badge-info">@subtypes.Count</span>
+                                            </a>
+                                            <div class="collapse" id="collapseSum@(Model.ID)">
+                                                @Html.Raw(subtypeList)
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            @firstSubType
+                                        }
+                                    }
+                                }
                             </dd>
                         }
                     }
@@ -120,7 +150,35 @@
                             @firstType
                         </dt>
                         <dd class="col-sm-7">
-                            @firstType
+                            @{
+                                var subtypes = (from d in Model.CompanySubTypes
+                                                where d.SubType.Type.Name == firstType
+                                                select d.SubType.Name).ToList();
+
+                                if (subtypes.Count > 0)
+                                {
+                                    string firstSubType = subtypes[0].ToString();
+                                    if (subtypes.Count > 1)
+                                    {
+                                        string subtypeList = "";
+                                        var s = subtypes.ToList();
+                                        for (int j = 1; j < subtypes.Count; j++)
+                                        {
+                                            subtypeList += s[j].ToString() + " <br />";
+                                        }
+                                        <a class="" role="button" data-toggle="collapse" href="#collapseSum@(Model.ID)" aria-expanded="false" aria-controls="collapseSum@(Model.ID)">
+                                            @firstSubType <span class="badge badge-info">@subtypes.Count</span>
+                                        </a>
+                                        <div class="collapse" id="collapseSum@(Model.ID)">
+                                            @Html.Raw(subtypeList)
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @firstSubType
+                                    }
+                                }
+                            }
                         </dd>
                     }
                 }
@@ -233,7 +291,7 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            @*<table class="table table-bordered display" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered display" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                         <tr>
                             <th>
@@ -332,7 +390,7 @@
                         </tr>
                     }
                 </tbody>
-            </table>*@
+            </table>
         </div>
     </div>
 </div>

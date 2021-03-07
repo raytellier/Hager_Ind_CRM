@@ -73,6 +73,7 @@ namespace Hager_Ind_CRM.Controllers
                 .Include(c => c.ShippingCountry)
                 .Include(c => c.ShippingProvince)
                 .Include(c => c.CompanyTypes).ThenInclude(p => p.Type).ThenInclude(p => p.SubTypes)
+                .Include(c => c.CompanySubTypes).ThenInclude(p => p.SubType)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (company == null)
             {
@@ -104,7 +105,9 @@ namespace Hager_Ind_CRM.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Policy = PolicyTypes.Companies.Create)]
-        public async Task<IActionResult> Create([Bind("ID,Name,Location,CredCheck,BillingTermsID,CurrencyID,Phone,Website,BillingAddress1,BillingAddress2,BillingProvinceID,BillingPostalCode,BillingCountryID,ShippingAddress1,ShippingAddress2,ShippingProvinceID,ShippingPostalCode,ShippingCountryID,Active,Notes")] Company company)
+        public async Task<IActionResult> Create([Bind("ID,Name,Location,CredCheck,BillingTermsID,CurrencyID,Phone,Website,BillingAddress1,BillingAddress2,BillingProvinceID,BillingPostalCode,BillingCountryID,ShippingAddress1,ShippingAddress2,ShippingProvinceID,ShippingPostalCode,ShippingCountryID,Active,Notes")] Company company,
+            string[] selectedOptionsCustomer, string[] selectedOptionsVendor, string[] selectedOptionsContractor,
+            string isCustomer, string isVendor, string isContractor)
         {
             if (ModelState.IsValid)
             {
@@ -118,6 +121,7 @@ namespace Hager_Ind_CRM.Controllers
                 }
                 else
                 {
+                    UpdateTypesAndSubs(company, isCustomer, selectedOptionsCustomer, isVendor, selectedOptionsVendor, isContractor, selectedOptionsContractor);
                     _context.Add(company);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
@@ -176,21 +180,30 @@ namespace Hager_Ind_CRM.Controllers
             string isCustomer, string isVendor, string isContractor
             )
         {
-            if (id != company.ID)
+            var companyToUpdate = await _context.Companies
+                .Include(d => d.CompanyTypes).ThenInclude(d => d.Type)
+                .Include(d => d.CompanySubTypes).ThenInclude(d => d.SubType)
+                .SingleOrDefaultAsync(p => p.ID == id);
+
+            //Check that you got it or exit with a not found error
+            if (companyToUpdate == null)
             {
                 return NotFound();
             }
+
+            UpdateTypesAndSubs(companyToUpdate, isCustomer, selectedOptionsCustomer, isVendor, selectedOptionsVendor, isContractor, selectedOptionsContractor);
+            
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(company);
+                    _context.Update(companyToUpdate);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CompanyExists(company.ID))
+                    if (!CompanyExists(companyToUpdate.ID))
                     {
                         return NotFound();
                     }
@@ -201,15 +214,15 @@ namespace Hager_Ind_CRM.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BillingCountryID"] = new SelectList(_context.Countries, "ID", "Name", company.BillingCountryID);
-            ViewData["BillingProvinceID"] = new SelectList(_context.Provinces, "ID", "Name", company.BillingProvinceID);
-            ViewData["BillingTermsID"] = new SelectList(_context.BillingTerms, "ID", "Terms", company.BillingTermsID);
-            ViewData["CurrencyID"] = new SelectList(_context.Currencies, "ID", "Name", company.CurrencyID);
-            ViewData["ShippingCountryID"] = new SelectList(_context.Countries, "ID", "Name", company.ShippingCountryID);
-            ViewData["ShippingProvinceID"] = new SelectList(_context.Provinces, "ID", "Name", company.ShippingProvinceID);
-            
-            PopulateAssignedCatagoriesData(company);
-            return View(company);
+            ViewData["BillingCountryID"] = new SelectList(_context.Countries, "ID", "Name", companyToUpdate.BillingCountryID);
+            ViewData["BillingProvinceID"] = new SelectList(_context.Provinces, "ID", "Name", companyToUpdate.BillingProvinceID);
+            ViewData["BillingTermsID"] = new SelectList(_context.BillingTerms, "ID", "Terms", companyToUpdate.BillingTermsID);
+            ViewData["CurrencyID"] = new SelectList(_context.Currencies, "ID", "Name", companyToUpdate.CurrencyID);
+            ViewData["ShippingCountryID"] = new SelectList(_context.Countries, "ID", "Name", companyToUpdate.ShippingCountryID);
+            ViewData["ShippingProvinceID"] = new SelectList(_context.Provinces, "ID", "Name", companyToUpdate.ShippingProvinceID);
+
+            PopulateAssignedCatagoriesData(companyToUpdate);
+            return View(companyToUpdate);
         }
 
         // GET: Companies/Delete/5
@@ -279,7 +292,7 @@ namespace Hager_Ind_CRM.Controllers
         {
             var allOptions = _context.SubTypes.Include(s => s.Type);
             var currentOptionsHS = new HashSet<int>(company.CompanySubTypes.Select(b => b.SubTypeID));
-            
+
             var selectedCustomer = new List<ListOptionVM>();
             var availableCustomer = new List<ListOptionVM>();
 
@@ -293,7 +306,7 @@ namespace Hager_Ind_CRM.Controllers
             {
                 if (currentOptionsHS.Contains(s.ID))
                 {
-                    if(s.Type.Name == "Customer")
+                    if (s.Type.Name == "Customer")
                     {
                         selectedCustomer.Add(new ListOptionVM
                         {
@@ -355,6 +368,147 @@ namespace Hager_Ind_CRM.Controllers
 
             ViewData["selOptsContractor"] = new MultiSelectList(selectedContractor.OrderBy(s => s.DisplayText), "ID", "DisplayText");
             ViewData["availOptsContractor"] = new MultiSelectList(availableContractor.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+        }
+
+        private void UpdateTypesAndSubs(Company company, 
+            string isCustomer, string[] subTypesCustomer,
+            string isVendor, string[] subTypesVendor,
+            string isContractor, string[] subTypesContractor)
+        {
+            List<string> types = new List<string>();
+            List<string> subtypes = new List<string>();
+
+            if (isCustomer == "Customer")
+            {
+                types.Add(isCustomer);
+                subtypes.AddRange(subTypesCustomer);
+            }
+            
+            if (isVendor == "Vendor")
+            {
+                types.Add(isVendor);
+                subtypes.AddRange(subTypesVendor);
+            }
+
+            if (isContractor == "Contractor")
+            {
+                types.Add(isContractor);
+                subtypes.AddRange(subTypesContractor);
+            }
+
+            if (types.Count == 0)
+            {
+                foreach (var t in company.CompanyTypes)
+                {
+                    _context.Remove(t);
+                }
+
+                foreach (var s in company.CompanySubTypes)
+                {
+                    _context.Remove(s);
+                }
+
+                company.CompanyTypes = new List<CompanyType>();
+                company.CompanySubTypes = new List<CompanySubType>();
+
+                return;
+            }
+            else
+            {
+                var selectedOptionsHS = new HashSet<string>(types);
+                var currentOptionsHS = new HashSet<int>(company.CompanyTypes.Select(b => b.TypeID));
+                foreach (var s in _context.Types)
+                {
+                    if (selectedOptionsHS.Contains(s.Name.ToString()))
+                    {
+                        if (!currentOptionsHS.Contains(s.ID))
+                        {
+                            company.CompanyTypes.Add(new CompanyType
+                            {
+                                TypeID = s.ID,
+                                CompanyID = company.ID
+                            });
+                        }
+                    }
+                    else
+                    {
+                        if (currentOptionsHS.Contains(s.ID))
+                        {
+                            CompanyType typeToRemove = company.CompanyTypes.SingleOrDefault(d => d.TypeID == s.ID);
+                            _context.Remove(typeToRemove);
+                        }
+                    }
+                }
+
+                var selectedSubTypesHS = new HashSet<string>(subtypes);
+                var currentSubTypesHS = new HashSet<int>(company.CompanySubTypes.Select(b => b.SubTypeID));
+                foreach (var s in _context.SubTypes)
+                {
+                    if (selectedSubTypesHS.Contains(s.ID.ToString()))
+                    {
+                        if (!currentSubTypesHS.Contains(s.ID))
+                        {
+                            company.CompanySubTypes.Add(new CompanySubType
+                            {
+                                SubTypeID = s.ID,
+                                CompanyID = company.ID
+                            });
+                        }
+                    }
+                    else
+                    {
+                        if (currentSubTypesHS.Contains(s.ID))
+                        {
+                            CompanySubType stypeToRemove = company.CompanySubTypes.SingleOrDefault(d => d.SubTypeID == s.ID);
+                            _context.Remove(stypeToRemove);
+                        }
+                    }
+                }
+            }
+
+            //if (type != "false")
+            //{
+            //    var currentOptionsHS = new HashSet<int>(company.CompanyTypes.Select(b => b.TypeID));
+
+            //    foreach (var s in _context.Types)
+            //    {
+            //        if (type == s.Name)
+            //        {
+            //            if (!currentOptionsHS.Contains(s.ID))
+            //            {
+            //                company.CompanyTypes.Add(new CompanyType
+            //                {
+            //                    CompanyID = company.ID,
+            //                    TypeID = s.ID
+            //                });
+            //            }
+            //        }
+            //    }
+
+
+            //}
+
+
+            //var selectedOptionsHS = new HashSet<string>(subTypes);
+            //var currentOptionsHS1 = new HashSet<int>(company.CompanySubTypes.Select(b => b.SubTypeID));
+            //if (selectedOptionsHS.Count > 0)
+            //{
+            //    foreach (var s in _context.SubType)
+            //    {
+            //        if (selectedOptionsHS.Contains(s.ID.ToString()))
+            //        {
+            //            if (!currentOptionsHS1.Contains(s.ID))
+            //            {
+            //                company.CompanySubTypes.Add(new CompanySubType
+            //                {
+            //                    SubTypeID = s.ID,
+            //                    CompanyID = company.ID
+            //                });
+            //            }
+            //        }
+            //    }
+            //}
+
         }
     }
 }
