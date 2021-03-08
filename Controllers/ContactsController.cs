@@ -22,7 +22,7 @@ namespace Hager_Ind_CRM.Controllers
             _context = context;
         }
 
-        // GET: Contacts
+        // GET: Users
         [Authorize(Policy = PolicyTypes.Contacts.Read)]
         public async Task<IActionResult> Index(string? CompanyType)
         {
@@ -50,7 +50,7 @@ namespace Hager_Ind_CRM.Controllers
             return View(await hagerIndContext.ToListAsync());
         }
 
-        // GET: Contacts/Details/5
+        // GET: Users/Details/5
         [Authorize(Policy = PolicyTypes.Contacts.Detail)]
         public async Task<IActionResult> Details(int? id)
         {
@@ -72,7 +72,7 @@ namespace Hager_Ind_CRM.Controllers
             return View(contact);
         }
 
-        // GET: Contacts/Create
+        // GET: Users/Create
         public IActionResult Create()
         {
             Contact contact = new Contact();
@@ -81,7 +81,7 @@ namespace Hager_Ind_CRM.Controllers
             return View();
         }
 
-        // POST: Contacts/Create
+        // POST: Users/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -124,7 +124,7 @@ namespace Hager_Ind_CRM.Controllers
             return View(contact);
         }
 
-        // POST: Contacts/Edit/5
+        // POST: Users/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -181,7 +181,7 @@ namespace Hager_Ind_CRM.Controllers
             return View(contact);
         }
 
-        // GET: Contacts/Delete/5
+        // GET: Users/Delete/5
         [Authorize(Policy = PolicyTypes.Contacts.Delete)]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -203,7 +203,7 @@ namespace Hager_Ind_CRM.Controllers
             return View(contact);
         }
 
-        // POST: Contacts/Delete/5
+        // POST: Users/Delete/5
         [Authorize(Policy = PolicyTypes.Contacts.Delete)]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

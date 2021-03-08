@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Hager_Ind_CRM.ViewModels.RolePermsVM>
+﻿@using Hager_Ind_CRM.Data
+@model IEnumerable<Hager_Ind_CRM.ViewModels.RolePermsVM>
 
 @{
     ViewBag.Title = "Index";
@@ -51,8 +52,15 @@
                             <td>
                                 @if (item.Name != "Admin")
                                 {
-                                    <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                    if (User.HasClaim(CustomClaimTypes.Permission, Users.Update))
+                                        {
+                                            <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                        }
+
+                                    if (User.HasClaim(CustomClaimTypes.Permission, Users.Update))
+                                        {
+                                            <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                        }
                                 }
                             </td>
                         </tr>
