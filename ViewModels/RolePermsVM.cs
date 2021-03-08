@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hager_Ind_CRM.ViewModels
 {
-    public class RolePerms
+    public class RolePermsVM
     {
         public string Id { get; set; }
 
