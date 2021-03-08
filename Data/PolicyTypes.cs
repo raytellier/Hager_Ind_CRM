@@ -44,6 +44,15 @@ namespace Hager_Ind_CRM.Data
             public const string Delete = "users.delete.policy";
         }
 
+        public static class Roles
+        {
+            public const string Create = "roles.create.policy";
+            public const string Read = "roles.read.policy";
+            public const string Detail = "roles.detail.policy";
+            public const string Update = "roles.update.policy";
+            public const string Delete = "roles.delete.policy";
+        }
+
         public static class Lists
         {
             public const string Manage = "lists.manage.policy";

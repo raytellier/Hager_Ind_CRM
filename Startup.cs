@@ -72,6 +72,13 @@ namespace Hager_Ind_CRM
                 options.AddPolicy(PolicyTypes.Users.Update, policy => policy.RequireClaim(CustomClaimTypes.Permission, Users.Update));
                 options.AddPolicy(PolicyTypes.Users.Delete, policy => policy.RequireClaim(CustomClaimTypes.Permission, Users.Delete));
 
+                // Roles policies
+                options.AddPolicy(PolicyTypes.Roles.Create, policy => policy.RequireClaim(CustomClaimTypes.Permission, Roles.Create));
+                options.AddPolicy(PolicyTypes.Roles.Read, policy => policy.RequireClaim(CustomClaimTypes.Permission, Roles.Read));
+                options.AddPolicy(PolicyTypes.Roles.Detail, policy => policy.RequireClaim(CustomClaimTypes.Permission, Roles.Detail));
+                options.AddPolicy(PolicyTypes.Roles.Update, policy => policy.RequireClaim(CustomClaimTypes.Permission, Roles.Update));
+                options.AddPolicy(PolicyTypes.Roles.Delete, policy => policy.RequireClaim(CustomClaimTypes.Permission, Roles.Delete));
+
                 // Lists policy
                 options.AddPolicy(PolicyTypes.Lists.Manage, policy => policy.RequireClaim(CustomClaimTypes.Permission, Lists.Manage));
             });
