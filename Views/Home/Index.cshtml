@@ -5,13 +5,46 @@
     IEnumerable<Announcement> announcements = ViewData["Announcements"] as IEnumerable<Announcement>;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>This is where your dashboard will be </p>
+<h1 class="mt-4">Home</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+</ol>
+<!--<div class="text-lg-center">-->
+@* Access to the Notice Page : <a asp-area="" asp-controller="Announcements" asp-action="Index">Announcemnets</a>*@
+<!--</div>-->
+
+<div class="row">
+    <div class="col-xl-4 col-md-6">
+        <div class="card bg-primary text-white mb-4">
+            <div class="card-body">Companies</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link" asp-area="" asp-controller="Companies" asp-action="Index">View</a>
+                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6">
+        <div class="card bg-success text-white mb-4">
+            <div class="card-body">Contacts</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link" asp-area="" asp-controller="Contacts" asp-action="Index">View</a>
+                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6">
+        <div class="card bg-danger text-white mb-4">
+            <div class="card-body">Employees</div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link" asp-area="" asp-controller="Employees" asp-action="Index">View</a>
+                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="text-lg-center">
-    @* Access to the Notice Page : <a asp-area="" asp-controller="Announcements" asp-action="Index">Announcemnets</a>*@
-</div>
+
 <div class="table-responsive">
     <table class="table table-bordered display" id="dataTable" width="100%" cellspacing="0">
         <thead>
@@ -34,7 +67,7 @@
                                 <a class="btn btn-outline-dark" asp-controller="Announcements" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
                             }
                         }
-                        
+
                     </td>
                 </tr>
             }
