@@ -180,4 +180,12 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/refreshDDL.js"></script>
+    <script type="text/javascript">
+        $('#BillingCountryID').change(function () {
+            var selectedCountry = $("#BillingCountryID").val();
+            var URL = "/Employees/GetProvinces/" + selectedCountry;
+            refreshDDL('BillingProvinceID', URL, true);
+        });
+    </script>
 }

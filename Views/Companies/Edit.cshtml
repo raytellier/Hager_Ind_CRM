@@ -201,7 +201,7 @@
                     {
                         <div class="col-12">
                             <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input" id="isCustomer" type="checkbox"/>
+                                <input class="custom-control-input" id="isCustomer" type="checkbox" />
                                 <label class="custom-control-label" for="isCustomer">Is this company a customer?</label>
                             </div>
                         </div>
@@ -360,6 +360,19 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="~/js/companies_script.js"></script>
+    <script src="~/js/refreshDDL.js"></script>
+    <script type="text/javascript">
+        $('#BillingCountryID').change(function () {
+            var selectedCountry = $("#BillingCountryID").val();
+            var URL = "/Companies/GetProvinces/" + selectedCountry;
+            refreshDDL('BillingProvinceID', URL, true);
+        });
+        $('#ShippingCountryID').change(function () {
+            var selectedCountry = $("#ShippingCountryID").val();
+            var URL = "/Companies/GetProvinces/" + selectedCountry;
+            refreshDDL('ShippingProvinceID', URL, true);
+        });
+    </script>
     @*<script type="text/javascript">
             (function () {
                 'use strict'

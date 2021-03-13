@@ -97,6 +97,8 @@ namespace Hager_Ind_CRM.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            employee.Country = await _context.Countries.FindAsync(employee.BillingCountryID);
+            employee.Province = await _context.Provinces.FindAsync(employee.BillingProvinceID);
             PopulateDropDownLists(employee);
             return View(employee);
         }
@@ -197,10 +199,19 @@ namespace Hager_Ind_CRM.Controllers
         }
         private void PopulateDropDownLists(Employee employee = null)
         {
+            if((employee?.BillingProvinceID).HasValue)
+            {
+                
+                ViewData["BillingCountryID"] = CountriesSelectList(employee?.BillingCountryID);
+                ViewData["BillingProvinceID"] = ProvincesSelectList(employee?.BillingCountryID, employee?.BillingProvinceID);
+            }
+            else
+            {
+                ViewData["BillingCountryID"] = CountriesSelectList(null);
+                ViewData["BillingProvinceID"] = ProvincesSelectList(null, null);
+            }
             ViewData["EmploymentTypeID"] = EmployementTypesSelectList(employee?.EmploymentTypeID);
             ViewData["JobPositionID"] = JobPositionsSelectList(employee?.JobPositionID);
-            ViewData["BillingCountryID"] = CountriesSelectList(employee?.BillingCountryID);
-            ViewData["BillingProvinceID"] = ProvincesSelectList(employee?.BillingProvinceID);
         }
         private SelectList EmployementTypesSelectList(int? id)
         {
@@ -226,16 +237,23 @@ namespace Hager_Ind_CRM.Controllers
             return new SelectList(dQuery, "ID", "Name", id);
         }
 
-        private SelectList ProvincesSelectList(int? id)
+        private SelectList ProvincesSelectList(int? CountryID, int? id)
         {
-            var dQuery = (from d in _context.Provinces
-                          orderby d.OrderID
-                          select d).ToList();
-            return new SelectList(dQuery, "ID", "Name", id);
+            var query = from c in _context.Provinces.Include(c => c.Country)
+                        select c;
+            if (CountryID.HasValue)
+            {
+                query = query.Where(p => p.CountryID == CountryID);
+            }
+            return new SelectList(query.OrderBy(p => p.Name), "ID", "Name", id);
         }
 
+        [HttpGet]
+        public JsonResult GetProvinces(int? ID)
+        {
+            return Json(ProvincesSelectList(ID, null));
+        }
 
-        
 
 
 

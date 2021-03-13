@@ -90,12 +90,7 @@ namespace Hager_Ind_CRM.Controllers
         public IActionResult Create()
         {
             Company company = new Company();
-            ViewData["BillingCountryID"] = new SelectList(_context.Countries, "ID", "Name");
-            ViewData["BillingProvinceID"] = new SelectList(_context.Provinces, "ID", "Name");
-            ViewData["BillingTermsID"] = new SelectList(_context.BillingTerms, "ID", "Terms");
-            ViewData["CurrencyID"] = new SelectList(_context.Currencies, "ID", "Name");
-            ViewData["ShippingCountryID"] = new SelectList(_context.Countries, "ID", "Name");
-            ViewData["ShippingProvinceID"] = new SelectList(_context.Provinces, "ID", "Name");
+            PopulateDropDownLists(company);
             PopulateAssignedCatagoriesData(company);
             return View();
         }
@@ -129,12 +124,11 @@ namespace Hager_Ind_CRM.Controllers
 
                 }
             }
-            ViewData["BillingCountryID"] = new SelectList(_context.Countries, "ID", "Name", company.BillingCountryID);
-            ViewData["BillingProvinceID"] = new SelectList(_context.Provinces, "ID", "Name", company.BillingProvinceID);
-            ViewData["BillingTermsID"] = new SelectList(_context.BillingTerms, "ID", "Terms", company.BillingTermsID);
-            ViewData["CurrencyID"] = new SelectList(_context.Currencies, "ID", "Name", company.CurrencyID);
-            ViewData["ShippingCountryID"] = new SelectList(_context.Countries, "ID", "Name", company.ShippingCountryID);
-            ViewData["ShippingProvinceID"] = new SelectList(_context.Provinces, "ID", "Name", company.ShippingProvinceID);
+            company.BillingCountry = await _context.Countries.FindAsync(company.BillingCountryID);
+            company.BillingProvince = await _context.Provinces.FindAsync(company.BillingProvinceID);
+            company.ShippingCountry = await _context.Countries.FindAsync(company.ShippingCountryID);
+            company.ShippingProvince = await _context.Provinces.FindAsync(company.ShippingProvinceID);
+            PopulateDropDownLists(company);
             PopulateAssignedCatagoriesData(company);
             return View(company);
         }
@@ -160,12 +154,7 @@ namespace Hager_Ind_CRM.Controllers
             {
                 return NotFound();
             }
-            ViewData["BillingCountryID"] = new SelectList(_context.Countries, "ID", "Name", company.BillingCountryID);
-            ViewData["BillingProvinceID"] = new SelectList(_context.Provinces, "ID", "Name", company.BillingProvinceID);
-            ViewData["BillingTermsID"] = new SelectList(_context.BillingTerms, "ID", "Terms", company.BillingTermsID);
-            ViewData["CurrencyID"] = new SelectList(_context.Currencies, "ID", "Name", company.CurrencyID);
-            ViewData["ShippingCountryID"] = new SelectList(_context.Countries, "ID", "Name", company.ShippingCountryID);
-            ViewData["ShippingProvinceID"] = new SelectList(_context.Provinces, "ID", "Name", company.ShippingProvinceID);
+            PopulateDropDownLists(company);
             PopulateAssignedCatagoriesData(company);
             return View(company);
         }
@@ -259,13 +248,8 @@ namespace Hager_Ind_CRM.Controllers
             //    }
             //    return RedirectToAction(nameof(Index));
             //}
-            ViewData["BillingCountryID"] = new SelectList(_context.Countries, "ID", "Name", companyToUpdate.BillingCountryID);
-            ViewData["BillingProvinceID"] = new SelectList(_context.Provinces, "ID", "Name", companyToUpdate.BillingProvinceID);
-            ViewData["BillingTermsID"] = new SelectList(_context.BillingTerms, "ID", "Terms", companyToUpdate.BillingTermsID);
-            ViewData["CurrencyID"] = new SelectList(_context.Currencies, "ID", "Name", companyToUpdate.CurrencyID);
-            ViewData["ShippingCountryID"] = new SelectList(_context.Countries, "ID", "Name", companyToUpdate.ShippingCountryID);
-            ViewData["ShippingProvinceID"] = new SelectList(_context.Provinces, "ID", "Name", companyToUpdate.ShippingProvinceID);
 
+            PopulateDropDownLists(companyToUpdate);
             PopulateAssignedCatagoriesData(companyToUpdate);
             return View(companyToUpdate);
         }
@@ -314,7 +298,28 @@ namespace Hager_Ind_CRM.Controllers
 
         private void PopulateDropDownLists(Company company = null)
         {
+            if ((company?.BillingProvinceID).HasValue)
+            {
+                ViewData["BillingCountryID"] = CountriesSelectList(company?.BillingCountryID);
+                ViewData["BillingProvinceID"] = ProvincesSelectList(company?.BillingCountryID, company?.BillingProvinceID);
+            }
+            else
+            {
+                ViewData["BillingCountryID"] = CountriesSelectList(null);
+                ViewData["BillingProvinceID"] = ProvincesSelectList(null,null);
+            }
+            if ((company?.ShippingProvinceID).HasValue)
+            {
+                ViewData["ShippingCountryID"] = CountriesSelectList(company?.ShippingCountryID);
+                ViewData["ShippingProvinceID"] = ProvincesSelectList(company?.ShippingCountryID, company?.ShippingProvinceID);
+            }
+            else
+            {
+                ViewData["ShippingCountryID"] = CountriesSelectList(null);
+                ViewData["ShippingProvinceID"] = ProvincesSelectList(null,null);
+            }
             ViewData["BillingTermsID"] = BillingTermsSelectList(company?.BillingTermsID);
+            ViewData["CurrencyID"] = CurrenciesSelectList(company?.CurrencyID);
         }
         private SelectList BillingTermsSelectList(int? id)
         {
@@ -323,7 +328,37 @@ namespace Hager_Ind_CRM.Controllers
                           select d).ToList();
             return new SelectList(dQuery, "ID", "Terms", id);
         }
+        private SelectList CurrenciesSelectList(int? id)
+        {
+            var dQuery = (from d in _context.Currencies
+                          orderby d.OrderID
+                          select d).ToList();
+            return new SelectList(dQuery, "ID", "Name", id);
+        }
 
+        private SelectList CountriesSelectList(int? id)
+        {
+            var dQuery = (from d in _context.Countries
+                          orderby d.OrderID
+                          select d).ToList();
+            return new SelectList(dQuery, "ID", "Name", id);
+        }
+        private SelectList ProvincesSelectList(int? CountryID, int? id)
+        {
+            var query = from c in _context.Provinces.Include(c => c.Country)
+                        select c;
+            if (CountryID.HasValue)
+            {
+                query = query.Where(p => p.CountryID == CountryID);
+            }
+            return new SelectList(query.OrderBy(p => p.Name), "ID", "Name", id);
+        }
+
+        [HttpGet]
+        public JsonResult GetProvinces(int? ID)
+        {
+            return Json(ProvincesSelectList(ID, null));
+        }
         private void GetContacts(int? id)
         {
             var contacts = (from d in _context.Contacts

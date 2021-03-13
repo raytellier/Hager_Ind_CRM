@@ -269,7 +269,6 @@
     </div>
 </form>
 
-
 @*<div class="row">
         <div class="col-md-4">
             <form asp-action="Create">
@@ -389,6 +388,19 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="~/js/companies_script.js"></script>
+    <script src="~/js/refreshDDL.js"></script>
+    <script type="text/javascript">
+        $('#BillingCountryID').change(function () {
+            var selectedCountry = $("#BillingCountryID").val();
+            var URL = "/Companies/GetProvinces/" + selectedCountry;
+            refreshDDL('BillingProvinceID', URL, true);
+        });
+        $('#ShippingCountryID').change(function () {
+            var selectedCountry = $("#ShippingCountryID").val();
+            var URL = "/Companies/GetProvinces/" + selectedCountry;
+            refreshDDL('ShippingProvinceID', URL, true);
+        });
+    </script>
 }
 <script>
     $(function () {
