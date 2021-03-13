@@ -1,0 +1,60 @@
+﻿@model Hager_Ind_CRM.ViewModels.RolePermsVM
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit Role</h2>
+
+
+<form asp-action="Edit">
+    <hr />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="rolePerms" class="control-label"></label>
+                <table>
+                    <tr>
+                        @{
+                            int cnt = 0;
+                            List<Hager_Ind_CRM.ViewModels.PermVM> perms = ViewBag.Perms;
+                            foreach (var perm in perms)
+                            {
+                                if (cnt++ % 3 == 0)
+                                {
+                                @:</tr><tr>
+                                }
+                                @:<td>
+                                    <input type="checkbox"
+                                           name="selectedPerms"
+                                           value="@perm.PermValue"
+                                           @(Html.Raw(perm.Assigned ? "checked=\"checked\"" : "")) />
+                                    @perm.PermValue @:&nbsp;&nbsp;
+                                @:</td>
+                            }
+                        @:</tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <input type="submit" id="btnSubmit" value="Save" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>

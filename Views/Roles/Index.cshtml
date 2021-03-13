@@ -1,0 +1,81 @@
+﻿@using Hager_Ind_CRM.Data
+@model IEnumerable<Hager_Ind_CRM.ViewModels.RolePermsVM>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h1 class="mt-4">Roles</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+    <li class="breadcrumb-item active"><a asp-area="" asp-controller="Home" asp-action="Management">Configuration</a></li>
+    <li class="breadcrumb-item active">Role Management</li>
+</ol>
+<p>
+    <a class="btn btn-primary" asp-action="Create">Create New Role</a>
+</p>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table mr-1"></i>
+        Results
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered display" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.rolePerms)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @{
+                                    foreach (var r in item.rolePerms)
+                                    {
+                                        @:  @r <br />
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @if (item.Name != "Admin")
+                                {
+                                    if (User.HasClaim(CustomClaimTypes.Permission, Users.Update))
+                                        {
+                                            <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                        }
+
+                                    if (User.HasClaim(CustomClaimTypes.Permission, Users.Update))
+                                        {
+                                            <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                        }
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#dataTable').DataTable();
+        });
+    </script>
+}

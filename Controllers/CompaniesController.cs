@@ -9,6 +9,7 @@ using Hager_Ind_CRM.Data;
 using Hager_Ind_CRM.Models;
 using Microsoft.AspNetCore.Authorization;
 using Hager_Ind_CRM.ViewModels;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Hager_Ind_CRM.Controllers
 {
@@ -175,7 +176,7 @@ namespace Hager_Ind_CRM.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Policy = PolicyTypes.Companies.Update)]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Location,CredCheck,BillingTermsID,CurrencyID,Phone,Website,BillingAddress1,BillingAddress2,BillingProvinceID,BillingPostalCode,BillingCountryID,ShippingAddress1,ShippingAddress2,ShippingProvinceID,ShippingPostalCode,ShippingCountryID,Active,Notes")] Company company,
+        public async Task<IActionResult> Edit(int id,
             string[] selectedOptionsCustomer, string[] selectedOptionsVendor, string[] selectedOptionsContractor,
             string isCustomer, string isVendor, string isContractor
             )
@@ -183,6 +184,13 @@ namespace Hager_Ind_CRM.Controllers
             var companyToUpdate = await _context.Companies
                 .Include(d => d.CompanyTypes).ThenInclude(d => d.Type)
                 .Include(d => d.CompanySubTypes).ThenInclude(d => d.SubType)
+                .Include(c => c.Contacts).ThenInclude(c => c.ContactCatagories).ThenInclude(c => c.Catagory)
+                .Include(c => c.BillingCountry)
+                .Include(c => c.BillingProvince)
+                .Include(c => c.BillingTerms)
+                .Include(c => c.Currency)
+                .Include(c => c.ShippingCountry)
+                .Include(c => c.ShippingProvince)
                 .SingleOrDefaultAsync(p => p.ID == id);
 
             //Check that you got it or exit with a not found error
@@ -191,15 +199,26 @@ namespace Hager_Ind_CRM.Controllers
                 return NotFound();
             }
 
-            UpdateTypesAndSubs(companyToUpdate, isCustomer, selectedOptionsCustomer, isVendor, selectedOptionsVendor, isContractor, selectedOptionsContractor);
-            
+            //UpdateTypesAndSubs(companyToUpdate, isCustomer, selectedOptionsCustomer, isVendor, selectedOptionsVendor, isContractor, selectedOptionsContractor);
 
-            if (ModelState.IsValid)
+            if (await TryUpdateModelAsync<Company>(companyToUpdate, "",
+                d => d.Name, d => d.Location, d => d.CredCheck, d => d.Active,
+                d => d.BillingTermsID, d => d.CurrencyID, d => d.Phone,
+                d => d.Website, d => d.BillingAddress1, d => d.BillingAddress2,
+                d => d.BillingProvinceID, d => d.BillingPostalCode, d => d.BillingCountryID,
+                d => d.ShippingAddress1, d => d.ShippingAddress2, d => d.ShippingProvinceID,
+                d => d.ShippingPostalCode, d => d.ShippingCountryID, d => d.Notes
+                ))
             {
                 try
                 {
-                    _context.Update(companyToUpdate);
+                    UpdateTypesAndSubs(companyToUpdate, isCustomer, selectedOptionsCustomer, isVendor, selectedOptionsVendor, isContractor, selectedOptionsContractor);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (RetryLimitExceededException /* dex */)
+                {
+                    ModelState.AddModelError("", "Unable to save changes after multiple attempts. Try again, and if the problem persists, see your system administrator.");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -212,8 +231,34 @@ namespace Hager_Ind_CRM.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                catch (DbUpdateException)
+                {
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+                }
+
             }
+
+
+            //if (ModelState.IsValid)
+            //{
+            //    try
+            //    {
+            //        _context.Update(companyToUpdate);
+            //        await _context.SaveChangesAsync();
+            //    }
+            //    catch (DbUpdateConcurrencyException)
+            //    {
+            //        if (!CompanyExists(companyToUpdate.ID))
+            //        {
+            //            return NotFound();
+            //        }
+            //        else
+            //        {
+            //            throw;
+            //        }
+            //    }
+            //    return RedirectToAction(nameof(Index));
+            //}
             ViewData["BillingCountryID"] = new SelectList(_context.Countries, "ID", "Name", companyToUpdate.BillingCountryID);
             ViewData["BillingProvinceID"] = new SelectList(_context.Provinces, "ID", "Name", companyToUpdate.BillingProvinceID);
             ViewData["BillingTermsID"] = new SelectList(_context.BillingTerms, "ID", "Terms", companyToUpdate.BillingTermsID);

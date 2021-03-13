@@ -51,6 +51,14 @@ namespace Hager_Ind_CRM.Data
                 await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Users.Update));
                 await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Users.Delete));
 
+                //Roles Claim
+                await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Roles.Create));
+                await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Roles.Read));
+                await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Roles.Detail));
+                await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Roles.Update));
+                await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Roles.Delete));
+
+                //Lists Claim
                 await RoleManager.AddClaimAsync(adminRole, new Claim(CustomClaimTypes.Permission, Lists.Manage));
             }
 

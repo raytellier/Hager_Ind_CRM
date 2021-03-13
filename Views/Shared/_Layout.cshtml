@@ -62,48 +62,65 @@
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
+
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
                             <div class="sb-nav-link-icon">
                                 <i class="fa fa-home" aria-hidden="true"></i>
                             </div>
                             Home
                         </a>
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCompanies" aria-expanded="false" aria-controls="collapseLayouts">
-                            <div class="sb-nav-link-icon"><i class="fa fa-users" aria-hidden="true"></i></div>
-                            Companies
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseCompanies" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" asp-area="" asp-controller="Companies" asp-action="Index">All Companies</a>
-                                <a class="nav-link" asp-area="" asp-controller="Companies" asp-action="Index" asp-route-CompanyType="Customer">Customers</a>
-                                <a class="nav-link" asp-area="" asp-controller="Companies" asp-action="Index" asp-route-CompanyType="Vendor">Vendors</a>
-                                <a class="nav-link" asp-area="" asp-controller="Companies" asp-action="Index" asp-route-CompanyType="Contractor">Contractors</a>
-                            </nav>
-                        </div>
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseContacts" aria-expanded="false" aria-controls="collapseLayouts">
-                            <div class="sb-nav-link-icon"><i class="fa fa-address-book" aria-hidden="true"></i></div>
-                            Contacts
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseContacts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" asp-area="" asp-controller="Contacts" asp-action="Index">All Contacts</a>
-                                <a class="nav-link" asp-area="" asp-controller="Contacts" asp-action="Index" asp-route-CompanyType="Customer">Customer Contacts</a>
-                                <a class="nav-link" asp-area="" asp-controller="Contacts" asp-action="Index" asp-route-CompanyType="Vendor">Vendor Contacts</a>
-                                <a class="nav-link" asp-area="" asp-controller="Contacts" asp-action="Index" asp-route-CompanyType="Contractor">Contractor Contacts</a>
-                            </nav>
-                        </div>
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseManagement" aria-expanded="false" aria-controls="collapseLayouts">
-                            <div class="sb-nav-link-icon"><i class="fa fa-tasks" aria-hidden="true"></i></div>
-                            Management
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseManagement" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" asp-area="" asp-controller="Employees" asp-action="Index">Employees</a>
-                            </nav>
-                        </div>
+                        @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Read))
+                            {
+                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCompanies" aria-expanded="false" aria-controls="collapseLayouts">
+                                    <div class="sb-nav-link-icon"><i class="fa fa-users" aria-hidden="true"></i></div>
+                                    Companies
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="collapseCompanies" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" asp-area="" asp-controller="Companies" asp-action="Index">All Companies</a>
+                                        <a class="nav-link" asp-area="" asp-controller="Companies" asp-action="Index" asp-route-CompanyType="Customer">Customers</a>
+                                        <a class="nav-link" asp-area="" asp-controller="Companies" asp-action="Index" asp-route-CompanyType="Vendor">Vendors</a>
+                                        <a class="nav-link" asp-area="" asp-controller="Companies" asp-action="Index" asp-route-CompanyType="Contractor">Contractors</a>
+                                    </nav>
+                                </div>
+                            }
+                        }
+
+                        @{ if (User.HasClaim(CustomClaimTypes.Permission, Contacts.Read))
+                            {
+                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseContacts" aria-expanded="false" aria-controls="collapseLayouts">
+                                    <div class="sb-nav-link-icon"><i class="fa fa-address-book" aria-hidden="true"></i></div>
+                                    Contacts
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="collapseContacts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" asp-area="" asp-controller="Contacts" asp-action="Index">All Contacts</a>
+                                        <a class="nav-link" asp-area="" asp-controller="Contacts" asp-action="Index" asp-route-CompanyType="Customer">Customer Contacts</a>
+                                        <a class="nav-link" asp-area="" asp-controller="Contacts" asp-action="Index" asp-route-CompanyType="Vendor">Vendor Contacts</a>
+                                        <a class="nav-link" asp-area="" asp-controller="Contacts" asp-action="Index" asp-route-CompanyType="Contractor">Contractor Contacts</a>
+                                    </nav>
+                                </div>
+                            }
+                        }
+
+                        @{ if (User.HasClaim(CustomClaimTypes.Permission, Users.Read) || User.HasClaim(CustomClaimTypes.Permission, Lists.Manage) || User.HasClaim(CustomClaimTypes.Permission, Roles.Read))
+                            {
+                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseManagement" aria-expanded="false" aria-controls="collapseLayouts">
+                                    <div class="sb-nav-link-icon"><i class="fa fa-tasks" aria-hidden="true"></i></div>
+                                    Management
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="collapseManagement" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" asp-area="" asp-controller="Employees" asp-action="Index">Employees</a>
+                                    </nav>
+                                </div>
+                            }
+                        }
+
+
                         @{ if (User.HasClaim(CustomClaimTypes.Permission, Users.Read) || User.HasClaim(CustomClaimTypes.Permission, Lists.Manage))
                             {
                                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAdminOptions" aria-expanded="false" aria-controls="collapseLayouts">
@@ -120,26 +137,26 @@
                         }
                     </div>
                 </div>
-                @*@if (SignInManager.IsSignedIn(User))
+                @if (SignInManager.IsSignedIn(User))
                 {
                     <div class="sb-sidenav-footer">
                         <div class="small">Logged in as:</div>
                         @User.Identity.Name
-                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                            <button type="submit" class="btn btn-danger">Logout</button>
-                        </form>
+                        @*<form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                            <button type="submit" class="btn btn-outline-danger">Logout</button>
+                        </form>*@
                     </div>
                 }
                 else
                 {
                     <div class="sb-sidenav-footer">
                         <div class="small">Not Logged In</div>
-                        <div class="d-flex justify-content-center pt-1">
+                        @*<div class="d-flex justify-content-center pt-1">
                             <a class="btn btn btn-outline-primary mr-1" asp-area="Identity" asp-page="/Account/Login">Login</a>
                             <a class="btn btn-outline-light " asp-area="Identity" asp-page="/Account/Register">Register</a>
-                        </div>
+                        </div>*@
                     </div>
-                }*@
+                }
             </nav>
         </div>
 
