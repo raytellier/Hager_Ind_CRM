@@ -60,7 +60,8 @@ namespace Hager_Ind_CRM.Controllers
             {
                 _context.Add(announcement);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Home");
             }
             return View(announcement);
         }
@@ -143,7 +144,8 @@ namespace Hager_Ind_CRM.Controllers
             var announcement = await _context.Announcements.FindAsync(id);
             _context.Announcements.Remove(announcement);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            //return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Home");
         }
 
         private bool AnnouncementExists(int id)
