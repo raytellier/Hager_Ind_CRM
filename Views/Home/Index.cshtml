@@ -45,7 +45,56 @@
     </div>
 </div>
 
-<div class="table-responsive">
+
+
+
+<div class="row">
+    <div class="col-xl-6 col-lg-6">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Announcements</h6>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @*<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>*@
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                         aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" asp-controller="Announcements" asp-action="Create">Create New</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="chart-area">
+                    @foreach (var item in announcements)
+                    {
+
+
+                        @if (User.IsInRole("Admin"))
+                         {
+                                <p>
+                                    <a class="btn btn-light" asp-controller="Announcements" asp-action="Edit" asp-route-id="@item.ID">
+                                        @Html.DisplayFor(modelItem => item.Notice)
+                                    </a>
+                                </p>
+                         }
+                        else
+                        {
+                            <p>
+                                @Html.DisplayFor(modelItem => item.Notice)
+                            </p>
+                        }
+                     }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*<div class="table-responsive">
     <table class="table table-bordered display" id="dataTable" width="100%" cellspacing="0">
         <thead>
             <tr>
@@ -73,4 +122,4 @@
             }
         </tbody>
     </table>
-</div>
+</div>*@
