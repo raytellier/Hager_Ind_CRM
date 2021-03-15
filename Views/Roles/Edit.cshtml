@@ -21,29 +21,149 @@
 
             <div class="form-group">
                 <label asp-for="rolePerms" class="control-label"></label>
+                <h6>Companies</h6>
                 <table>
                     <tr>
                         @{
-                            int cnt = 0;
+                            static string UppercaseFirst(string s)
+                            {
+                                if (string.IsNullOrEmpty(s))
+                                {
+                                    return String.Empty;
+                                }
+                                return char.ToUpper(s[0]) + s.Substring(1);
+                            }
+
                             List<Hager_Ind_CRM.ViewModels.PermVM> perms = ViewBag.Perms;
                             foreach (var perm in perms)
                             {
-                                if (cnt++ % 3 == 0)
+                                if (perm.PermValue.Contains("companies"))
                                 {
-                                @:</tr><tr>
+                                    string[] permName = perm.PermValue.Split('.');
+                                    @:<td>
+                                        <input type="checkbox"
+                                               name="selectedPerms"
+                                               value="@perm.PermValue"
+                                               @(Html.Raw(perm.Assigned ? "checked=\"checked\"" : "")) />
+                                        @UppercaseFirst(permName[1]) @:&nbsp;&nbsp;
+                                    @:</td>
                                 }
-                                @:<td>
-                                    <input type="checkbox"
-                                           name="selectedPerms"
-                                           value="@perm.PermValue"
-                                           @(Html.Raw(perm.Assigned ? "checked=\"checked\"" : "")) />
-                                    @perm.PermValue @:&nbsp;&nbsp;
-                                @:</td>
                             }
                         @:</tr>
                         }
                     </table>
-                </div>
+
+
+                    <h6>Contacts</h6>
+                    <table>
+                        <tr>
+                            @{
+                                foreach (var perm in perms)
+                                {
+                                    if (perm.PermValue.Contains("contacts"))
+                                    {
+                                        string[] permName = perm.PermValue.Split('.');
+                                        @:<td>
+                                            <input type="checkbox"
+                                                   name="selectedPerms"
+                                                   value="@perm.PermValue"
+                                                   @(Html.Raw(perm.Assigned ? "checked=\"checked\"" : "")) />
+                                            @UppercaseFirst(permName[1]) @:&nbsp;&nbsp;
+                                        @:</td>
+                                    }
+                                }
+                            @:</tr>
+                            }
+                        </table>
+
+                        <h6>Employees</h6>
+                        <table>
+                            <tr>
+                                @{
+                                    foreach (var perm in perms)
+                                    {
+                                        if (perm.PermValue.Contains("employees"))
+                                        {
+                                            string[] permName = perm.PermValue.Split('.');
+                                            @:<td>
+                                                <input type="checkbox"
+                                                       name="selectedPerms"
+                                                       value="@perm.PermValue"
+                                                       @(Html.Raw(perm.Assigned ? "checked=\"checked\"" : "")) />
+                                                @UppercaseFirst(permName[1]) @:&nbsp;&nbsp;
+                                            @:</td>
+                                        }
+                                    }
+                                @:</tr>
+                                }
+                            </table>
+
+                            <h6>User Management</h6>
+                            <table>
+                                <tr>
+                                    @{
+                                        foreach (var perm in perms)
+                                        {
+                                            if (perm.PermValue.Contains("users"))
+                                            {
+                                                string[] permName = perm.PermValue.Split('.');
+                                                @:<td>
+                                                    <input type="checkbox"
+                                                           name="selectedPerms"
+                                                           value="@perm.PermValue"
+                                                           @(Html.Raw(perm.Assigned ? "checked=\"checked\"" : "")) />
+                                                    @UppercaseFirst(permName[1]) @:&nbsp;&nbsp;
+                                                @:</td>
+                                            }
+                                        }
+                                    @:</tr>
+                                    }
+                                </table>
+
+                                <h6>Role Management</h6>
+                                <table>
+                                    <tr>
+                                        @{
+                                            foreach (var perm in perms)
+                                            {
+                                                if (perm.PermValue.Contains("roles"))
+                                                {
+                                                    string[] permName = perm.PermValue.Split('.');
+                                                    @:<td>
+                                                        <input type="checkbox"
+                                                               name="selectedPerms"
+                                                               value="@perm.PermValue"
+                                                               @(Html.Raw(perm.Assigned ? "checked=\"checked\"" : "")) />
+                                                        @UppercaseFirst(permName[1]) @:&nbsp;&nbsp;
+                                                    @:</td>
+                                                }
+                                            }
+                                        @:</tr>
+                                        }
+                                    </table>
+
+                                    <h6>List Management</h6>
+                                    <table>
+                                        <tr>
+                                            @{
+                                                foreach (var perm in perms)
+                                                {
+                                                    if (perm.PermValue.Contains("lists"))
+                                                    {
+                                                        string[] permName = perm.PermValue.Split('.');
+                                                        @:<td>
+                                                            <input type="checkbox"
+                                                                   name="selectedPerms"
+                                                                   value="@perm.PermValue"
+                                                                   @(Html.Raw(perm.Assigned ? "checked=\"checked\"" : "")) />
+                                                            @UppercaseFirst(permName[1]) @:&nbsp;&nbsp;
+                                                        @:</td>
+                                                    }
+                                                }
+                                            @:</tr>
+                                            }
+                                        </table>
+                                    </div>
             </div>
         </div>
         <div class="row">
