@@ -30,7 +30,7 @@ namespace Hager_Ind_CRM.Controllers
 
         // GET: Companies
         [Authorize(Policy = PolicyTypes.Companies.Read)]
-        public async Task<IActionResult> Index(string? CompanyType, string[] selected)
+        public async Task<IActionResult> Index(string? CompanyType, string[] YourCheckboxes)
         {
 
             var hagerIndContext = from a in _context.Companies

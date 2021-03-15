@@ -13,17 +13,18 @@
 </ol>
 
 <form asp-action="Index" method="post">
-<p>
-    @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Create))
-        {
-            <a class="btn btn-primary" asp-action="Create">Create New</a>
-            @*<div asp-action="Merge">
-                <button type="button" class="btn btn-danger btn-sm" id="btnMerge"> Merge Selected</button>
-            </div>*@
-            <input class="btn btn-primary" asp-action="Index" id="btnMerge">Merge Selected</input>
+    <p>
+        @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Create))
+            {
+                <a class="btn btn-primary" asp-action="Create">Create New</a>
+                @*<div asp-action="Merge">
+                    <button type="button" class="btn btn-danger btn-sm" id="btnMerge"> Merge Selected</button>
+                </div>*@
+                @*<a class="btn btn-primary" type="submit">Merge Selected</a>*@
+                <input class="btn btn-primary" type="submit"  value="Submit">
+            }
         }
-    }
-</p>
+    </p>
     <div class="card mb-4">
 
         <div class="card-header">
@@ -66,8 +67,9 @@
                             <tr>
                                 <td>
                                     <div class="custom-control custom-checkbox pt-2">
-                                        <input @*class="custom-control-input"*@ id="selected" name="selected" value="@item.ID" type="checkbox" />
+                                        <!--<input--> @*class="custom-control-input"*@ <!--id="selected" name="selected" value="@item.ID" type="checkbox" />-->
                                         @*<input type="hidden" name="selected" id="selected" value="@item.ID" />*@
+                                        <input type="checkbox" name="YourCheckBoxes" value="@item.ID" />
                                     </div>
                                 </td>
                                 <td>
@@ -139,7 +141,7 @@
             </div>
         </div>
 
-        <input id="isSelected" name="isSelected" type="hidden" value="" />
+        @*<input id="isSelected" name="isSelected" type="hidden" value="" />*@
 
 
     </div>
