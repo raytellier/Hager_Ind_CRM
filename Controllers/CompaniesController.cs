@@ -22,10 +22,18 @@ namespace Hager_Ind_CRM.Controllers
             _context = context;
         }
 
+        //for grabbing checkboxes
+        public void OnPost()
+        {
+            var checkIds = Request.Form["selected"];
+        }
+
         // GET: Companies
         [Authorize(Policy = PolicyTypes.Companies.Read)]
-        public async Task<IActionResult> Index(string? CompanyType)
+        public async Task<IActionResult> Index(string? CompanyType,/* string? merge,*/ string[] selected)
         {
+            //var checkIds = Request.Form["selected"];
+
             var hagerIndContext = from a in _context.Companies
                 .Include(c => c.Contacts)
                 .Include(c => c.BillingCountry)
@@ -52,8 +60,27 @@ namespace Hager_Ind_CRM.Controllers
                     hagerIndContext = hagerIndContext.Where(p => p.CompanyTypes.Any(c => c.Type.Name == "Contractor"));
                 }
             }
-
             return View(await hagerIndContext.ToListAsync());
+
+            //if (!selected.Any())
+            //{
+            //    return View(await hagerIndContext.ToListAsync());
+            //}
+            //Action For Merging
+            //else
+            //{
+                
+            //    Company[] companiesMerge = new Company[selected.Count()];
+            //    foreach (var item in selected)
+            //    {
+            //        Company mergie = hagerIndContext.Where(p => p.ID == item).FirstOrDefault();
+            //        companiesMerge.Append(mergie);
+            //    }
+            //    ViewData["Companies"] = companiesMerge;
+            //    IEnumerable<Company> companies = ViewData["Companies"] as IEnumerable<Company>;
+            //    return RedirectToAction("Edit", new { id = companies.First().ID});
+            //}
+            
         }
 
         // GET: Companies/Details/5
@@ -333,6 +360,7 @@ namespace Hager_Ind_CRM.Controllers
             ViewData["Contacts"] = contacts;
         }
 
+
         private void PopulateAssignedCatagoriesData(Company company)
         {
             var allOptions = _context.SubTypes.Include(s => s.Type);
@@ -555,5 +583,7 @@ namespace Hager_Ind_CRM.Controllers
             //}
 
         }
+
+
     }
 }

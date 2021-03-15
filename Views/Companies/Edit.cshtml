@@ -2,6 +2,10 @@
 
 @{
     ViewData["Title"] = "Edit";
+    IEnumerable<Company> companies = null;
+    @if (ViewData["Companies"] != null) {
+        companies = ViewData["Companies"] as IEnumerable<Company>;
+    }
 }
 
 <h1 class="mt-4">Edit Company</h1>
@@ -201,7 +205,7 @@
                     {
                         <div class="col-12">
                             <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input" id="isCustomer" type="checkbox"/>
+                                <input class="custom-control-input" id="isCustomer" type="checkbox" />
                                 <label class="custom-control-label" for="isCustomer">Is this company a customer?</label>
                             </div>
                         </div>
@@ -350,16 +354,159 @@
             </div>
         </div>
         <div class="col-xl-6 col-sm-12">
-            <input type="submit" id="btnSubmit" value="Save" class="btn btn-primary" />
+            @if (companies != null)
+            {
+                <input type="submit" id="btnSubmit" value="Merge Tables" class="btn btn-primary" />
+            }
+            else
+            {
+                <input type="submit" id="btnSubmit" value="Save" class="btn btn-primary" />
+            }
             <a class="btn btn-outline-danger" asp-action="Index">Cancel</a>
         </div>
     </div>
+
+    @*MERGE DATA=========================================================================================================*@
+
+    @if (companies != null)
+    {
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered display" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>
+                                Select
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(companies => companies.Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(companies => companies.CompanyTypes)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(companies => companies.CredCheck)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(companies => companies.BillingTerms)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(companies => companies.Phone)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(companies => companies.Website)
+                            </th>
+                            @*<th></th>*@
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in companies)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-checkbox pt-2">
+                                        <input class="custom-control-input" id="select" name="select" value="@item.ID" type="checkbox" />
+                                    </div>
+                                </td>
+                                <td>
+                                    <a class="btn btn-light" asp-action="Details" asp-route-id="@item.ID">
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </a>
+                                </td>
+                                <td>
+                                    @{
+                                        int mergeTypesCount = item.CompanyTypes.Count;
+                                        if (mergeTypesCount > 0)
+                                        {
+                                            string firstType = item.CompanyTypes.FirstOrDefault().Type.Name;
+                                            if (mergeTypesCount > 1)
+                                            {
+                                                string typeList = "";
+                                                var c = item.CompanyTypes.ToList();
+                                                for (int i = 1; i < mergeTypesCount; i++)
+                                                {
+                                                    typeList += c[i].Type.Name + " <br />";
+                                                }
+                                                <a class="" role="button" data-toggle="collapse" href="#collapseSum@(item.ID)" aria-expanded="false" aria-controls="collapseSum@(item.ID)">
+                                                    @firstType <span class="badge badge-info">@mergeTypesCount</span>
+                                                </a>
+                                                <div class="collapse" id="collapseSum@(item.ID)">
+                                                    @Html.Raw(typeList)
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @firstType
+                                            }
+                                        }
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CredCheck)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.BillingTerms.Terms)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Phone)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Website)
+                                </td>
+                                @*<td>
+                                        @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Update))
+                                            {
+                                                <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+                                            }
+                                        }
+                                        @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Detail))
+                                            {
+                                                <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ID">Details</a>
+                                            }
+                                        }
+                                        @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Delete))
+                                            {
+                                                <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                                            }
+                                        }
+                                    </td>*@
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
 </form>
 
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="~/js/companies_script.js"></script>
+
+    @*This is for the company table*@
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.fn.dataTable.ext.order['dom-checkbox'] = function (settings, col) {
+                return this.api().column(col, { order: 'index' }).nodes().map(function (td, i) {
+                    return $('input', td).prop('checked') ? '1' : '0';
+                });
+            };
+            @*These have to match the amount of columns there are, null if its not a boolean and { "orderDataType": "dom-checkbox" } in the boolean column*@
+            $('#dataTable').DataTable({
+                "columns": [
+                    null,
+                    null,
+                    { "orderDataType": "dom-checkbox" },
+                    null,
+                    null,
+                    null,
+                ]
+            });
+        });
+        </script>
     @*<script type="text/javascript">
             (function () {
                 'use strict'
