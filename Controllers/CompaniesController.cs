@@ -30,9 +30,8 @@ namespace Hager_Ind_CRM.Controllers
 
         // GET: Companies
         [Authorize(Policy = PolicyTypes.Companies.Read)]
-        public async Task<IActionResult> Index(string? CompanyType,/* string? merge,*/ string[] selected)
+        public async Task<IActionResult> Index(string? CompanyType, string[] selected)
         {
-            //var checkIds = Request.Form["selected"];
 
             var hagerIndContext = from a in _context.Companies
                 .Include(c => c.Contacts)
@@ -60,27 +59,25 @@ namespace Hager_Ind_CRM.Controllers
                     hagerIndContext = hagerIndContext.Where(p => p.CompanyTypes.Any(c => c.Type.Name == "Contractor"));
                 }
             }
-            return View(await hagerIndContext.ToListAsync());
 
-            //if (!selected.Any())
-            //{
-            //    return View(await hagerIndContext.ToListAsync());
-            //}
-            //Action For Merging
-            //else
-            //{
-                
-            //    Company[] companiesMerge = new Company[selected.Count()];
-            //    foreach (var item in selected)
-            //    {
-            //        Company mergie = hagerIndContext.Where(p => p.ID == item).FirstOrDefault();
-            //        companiesMerge.Append(mergie);
-            //    }
-            //    ViewData["Companies"] = companiesMerge;
-            //    IEnumerable<Company> companies = ViewData["Companies"] as IEnumerable<Company>;
-            //    return RedirectToAction("Edit", new { id = companies.First().ID});
-            //}
-            
+            if (selected.Count() < 2)
+            {
+                return View(await hagerIndContext.ToListAsync());
+            }
+
+            else
+            {
+                Company[] companiesMerge = new Company[selected.Count()];
+                foreach (var item in selected)
+                {
+                    Company mergie = hagerIndContext.Where(p => p.ID == int.Parse(item)).FirstOrDefault();
+                    companiesMerge.Append(mergie);
+                }
+                ViewData["Companies"] = companiesMerge;
+                IEnumerable<Company> companies = ViewData["Companies"] as IEnumerable<Company>;
+                return RedirectToAction("Edit", new { id = companies.First().ID });
+            }
+
         }
 
         // GET: Companies/Details/5
