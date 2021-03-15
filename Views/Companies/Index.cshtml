@@ -33,6 +33,9 @@
                             @Html.DisplayNameFor(model => model.Name)
                         </th>
                         <th>
+                            @Html.DisplayNameFor(model => model.Location)
+                        </th>
+                        <th>
                             @Html.DisplayNameFor(model => model.CompanyTypes)
                         </th>
                         <th>
@@ -58,6 +61,9 @@
                             <a class="btn btn-light" asp-action="Details" asp-route-id="@item.ID">
                                 @Html.DisplayFor(modelItem => item.Name)
                             </a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Location)
                         </td>
                         <td>
                             @{
@@ -100,22 +106,22 @@
                             @Html.DisplayFor(modelItem => item.Website)
                         </td>
                         @*<td>
-                            @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Update))
-                                {
-                                    <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
-                                }
-                            }
-                            @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Detail))
-                                {
-                                    <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ID">Details</a>
-                                }
-                            }
-                            @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Delete))
-                                {
-                                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-                                }
-                            }
-                        </td>*@
+            @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Update))
+                {
+                    <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+                }
+            }
+            @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Detail))
+                {
+                    <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ID">Details</a>
+                }
+            }
+            @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Delete))
+                {
+                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                }
+            }
+        </td>*@
                     </tr>
                     }
                 </tbody>

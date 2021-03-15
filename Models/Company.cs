@@ -99,6 +99,7 @@ namespace Hager_Ind_CRM.Models
         public string Notes { get; set; }
 
         public ICollection<Contact> Contacts { get; set; }
+        [Display(Name = "Company Types")]
         public ICollection<CompanyType> CompanyTypes { get; set; }
         public ICollection<CompanySubType> CompanySubTypes { get; set; }
     }

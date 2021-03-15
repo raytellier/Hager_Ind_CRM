@@ -105,7 +105,7 @@
                             }
                         }
 
-                        @{ if (User.HasClaim(CustomClaimTypes.Permission, Users.Read) || User.HasClaim(CustomClaimTypes.Permission, Lists.Manage) || User.HasClaim(CustomClaimTypes.Permission, Roles.Read))
+                        @{ if (User.HasClaim(CustomClaimTypes.Permission, Employees.Read))
                             {
                                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseManagement" aria-expanded="false" aria-controls="collapseLayouts">
                                     <div class="sb-nav-link-icon"><i class="fa fa-tasks" aria-hidden="true"></i></div>
@@ -121,7 +121,7 @@
                         }
 
 
-                        @{ if (User.HasClaim(CustomClaimTypes.Permission, Users.Read) || User.HasClaim(CustomClaimTypes.Permission, Lists.Manage))
+                        @{ if (User.HasClaim(CustomClaimTypes.Permission, Users.Read) || User.HasClaim(CustomClaimTypes.Permission, Lists.Manage) || User.HasClaim(CustomClaimTypes.Permission, Roles.Read))
                             {
                                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAdminOptions" aria-expanded="false" aria-controls="collapseLayouts">
                                     <div class="sb-nav-link-icon"><i class="fa fa-lock" aria-hidden="true"></i></div>
