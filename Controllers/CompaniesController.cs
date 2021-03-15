@@ -295,6 +295,33 @@ namespace Hager_Ind_CRM.Controllers
         {
             return _context.Companies.Any(e => e.ID == id);
         }
+        [Authorize(Policy = PolicyTypes.Companies.Detail)]
+        public async Task<IActionResult> MergeDetails(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var company = await _context.Companies
+                .Include(c => c.Contacts).ThenInclude(c => c.ContactCatagories).ThenInclude(c => c.Catagory)
+                .Include(c => c.BillingCountry)
+                .Include(c => c.BillingProvince)
+                .Include(c => c.BillingTerms)
+                .Include(c => c.Currency)
+                .Include(c => c.ShippingCountry)
+                .Include(c => c.ShippingProvince)
+                .Include(c => c.CompanyTypes).ThenInclude(p => p.Type).ThenInclude(p => p.SubTypes)
+                .Include(c => c.CompanySubTypes).ThenInclude(p => p.SubType)
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (company == null)
+            {
+                return NotFound();
+            }
+
+            GetContacts(id);
+            return View(company);
+        }
 
         private void PopulateDropDownLists(Company company = null)
         {
