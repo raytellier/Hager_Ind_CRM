@@ -13,9 +13,9 @@
         <li class="breadcrumb-item active">Company Types</li>
     </ol>
 
-    <p>
+    @*<p>
         <a asp-action="Create">Create New</a>
-    </p>
+    </p>*@
     <div class="card mb-4">
         <div class="card-header">
             <i class="fas fa-table mr-1"></i>
@@ -35,7 +35,7 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.Name)
                             </th>
-                            <th></th>
+                            @*<th></th>*@
                         </tr>
                     </thead>
                     <tbody>
@@ -52,11 +52,11 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Name)
                                 </td>
-                                <td>
-                                    <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+                                <!--<td>
+                                    <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>-->
                                     @*<a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ID">Details</a>*@
-                                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-                                </td>
+                                    <!--<a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                                </td>-->
                             </tr>
                         }
                     </tbody>
