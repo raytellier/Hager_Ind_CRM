@@ -50,42 +50,62 @@
                         <th>
                             @Html.DisplayNameFor(model => model.Active)
                         </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IsUser)
+                        </th>
                         @*<th></th>*@
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td>
-                                <a class="btn btn-light" asp-action="Details" asp-route-id="@item.ID">
-                                    @Html.DisplayFor(modelItem => item.FullName)
-                                </a>
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.JobPosition.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.EmploymentType.Type)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CellPhone)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Email)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.KeyFobNumber)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Active)
-                            </td>
-                            @*<td>
-                                    <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
-                                    <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ID">Details</a>
-                                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-                                </td>*@
-                        </tr>
+                    <tr>
+                        <td>
+                            <a class="btn btn-light" asp-action="Details" asp-route-id="@item.ID">
+                                @Html.DisplayFor(modelItem => item.FullName)
+                            </a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.JobPosition.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EmploymentType.Type)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CellPhone)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.KeyFobNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Active)
+                            @{if (item.Active == true)
+                                {
+                                    <div hidden="hidden">
+                                        Active
+                                    </div>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsUser)
+                            @{if (item.IsUser == true)
+                                {
+                                    <div hidden="hidden">
+                                        IsUser
+                                    </div>
+                                }
+                            }
+                        </td>
+                        @*<td>
+            <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+            <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ID">Details</a>
+            <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+        </td>*@
+                    </tr>
                     }
                 </tbody>
             </table>
@@ -139,7 +159,8 @@
                     null,
                     null,
                     null,
-                    { "orderDataType": "dom-checkbox" }
+                    { "orderDataType": "dom-checkbox", "targets": 7},
+                    { "orderDataType": "dom-checkbox", "targets": 8 }
                 ]
             });
         });

@@ -42,6 +42,9 @@
                             @Html.DisplayNameFor(model => model.CredCheck)
                         </th>
                         <th>
+                            @Html.DisplayNameFor(model => model.Active)
+                        </th>
+                        <th>
                             @Html.DisplayNameFor(model => model.BillingTerms)
                         </th>
                         <th>
@@ -95,6 +98,23 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.CredCheck)
+                            @{if (item.CredCheck == true)
+                                {
+                                    <div hidden="hidden">
+                                        Checked
+                                    </div>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Active)
+                            @{if (item.Active == true)
+                                {
+                                    <div hidden="hidden">
+                                        Active
+                                    </div>
+                                }
+                            }
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.BillingTerms.Terms)
@@ -144,7 +164,9 @@
                 "columns": [
                     null,
                     null,
-                    { "orderDataType": "dom-checkbox" },
+                    null,
+                    { "orderDataType": "dom-checkbox", "targets": 4 },
+                    { "orderDataType": "dom-checkbox", "targets": 5},
                     null,
                     null,
                     null,
