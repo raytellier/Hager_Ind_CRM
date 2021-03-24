@@ -2,10 +2,10 @@
 
 @{
     ViewData["Title"] = "Edit";
-    IEnumerable<Company> companies = null;
+    @*IEnumerable<Company> companies = null;
     @if (ViewData["Companies"] != null) {
         companies = ViewData["Companies"] as IEnumerable<Company>;
-    }
+    }*@
 }
 
 <h1 class="mt-4">Edit Company</h1>
@@ -48,7 +48,7 @@
                 <div class="form-group col-xl-3 col-md-6 col-sm-6">
                     <label asp-for="BillingTermsID" class="control-label"></label>
                     <select asp-for="BillingTermsID" class="form-control" asp-items="ViewBag.BillingTermsID">
-                        <option value="">Select...</option>
+                        <option value="" ><p contenteditable="true">Select...</p></option>
                     </select>
                     <span asp-validation-for="BillingTermsID" class="text-danger"></span>
                 </div>
@@ -354,7 +354,7 @@
             </div>
         </div>
         <div class="col-xl-6 col-sm-12">
-            @if (companies != null)
+            @if (ViewData["Companies"] != null)
             {
                 <input type="submit" id="btnSubmit" value="Merge Tables" class="btn btn-primary" />
             }
@@ -368,115 +368,125 @@
 
     @*MERGE DATA=========================================================================================================*@
 
-    @if (companies != null)
-    {
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered display" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
+    @*@if (ViewData["Companies"])
+    {*@
+<div class="card mb-4">
+
+    <div class="card-header">
+        <i class="fas fa-table mr-1"></i>
+        Results
+    </div>
+    <div class="card-body">
+
+        <div class="table-responsive">
+            <table class="table table-bordered display" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>
+                            Select
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CompanyTypes)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CredCheck)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BillingTerms)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Phone)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Website)
+                        </th>
+                        @*<th></th>*@
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewData["Companies"] as IEnumerable<Company>)
+                    {
                         <tr>
-                            <th>
-                                Select
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(companies => companies.Name)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(companies => companies.CompanyTypes)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(companies => companies.CredCheck)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(companies => companies.BillingTerms)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(companies => companies.Phone)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(companies => companies.Website)
-                            </th>
-                            @*<th></th>*@
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in companies)
-                        {
-                            <tr>
-                                <td>
-                                    <div class="custom-control custom-checkbox pt-2">
-                                        <input class="custom-control-input" id="select" name="select" value="@item.ID" type="checkbox" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <a class="btn btn-light" asp-action="Details" asp-route-id="@item.ID">
-                                        @Html.DisplayFor(modelItem => item.Name)
-                                    </a>
-                                </td>
-                                <td>
-                                    @{
-                                        int mergeTypesCount = item.CompanyTypes.Count;
-                                        if (mergeTypesCount > 0)
+                            <td>
+                                <div class="custom-control custom-checkbox pt-2">
+                                    <!--<input--> @*class="custom-control-input"*@ <!--id="selected" name="selected" value="@item.ID" type="checkbox" />-->
+                                    @*<input type="hidden" name="selected" id="selected" value="@item.ID" />*@
+                                    <input type="checkbox" name="YourCheckBoxes" value="@item.ID" />
+                                </div>
+                            </td>
+                            <td>
+                                <a class="btn btn-light" asp-action="Details" asp-route-id="@item.ID">
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </a>
+                            </td>
+                            <td>
+                                @{
+                                    int typesCountm = item.CompanyTypes.Count;
+                                    if (typesCount > 0)
+                                    {
+                                        string firstType = item.CompanyTypes.FirstOrDefault().Type.Name;
+                                        if (typesCountm > 1)
                                         {
-                                            string firstType = item.CompanyTypes.FirstOrDefault().Type.Name;
-                                            if (mergeTypesCount > 1)
+                                            string typeList = "";
+                                            var c = item.CompanyTypes.ToList();
+                                            for (int i = 1; i < typesCountm; i++)
                                             {
-                                                string typeList = "";
-                                                var c = item.CompanyTypes.ToList();
-                                                for (int i = 1; i < mergeTypesCount; i++)
-                                                {
-                                                    typeList += c[i].Type.Name + " <br />";
-                                                }
-                                                <a class="" role="button" data-toggle="collapse" href="#collapseSum@(item.ID)" aria-expanded="false" aria-controls="collapseSum@(item.ID)">
-                                                    @firstType <span class="badge badge-info">@mergeTypesCount</span>
-                                                </a>
-                                                <div class="collapse" id="collapseSum@(item.ID)">
-                                                    @Html.Raw(typeList)
-                                                </div>
+                                                typeList += c[i].Type.Name + " <br />";
                                             }
-                                            else
-                                            {
-                                                @firstType
-                                            }
+                                            <a class="" role="button" data-toggle="collapse" href="#collapseSum@(item.ID)" aria-expanded="false" aria-controls="collapseSum@(item.ID)">
+                                                @firstType <span class="badge badge-info">@typesCount</span>
+                                            </a>
+                                            <div class="collapse" id="collapseSum@(item.ID)">
+                                                @Html.Raw(typeList)
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            @firstType
                                         }
                                     }
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CredCheck)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.BillingTerms.Terms)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Phone)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Website)
-                                </td>
-                                @*<td>
-                                        @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Update))
-                                            {
-                                                <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
-                                            }
+                                }
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CredCheck)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BillingTerms.Terms)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Phone)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Website)
+                            </td>
+                            @*<td>
+                                    @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Update))
+                                        {
+                                            <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
                                         }
-                                        @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Detail))
-                                            {
-                                                <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ID">Details</a>
-                                            }
+                                    }
+                                    @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Detail))
+                                        {
+                                            <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ID">Details</a>
                                         }
-                                        @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Delete))
-                                            {
-                                                <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-                                            }
+                                    }
+                                    @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Delete))
+                                        {
+                                            <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
                                         }
-                                    </td>*@
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+                                    }
+                                </td>*@
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
-    }
+    </div>
+    </div>
+    @*}*@
 </form>
 
 

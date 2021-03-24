@@ -10,6 +10,7 @@ using Hager_Ind_CRM.Models;
 using Microsoft.AspNetCore.Authorization;
 using Hager_Ind_CRM.ViewModels;
 using Microsoft.EntityFrameworkCore.Storage;
+using System.Collections.ObjectModel;
 
 namespace Hager_Ind_CRM.Controllers
 {
@@ -22,12 +23,7 @@ namespace Hager_Ind_CRM.Controllers
             _context = context;
         }
 
-        //for grabbing checkboxes
-        public void OnPost()
-        {
-            var checkIds = Request.Form["selected"];
-        }
-
+     
         // GET: Companies
         [Authorize(Policy = PolicyTypes.Companies.Read)]
         public async Task<IActionResult> Index(string? CompanyType, string[] YourCheckboxes)
@@ -60,20 +56,41 @@ namespace Hager_Ind_CRM.Controllers
                 }
             }
 
-            if (selected.Count() < 2)
+            if (YourCheckboxes.Count() < 2)
             {
                 return View(await hagerIndContext.ToListAsync());
             }
 
             else
             {
-                Company[] companiesMerge = new Company[selected.Count()];
-                foreach (var item in selected)
+                int[] IDs = new int[] {};
+                foreach (var item in YourCheckboxes)
                 {
-                    Company mergie = hagerIndContext.Where(p => p.ID == int.Parse(item)).FirstOrDefault();
-                    companiesMerge.Append(mergie);
+                    IDs.Append(int.Parse(item));
                 }
-                ViewData["Companies"] = companiesMerge;
+                
+                var mergeB = (from d in hagerIndContext
+                              where IDs.Contains(d.ID)
+                              orderby d.Name
+                              select d);
+
+
+
+                ////var mergeB = hagerIndContext.Where(d => YourCheckboxes(d.ID));
+                //Company[] companyMerge = new Company[];
+                //foreach (var item in YourCheckboxes)
+                //{
+                //    var mergeB = (from d in hagerIndContext
+                //            where d.ID == int.Parse(item)
+                //            select d);
+
+                //    //Company mergie = _context.Companies.SingleOrDefault(p => p.ID == int.Parse(item));
+                //    //var mergie = hagerIndContext.Where(p => p.ID == int.Parse(item));
+                //    //companyMerge.Append(mergie);
+
+                //    //companiesMerge.Append(mergie);
+                //}
+                ViewData["Companies"] = mergeB;
                 IEnumerable<Company> companies = ViewData["Companies"] as IEnumerable<Company>;
                 return RedirectToAction("Edit", new { id = companies.First().ID });
             }
@@ -348,6 +365,7 @@ namespace Hager_Ind_CRM.Controllers
             return new SelectList(dQuery, "ID", "Terms", id);
         }
 
+        //===========================================================================
         private void GetContacts(int? id)
         {
             var contacts = (from d in _context.Contacts
