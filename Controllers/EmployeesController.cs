@@ -282,6 +282,12 @@ namespace Hager_Ind_CRM.Controllers
             if (!string.IsNullOrEmpty(str)) { return Decimal.Parse(str); } else { return null; }
         }
 
+        //Decimal Input Checker
+        private String? StringEmpty(string str)
+        {
+            if (!string.IsNullOrEmpty(str)) { return str; } else { return null; }
+        }
+
 
 
         //Action for Employee file upload-------------------------------------------------------------------
@@ -368,21 +374,28 @@ namespace Hager_Ind_CRM.Controllers
                         Decimal? wageDec = DecimalValid(workSheet.Cells[row, 7].Text);
                         Decimal? expenseDec = DecimalValid(workSheet.Cells[row, 8].Text);
 
+
+                    //Strings
+                    String? emailStr = StringEmpty(workSheet.Cells[row, 3].Text);
+
+
+
+
                         // Row by row...
-                        Employee a = new Employee
+                    Employee a = new Employee
                         {
                             FirstName = workSheet.Cells[row, 1].Text,
                             LastName = workSheet.Cells[row, 2].Text,
-                            Email = workSheet.Cells[row, 3].Text,
+                            Email = emailStr,
                             HomePhone = homePhoneInt,
                             CellPhone = cellPhoneInt,
                             DateOfBirth = DOB,
                             Wage = wageDec,
                             Expense = expenseDec,
-                            Address1 = workSheet.Cells[row, 9].Text,
-                            Address2 = workSheet.Cells[row, 10].Text,
-                            City = workSheet.Cells[row, 11].Text,
-                            BillingPostal = workSheet.Cells[row, 12].Text,
+                            Address1 = StringEmpty(workSheet.Cells[row, 9].Text),
+                            Address2 = StringEmpty(workSheet.Cells[row, 10].Text),
+                            City = StringEmpty(workSheet.Cells[row, 11].Text),
+                            BillingPostal = StringEmpty(workSheet.Cells[row, 12].Text),
                             BillingProvinceID = provinceID,
                             BillingCountryID = countryID,
                             JobPositionID = jobPosID,
@@ -391,8 +404,8 @@ namespace Hager_Ind_CRM.Controllers
                             InactiveDate = InactiveDate,
                             IsUser = isUserBool,
                             Active = activeBool,
-                            PermissionLevel = workSheet.Cells[row, 21].Text,
-                            EmergencyContactName = workSheet.Cells[row, 22].Text,
+                            PermissionLevel = StringEmpty(workSheet.Cells[row, 21].Text),
+                            EmergencyContactName = StringEmpty(workSheet.Cells[row, 22].Text),
                             EmergencyContactPhone = emergPhoneInt,
                             KeyFobNumber = keyFobInt
                         };
