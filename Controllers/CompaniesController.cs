@@ -60,41 +60,48 @@ namespace Hager_Ind_CRM.Controllers
             {
                 return View(await hagerIndContext.ToListAsync());
             }
-
             else
             {
-                int[] IDs = new int[] {};
-                foreach (var item in YourCheckboxes)
-                {
-                    IDs.Append(int.Parse(item));
-                }
-                
-                var mergeB = (from d in hagerIndContext
-                              where IDs.Contains(d.ID)
-                              orderby d.Name
-                              select d);
-
-
-
-                ////var mergeB = hagerIndContext.Where(d => YourCheckboxes(d.ID));
-                //Company[] companyMerge = new Company[];
+                //int[] IDs = new int[] {};
                 //foreach (var item in YourCheckboxes)
                 //{
-                //    var mergeB = (from d in hagerIndContext
-                //            where d.ID == int.Parse(item)
-                //            select d);
-
-                //    //Company mergie = _context.Companies.SingleOrDefault(p => p.ID == int.Parse(item));
-                //    //var mergie = hagerIndContext.Where(p => p.ID == int.Parse(item));
-                //    //companyMerge.Append(mergie);
-
-                //    //companiesMerge.Append(mergie);
+                //    IDs.Append(int.Parse(item));
                 //}
-                ViewData["Companies"] = mergeB;
-                IEnumerable<Company> companies = ViewData["Companies"] as IEnumerable<Company>;
-                return RedirectToAction("Edit", new { id = companies.First().ID });
-            }
 
+                //var mergeB = (from d in hagerIndContext
+                //              where IDs.Contains(d.ID)
+                //              orderby d.Name
+                //              select d);
+
+
+
+                //var mergeB = hagerIndContext.Where(d => YourCheckboxes(d.ID));
+                
+                List<Company> companyMerge = new List<Company>();
+
+                foreach (var item in YourCheckboxes)
+                {
+                    //var mergeB = (from d in hagerIndContext
+                    //              where d.ID == int.Parse(item)
+                    //              select d);
+
+
+
+
+
+                    Company record = _context.Companies.SingleOrDefault(p => p.ID == int.Parse(item));
+                    //var record = hagerIndContext.Where(p => p.ID == int.Parse(item));
+                    companyMerge.Add(record);
+
+                    //companiesMerge.Append(record);
+                }
+                //ViewData["MergeRecords"] = companyMerge;
+                //ViewData["Companies"] = mergeB;
+
+                //IEnumerable<Company> companies = ViewData["Companies"] as IEnumerable<Company>;
+                //IEnumerable<Company> companies = companyMerge;
+                return RedirectToAction("Merge", new { id1 = companyMerge[0].ID, id2 = companyMerge[1].ID });
+            }
         }
 
         // GET: Companies/Details/5
@@ -553,52 +560,53 @@ namespace Hager_Ind_CRM.Controllers
                     }
                 }
             }
-
-            //if (type != "false")
-            //{
-            //    var currentOptionsHS = new HashSet<int>(company.CompanyTypes.Select(b => b.TypeID));
-
-            //    foreach (var s in _context.Types)
-            //    {
-            //        if (type == s.Name)
-            //        {
-            //            if (!currentOptionsHS.Contains(s.ID))
-            //            {
-            //                company.CompanyTypes.Add(new CompanyType
-            //                {
-            //                    CompanyID = company.ID,
-            //                    TypeID = s.ID
-            //                });
-            //            }
-            //        }
-            //    }
-
-
-            //}
-
-
-            //var selectedOptionsHS = new HashSet<string>(subTypes);
-            //var currentOptionsHS1 = new HashSet<int>(company.CompanySubTypes.Select(b => b.SubTypeID));
-            //if (selectedOptionsHS.Count > 0)
-            //{
-            //    foreach (var s in _context.SubType)
-            //    {
-            //        if (selectedOptionsHS.Contains(s.ID.ToString()))
-            //        {
-            //            if (!currentOptionsHS1.Contains(s.ID))
-            //            {
-            //                company.CompanySubTypes.Add(new CompanySubType
-            //                {
-            //                    SubTypeID = s.ID,
-            //                    CompanyID = company.ID
-            //                });
-            //            }
-            //        }
-            //    }
-            //}
-
         }
 
+        public ActionResult Merge(int id1, int id2)
+        {
+            if (id1 < 0 || id2 < 0)
+            {
+                return NotFound();
+            }
+
+            var hagerIndContext = from a in _context.Companies
+                .Include(c => c.Contacts)
+                .Include(c => c.BillingCountry)
+                .Include(c => c.BillingProvince)
+                .Include(c => c.BillingTerms)
+                .Include(c => c.Currency)
+                .Include(c => c.ShippingCountry)
+                .Include(c => c.ShippingProvince)
+                .Include(c => c.CompanyTypes).ThenInclude(p => p.Type).ThenInclude(p => p.SubTypes)
+                                  select a;
+
+            Company record1 = hagerIndContext.SingleOrDefault(p => p.ID == id1);
+            Company record2 = hagerIndContext.SingleOrDefault(p => p.ID == id2);
+
+            //ViewData["Company1"] = company1;
+            //ViewData["Company2"] = company2;
+
+            
+            var merge = new MergeVM();
+            merge.Company1 = record1;
+            merge.Company2 = record2;
+            return View(merge);
+            
+
+            //IEnumerable<Company> companies = ViewData["MergeRecords"] as IEnumerable<Company>;
+
+            //ViewData["Name"] = new SelectList(companies, "Name", "Name");
+            //ViewData["Location"] = new SelectList(companies, "Location", "Location");
+            //ViewData["Name"] = new SelectList(companies, "Name", "Name");
+            //ViewData["BillingTermsID"] = new SelectList(companies, "BillingTermsID", "BillingTerms.Term");
+            //ViewData["Name"] = new SelectList(companies, "Name", "Name");
+            //ViewData["Location"] = new SelectList(companies, "Location", "Location");
+            //ViewData["Name"] = new SelectList(companies, "Name", "Name");
+            //ViewData["Location"] = new SelectList(companies, "Location", "Location");
+            //ViewData["Name"] = new SelectList(companies, "Name", "Name");
+            //ViewData["Location"] = new SelectList(companies, "Location", "Location");
+            //PopulateAssignedCatagoriesData(company);
+        }
 
     }
 }
