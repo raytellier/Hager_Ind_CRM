@@ -36,7 +36,7 @@ document.getElementById("toggle_Location").onclick = function () {
         right.classList.remove("text-primary");
         right.classList.add("text-secondary");
 
-        document.getElementById("input_Name").value = left.textContent;
+        document.getElementById("input_Location").value = left.textContent;
 
     }
     else {
@@ -48,7 +48,7 @@ document.getElementById("toggle_Location").onclick = function () {
         right.classList.remove("text-secondary");
         right.classList.add("text-primary");
 
-        document.getElementById("input_Name").value = right.textContent;
+        document.getElementById("input_Location").value = right.textContent;
     }
 };
 

@@ -45,7 +45,7 @@
                 <div class="form-group col-xl-3 col-md-6 col-sm-6">
                     <label asp-for="BillingTermsID" class="control-label"></label>
                     <select asp-for="BillingTermsID" class="form-control" asp-items="ViewBag.BillingTermsID">
-                        <option value="" ><p contenteditable="true">Select...</p></option>
+                        <option value="" >Select...</option>
                     </select>
                     <span asp-validation-for="BillingTermsID" class="text-danger"></span>
                 </div>
@@ -351,14 +351,7 @@
             </div>
         </div>
         <div class="col-xl-6 col-sm-12">
-            @if (ViewData["Companies"] != null)
-            {
-                <input type="submit" id="btnSubmit" value="Merge Tables" class="btn btn-primary" />
-            }
-            else
-            {
-                <input type="submit" id="btnSubmit" value="Save" class="btn btn-primary" />
-            }
+            <input type="submit" id="btnSubmit" value="Save" class="btn btn-primary" />
             <a class="btn btn-outline-danger" asp-action="Index">Cancel</a>
         </div>
     </div>

@@ -562,6 +562,10 @@ namespace Hager_Ind_CRM.Controllers
             }
         }
 
+        //======================================================================= Merge Action
+
+        // GET: Companies/Merge
+        [Authorize(Policy = PolicyTypes.Companies.Create)]
         public ActionResult Merge(int id1, int id2)
         {
             if (id1 < 0 || id2 < 0)
@@ -569,7 +573,19 @@ namespace Hager_Ind_CRM.Controllers
                 return NotFound();
             }
 
-            var hagerIndContext = from a in _context.Companies
+            //var companyToUpdate = from a in _context.Companies
+            //    .Include(d => d.CompanyTypes).ThenInclude(d => d.Type)
+            //    .Include(d => d.CompanySubTypes).ThenInclude(d => d.SubType)
+            //    .Include(c => c.Contacts).ThenInclude(c => c.ContactCatagories).ThenInclude(c => c.Catagory)
+            //    .Include(c => c.BillingCountry)
+            //    .Include(c => c.BillingProvince)
+            //    .Include(c => c.BillingTerms)
+            //    .Include(c => c.Currency)
+            //    .Include(c => c.ShippingCountry)
+            //    .Include(c => c.ShippingProvince)
+            //                      select a;
+
+                              var hagerIndContext = from a in _context.Companies
                 .Include(c => c.Contacts)
                 .Include(c => c.BillingCountry)
                 .Include(c => c.BillingProvince)
@@ -606,6 +622,111 @@ namespace Hager_Ind_CRM.Controllers
             //ViewData["Name"] = new SelectList(companies, "Name", "Name");
             //ViewData["Location"] = new SelectList(companies, "Location", "Location");
             //PopulateAssignedCatagoriesData(company);
+        }
+
+        // POST: Companies/Merge
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Policy = PolicyTypes.Companies.Create)]
+        public async Task<IActionResult> Merge(int input_ID_1, int input_ID_2,
+            //string[] selectedOptionsCustomer, string[] selectedOptionsVendor, string[] selectedOptionsContractor,
+            //string isCustomer, string isVendor, string isContractor,
+
+            string input_Location, string input_Name, int input_BillingTermsID, int input_CurrencyID,
+            Int64 input_Phone, string input_Website, string input_Notes, string input_BillingAddress1,
+            string input_BillingAddress2, int input_BillingCountryID, int input_BillingProvinceID,
+            string input_BillingPostal, string input_ShippingAddress1, string input_ShippingAddress2,
+            int input_ShippingCountryID, int input_ShippingProvinceID, string input_ShippingPostal,
+            bool input_CreditCheck, bool input_Active
+            )
+        {
+            var mergeCMP = await _context.Companies
+                .Include(d => d.CompanyTypes).ThenInclude(d => d.Type)
+                .Include(d => d.CompanySubTypes).ThenInclude(d => d.SubType)
+                .Include(c => c.Contacts).ThenInclude(c => c.ContactCatagories).ThenInclude(c => c.Catagory)
+                .Include(c => c.BillingCountry)
+                .Include(c => c.BillingProvince)
+                .Include(c => c.BillingTerms)
+                .Include(c => c.Currency)
+                .Include(c => c.ShippingCountry)
+                .Include(c => c.ShippingProvince)
+                .SingleOrDefaultAsync(p => p.ID == input_ID_1);
+
+            //Check that you got it or exit with a not found error
+            if (mergeCMP == null)
+            {
+                return NotFound();
+            }
+
+            //UpdateTypesAndSubs(companyToUpdate, isCustomer, selectedOptionsCustomer, isVendor, selectedOptionsVendor, isContractor, selectedOptionsContractor);
+
+            //if (await TryUpdateModelAsync<Company>(mergeCMP, "",
+            //    d => d.Name, d => d.Location, d => d.CredCheck, d => d.Active,
+            //    d => d.BillingTermsID, d => d.CurrencyID, d => d.Phone,
+            //    d => d.Website, d => d.BillingAddress1, d => d.BillingAddress2,
+            //    d => d.BillingProvinceID, d => d.BillingPostalCode, d => d.BillingCountryID,
+            //    d => d.ShippingAddress1, d => d.ShippingAddress2, d => d.ShippingProvinceID,
+            //    d => d.ShippingPostalCode, d => d.ShippingCountryID, d => d.Notes))
+            //{
+            if (1 == 1)
+            {
+                try
+                {
+                    //UpdateTypesAndSubs(mergeCMP, isCustomer, selectedOptionsCustomer, isVendor, selectedOptionsVendor, isContractor, selectedOptionsContractor);
+
+                    //Update all data
+                    mergeCMP.Location = input_Location;
+                    mergeCMP.Name = input_Name;
+                    mergeCMP.BillingTermsID = input_BillingTermsID;
+                    mergeCMP.CurrencyID = input_CurrencyID;
+                    mergeCMP.Phone = input_Phone;
+                    mergeCMP.Website = input_Website;
+                    mergeCMP.Notes = input_Notes;
+                    mergeCMP.BillingAddress1 = input_BillingAddress1;
+                    mergeCMP.BillingAddress2 = input_BillingAddress2;
+                    mergeCMP.BillingCountryID = input_BillingCountryID;
+                    mergeCMP.BillingProvinceID = input_BillingProvinceID;
+                    mergeCMP.BillingPostalCode = input_BillingPostal;
+                    mergeCMP.ShippingAddress1 = input_ShippingAddress1;
+                    mergeCMP.ShippingAddress2 = input_ShippingAddress2;
+                    mergeCMP.ShippingCountryID = input_ShippingCountryID;
+                    mergeCMP.ShippingProvinceID = input_ShippingProvinceID;
+                    mergeCMP.ShippingPostalCode = input_ShippingPostal;
+                    mergeCMP.CredCheck = input_CreditCheck;
+                    mergeCMP.Active = input_Active;
+
+                    await _context.SaveChangesAsync();
+
+                    var delCMP = await _context.Companies.FindAsync(input_ID_2);
+                    _context.Companies.Remove(delCMP);
+                    await _context.SaveChangesAsync();
+
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (RetryLimitExceededException /* dex */)
+                {
+                    ModelState.AddModelError("", "Unable to save changes after multiple attempts. Try again, and if the problem persists, see your system administrator.");
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CompanyExists(mergeCMP.ID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                catch (DbUpdateException)
+                {
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+                }
+            }
+            //}
+            PopulateAssignedCatagoriesData(mergeCMP);
+            ////return View(mergeCMP);
+            return RedirectToAction(nameof(Index));
         }
 
     }
