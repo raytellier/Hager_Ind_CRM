@@ -156,6 +156,8 @@
             };
             @*These have to match the amount of columns there are, null if its not a boolean and { "orderDataType": "dom-checkbox" } in the boolean column*@
             $('#dataTable').DataTable({
+                "stateSave": true,
+                "stateDuration": -1,
                 "columns": [
                     null,
                     null,

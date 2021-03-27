@@ -18,18 +18,18 @@
     }
 </p>
 @*<form asp-action="InsertFromExcel" asp-controller="Employees" method="post" enctype="multipart/form-data">
-    <div class="form-group">
-        <label class="control-label">Upload Excel File:</label>
-        <input type="file" class="" name="theExcel" /><br />
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <input type="submit" value="Upload Data" class="btn btn-primary" />
+        <div class="form-group">
+            <label class="control-label">Upload Excel File:</label>
+            <input type="file" class="" name="theExcel" /><br />
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <input type="submit" value="Upload Data" class="btn btn-primary" />
+                </div>
             </div>
         </div>
-    </div>
-</form>*@
+    </form>*@
 <div class="card mb-4">
     <div class="card-header">
         <i class="fas fa-table mr-1"></i>
@@ -61,30 +61,30 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                    <tr>
-                        <td>
-                            <a class="btn btn-light" asp-action="Details" asp-route-id="@item.ID">
-                                @Html.DisplayFor(modelItem => item.FullName)
-                            </a>
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.JobPosition.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.EmploymentType.Type)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CellPhone)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Email)
-                        </td>
-                        @*<td>
-            <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
-            <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ID">Details</a>
-            <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-        </td>*@
-                    </tr>
+                        <tr>
+                            <td>
+                                <a class="btn btn-light" asp-action="Details" asp-route-id="@item.ID">
+                                    @Html.DisplayFor(modelItem => item.FullName)
+                                </a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.JobPosition.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EmploymentType.Type)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CellPhone)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            @*<td>
+                                    <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+                                    <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ID">Details</a>
+                                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                                </td>*@
+                        </tr>
                     }
                 </tbody>
             </table>
@@ -97,7 +97,26 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#dataTable').DataTable();
+            $.fn.dataTable.ext.order['dom-checkbox'] = function (settings, col) {
+                return this.api().column(col, { order: 'index' }).nodes().map(function (td, i) {
+                    return $('input', td).prop('checked') ? '1' : '0';
+                });
+            };
+            @*These have to match the amount of columns there are, null if its not a boolean and { "orderDataType": "dom-checkbox" } in the boolean column*@
+            $('#dataTable').DataTable({
+                "stateSave": true,
+                "stateDuration": -1,
+                "columns": [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    { "orderDataType": "dom-checkbox", "targets": 7},
+                    { "orderDataType": "dom-checkbox", "targets": 8 }
+                ]
+            });
         });
 
     </script>
