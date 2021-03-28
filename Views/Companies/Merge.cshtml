@@ -94,8 +94,22 @@
                             <b>Billing Terms:</b>
                         </div>
                         <div class="col-sm-3 d-flex justify-content-end">
-                            <label class="text-primary" id="billingTerms1">@Model.Company1.BillingTerms.Terms</label>
-                            <label id="billingTerms1ID" hidden="hidden">@Model.Company1.BillingTermsID</label>
+                            <label class="text-primary" id="billingTerms1">
+                                @if (@Model.Company1.BillingTerms.Terms != null)
+                                {
+                                    @Model.Company1.BillingTerms.Terms
+                                }
+                                else
+                                {
+                                    @:Not provided
+                                }
+                            </label>
+                            <label id="billingTerms1ID" hidden="hidden">
+                                @if (@Model.Company1.BillingTermsID != null)
+                                {
+                                    @Model.Company1.BillingTermsID
+                                }
+                            </label>
                         </div>
                         <div class="col-sm-2 d-flex justify-content-center">
                             <label class="switch">
@@ -104,8 +118,23 @@
                             </label>
                         </div>
                         <div class="col-sm-4 d-flex justify-content-start">
-                            <label class="text-secondary" id="billingTerms2">@Model.Company2.BillingTerms.Terms</label>
-                            <label id="billingTerms2ID" hidden="hidden">@Model.Company2.BillingTermsID</label>
+                            <label class="text-secondary" id="billingTerms2">
+                                @if (@Model.Company2.BillingTerms != null)
+                                {
+                                    @Model.Company2.BillingTerms.Terms
+                                }
+                                else
+                                {
+                                    @:Not provided
+                                }
+
+                            </label>
+                            <label id="billingTerms2ID" hidden="hidden">
+                                @if (@Model.Company2.BillingTermsID != null)
+                                {
+                                    @Model.Company2.BillingTermsID
+                                }
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -115,8 +144,22 @@
                             <b>Currency:</b>
                         </div>
                         <div class="col-sm-4 d-flex justify-content-end">
-                            <label class="text-primary" id="currency1">@Model.Company1.Currency.Name</label>
-                            <label id="currency1ID" hidden="hidden">@Model.Company1.CurrencyID</label>
+                            <label class="text-primary" id="currency1">
+                                @if (@Model.Company1.Currency.Name != null)
+                                {
+                                    @Model.Company1.Currency.Name
+                                }
+                                else
+                                {
+                                    @:Not provided
+                                }
+                            </label>
+                            <label id="currency1ID" hidden="hidden">
+                                @if (@Model.Company1.CurrencyID != null)
+                                {
+                                    @Model.Company1.CurrencyID
+                                }
+                            </label>
                         </div>
                         <div class="col-sm-2 d-flex justify-content-center">
                             <label class="switch">
@@ -125,8 +168,23 @@
                             </label>
                         </div>
                         <div class="col-sm-4 d-flex justify-content-start">
-                            <label class="text-secondary" id="currency2">@Model.Company2.Currency.Name</label>
-                            <label id="currency2ID" hidden="hidden">@Model.Company2.CurrencyID</label>
+                            <label class="text-secondary" id="currency2">
+                                @if (@Model.Company2.Currency != null)
+                                {
+                                    @Model.Company2.Currency.Name
+                                }
+                                else
+                                {
+                                    @:Not provided
+                                }
+                            </label>
+                            <label id="currency2ID" hidden="hidden">
+                                @if (@Model.Company2.CurrencyID != null)
+                                {
+                                    @Model.Company2.CurrencyID
+                                }
+
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -408,8 +466,23 @@
                                 <b>Country:</b>
                             </div>
                             <div class="col-sm-4 d-flex justify-content-end">
-                                <label class="text-primary" id="billingCountry1">@Model.Company1.BillingCountry.Name</label>
-                                <label id="billingCountry1ID" hidden="hidden">@Model.Company1.BillingCountryID</label>
+                                <label class="text-primary" id="billingCountry1">
+                                    @if (@Model.Company1.BillingCountry != null)
+                                    {
+                                        @Model.Company1.BillingCountry.Name
+                                    }
+                                    else
+                                    {
+                                        @:Not provided
+                                    }
+
+                                </label>
+                                <label id="billingCountry1ID" hidden="hidden">
+                                    @if (@Model.Company1.BillingCountryID != null)
+                                    {
+                                        @Model.Company1.BillingCountryID
+                                    }
+                                </label>
                             </div>
                             <div class="col-sm-2 d-flex justify-content-center">
                                 <label class="switch">
@@ -418,8 +491,23 @@
                                 </label>
                             </div>
                             <div class="col-sm-4 d-flex justify-content-start">
-                                <label class="text-secondary" id="billingCountry2">@Model.Company2.BillingCountry.Name</label>
-                                <label id="billingCountry2ID" hidden="hidden">@Model.Company2.BillingCountryID</label>
+                                <label class="text-secondary" id="billingCountry2">
+                                    @if (@Model.Company2.BillingCountry != null)
+                                    {
+                                        @Model.Company2.BillingCountry.Name
+                                    }
+                                    else
+                                    {
+                                        @:Not provided
+                                    }
+
+                                </label>
+                                <label id="billingCountry2ID" hidden="hidden">
+                                    @if (@Model.Company2.BillingCountryID != null)
+                                    {
+                                        @Model.Company2.BillingCountryID
+                                    }
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -429,8 +517,23 @@
                                 <b>Province:</b>
                             </div>
                             <div class="col-sm-4 d-flex justify-content-end">
-                                <label class="text-primary" id="billingProvince1">@Model.Company1.BillingProvince.Name</label>
-                                <label id="billingProvince1ID" hidden="hidden">@Model.Company1.BillingProvinceID</label>
+                                <label class="text-primary" id="billingProvince1">
+                                    @if (@Model.Company1.BillingProvince != null)
+                                    {
+                                        @Model.Company1.BillingProvince.Name
+                                    }
+                                    else
+                                    {
+                                        @:Not provided
+                                    }
+
+                                </label>
+                                <label id="billingProvince1ID" hidden="hidden">
+                                    @if (@Model.Company1.BillingProvinceID != null)
+                                    {
+                                        @Model.Company1.BillingProvinceID
+                                    }
+                                </label>
                             </div>
                             <div class="col-sm-2 d-flex justify-content-center">
                                 <label class="switch">
@@ -439,8 +542,22 @@
                                 </label>
                             </div>
                             <div class="col-sm-4 d-flex justify-content-start">
-                                <label class="text-secondary" id="billingProvince2">@Model.Company2.BillingProvince.Name</label>
-                                <label id="billingProvince2ID" hidden="hidden">@Model.Company2.BillingProvinceID</label>
+                                <label class="text-secondary" id="billingProvince2">
+                                    @if (@Model.Company2.BillingProvince != null)
+                                    {
+                                        @Model.Company2.BillingProvince.Name
+                                    }
+                                    else
+                                    {
+                                        @:Not provided
+                                    }
+                                </label>
+                                <label id="billingProvince2ID" hidden="hidden">
+                                    @if (@Model.Company2.BillingProvinceID != null)
+                                    {
+                                        @Model.Company2.BillingProvinceID
+                                    }
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -553,8 +670,22 @@
                                 <b>Country:</b>
                             </div>
                             <div class="col-sm-4 d-flex justify-content-end">
-                                <label class="text-primary" id="shippingCountry1">@Model.Company1.ShippingCountry.Name</label>
-                                <label id="shippingCountry1ID" hidden="hidden">@Model.Company1.ShippingCountryID</label>
+                                <label class="text-primary" id="shippingCountry1">
+                                    @if (@Model.Company1.ShippingCountry != null)
+                                    {
+                                        @Model.Company1.ShippingCountry.Name
+                                    }
+                                    else
+                                    {
+                                        @:Not provided
+                                    }
+                                </label>
+                                <label id="shippingCountry1ID" hidden="hidden">
+                                    @if (@Model.Company1.ShippingCountryID != null)
+                                    {
+                                        @Model.Company1.ShippingCountryID
+                                    }
+                                </label>
                             </div>
                             <div class="col-sm-2 d-flex justify-content-center">
                                 <label class="switch">
@@ -563,8 +694,23 @@
                                 </label>
                             </div>
                             <div class="col-sm-4 d-flex justify-content-start">
-                                <label class="text-secondary" id="shippingCountry2">@Model.Company2.ShippingCountry.Name</label>
-                                <label id="shippingCountry2ID" hidden="hidden">@Model.Company2.ShippingCountryID</label>
+                                <label class="text-secondary" id="shippingCountry2">
+                                    @if (@Model.Company2.ShippingCountry != null)
+                                    {
+                                        @Model.Company2.ShippingCountry.Name
+                                    }
+                                    else
+                                    {
+                                        @:Not provided
+                                    }
+
+                                </label>
+                                <label id="shippingCountry2ID" hidden="hidden">
+                                    @if (@Model.Company2.ShippingCountryID != null)
+                                    {
+                                        @Model.Company2.ShippingCountryID
+                                    }
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -574,8 +720,23 @@
                                 <b>Province:</b>
                             </div>
                             <div class="col-sm-4 d-flex justify-content-end">
-                                <label class="text-primary" id="shippingProvince1">@Model.Company1.ShippingProvince.Name</label>
-                                <label id="shippingProvince1ID" hidden="hidden">@Model.Company1.ShippingProvinceID</label>
+                                <label class="text-primary" id="shippingProvince1">
+                                    @if (@Model.Company1.ShippingProvince.Name != null)
+                                    {
+                                        @Model.Company1.ShippingProvince.Name
+                                    }
+                                    else
+                                    {
+                                        @:Not provided
+                                    }
+
+                                </label>
+                                <label id="shippingProvince1ID" hidden="hidden">
+                                    @if (@Model.Company1.ShippingProvinceID != null)
+                                    {
+                                        @Model.Company1.ShippingProvinceID
+                                    }
+                                </label>
                             </div>
                             <div class="col-sm-2 d-flex justify-content-center">
                                 <label class="switch">
@@ -584,8 +745,22 @@
                                 </label>
                             </div>
                             <div class="col-sm-4 d-flex justify-content-start">
-                                <label class="text-secondary" id="shippingProvince2">@Model.Company2.ShippingProvince.Name</label>
-                                <label id="shippingProvince2ID" hidden="hidden">@Model.Company2.ShippingProvinceID</label>
+                                <label class="text-secondary" id="shippingProvince2">
+                                    @if (@Model.Company2.ShippingProvince != null)
+                                    {
+                                        @Model.Company2.ShippingProvince.Name
+                                    }
+                                    else
+                                    {
+                                        @:Not provided
+                                    }
+                                </label>
+                                <label id="shippingProvince2ID" hidden="hidden">
+                                    @if (@Model.Company2.ShippingProvinceID != null)
+                                    {
+                                        @Model.Company2.ShippingProvinceID
+                                    }
+                                </label>
                             </div>
                         </div>
                     </div>

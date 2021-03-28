@@ -573,28 +573,28 @@ namespace Hager_Ind_CRM.Controllers
                 return NotFound();
             }
 
-            //var companyToUpdate = from a in _context.Companies
-            //    .Include(d => d.CompanyTypes).ThenInclude(d => d.Type)
-            //    .Include(d => d.CompanySubTypes).ThenInclude(d => d.SubType)
-            //    .Include(c => c.Contacts).ThenInclude(c => c.ContactCatagories).ThenInclude(c => c.Catagory)
-            //    .Include(c => c.BillingCountry)
-            //    .Include(c => c.BillingProvince)
-            //    .Include(c => c.BillingTerms)
-            //    .Include(c => c.Currency)
-            //    .Include(c => c.ShippingCountry)
-            //    .Include(c => c.ShippingProvince)
-            //                      select a;
-
-                              var hagerIndContext = from a in _context.Companies
-                .Include(c => c.Contacts)
+            var hagerIndContext = from a in _context.Companies
+                .Include(d => d.CompanyTypes).ThenInclude(d => d.Type)
+                .Include(d => d.CompanySubTypes).ThenInclude(d => d.SubType)
+                .Include(c => c.Contacts).ThenInclude(c => c.ContactCatagories).ThenInclude(c => c.Catagory)
                 .Include(c => c.BillingCountry)
                 .Include(c => c.BillingProvince)
                 .Include(c => c.BillingTerms)
                 .Include(c => c.Currency)
                 .Include(c => c.ShippingCountry)
                 .Include(c => c.ShippingProvince)
-                .Include(c => c.CompanyTypes).ThenInclude(p => p.Type).ThenInclude(p => p.SubTypes)
                                   select a;
+
+            //var hagerIndContext = from a in _context.Companies
+            //    .Include(c => c.Contacts)
+            //    .Include(c => c.BillingCountry)
+            //    .Include(c => c.BillingProvince)
+            //    .Include(c => c.BillingTerms)
+            //    .Include(c => c.Currency)
+            //    .Include(c => c.ShippingCountry)
+            //    .Include(c => c.ShippingProvince)
+            //    .Include(c => c.CompanyTypes).ThenInclude(p => p.Type).ThenInclude(p => p.SubTypes)
+            //                      select a;
 
             Company record1 = hagerIndContext.SingleOrDefault(p => p.ID == id1);
             Company record2 = hagerIndContext.SingleOrDefault(p => p.ID == id2);
