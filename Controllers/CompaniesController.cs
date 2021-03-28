@@ -562,6 +562,88 @@ namespace Hager_Ind_CRM.Controllers
             }
         }
 
+        private void PopulateAssignedCatagoriesData2(Company company)
+        {
+            var allOptions = _context.SubTypes.Include(s => s.Type);
+            var currentOptionsHS = new HashSet<int>(company.CompanySubTypes.Select(b => b.SubTypeID));
+
+            var selectedCustomer = new List<ListOptionVM>();
+            var availableCustomer = new List<ListOptionVM>();
+
+            var selectedVendor = new List<ListOptionVM>();
+            var availableVendor = new List<ListOptionVM>();
+
+            var selectedContractor = new List<ListOptionVM>();
+            var availableContractor = new List<ListOptionVM>();
+
+            foreach (var s in allOptions)
+            {
+                if (currentOptionsHS.Contains(s.ID))
+                {
+                    if (s.Type.Name == "Customer")
+                    {
+                        selectedCustomer.Add(new ListOptionVM
+                        {
+                            ID = s.ID,
+                            DisplayText = s.Name
+                        });
+                    }
+                    else if (s.Type.Name == "Vendor")
+                    {
+                        selectedVendor.Add(new ListOptionVM
+                        {
+                            ID = s.ID,
+                            DisplayText = s.Name
+                        });
+                    }
+                    else if (s.Type.Name == "Contractor")
+                    {
+                        selectedContractor.Add(new ListOptionVM
+                        {
+                            ID = s.ID,
+                            DisplayText = s.Name
+                        });
+                    }
+                }
+                else
+                {
+                    if (s.Type.Name == "Customer")
+                    {
+                        availableCustomer.Add(new ListOptionVM
+                        {
+                            ID = s.ID,
+                            DisplayText = s.Name
+                        });
+                    }
+                    else if (s.Type.Name == "Vendor")
+                    {
+                        availableVendor.Add(new ListOptionVM
+                        {
+                            ID = s.ID,
+                            DisplayText = s.Name
+                        });
+                    }
+                    else if (s.Type.Name == "Contractor")
+                    {
+                        availableContractor.Add(new ListOptionVM
+                        {
+                            ID = s.ID,
+                            DisplayText = s.Name
+                        });
+                    }
+                }
+            }
+
+            ViewData["selOptsCustomer2"] = new MultiSelectList(selectedCustomer.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+            ViewData["availOptsCustomer2"] = new MultiSelectList(availableCustomer.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+
+            ViewData["selOptsVendor2"] = new MultiSelectList(selectedVendor.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+            ViewData["availOptsVendor2"] = new MultiSelectList(availableVendor.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+
+            ViewData["selOptsContractor2"] = new MultiSelectList(selectedContractor.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+            ViewData["availOptsContractor2"] = new MultiSelectList(availableContractor.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+        }
+
         //======================================================================= Merge Action
 
         // GET: Companies/Merge
@@ -585,43 +667,15 @@ namespace Hager_Ind_CRM.Controllers
                 .Include(c => c.ShippingProvince)
                                   select a;
 
-            //var hagerIndContext = from a in _context.Companies
-            //    .Include(c => c.Contacts)
-            //    .Include(c => c.BillingCountry)
-            //    .Include(c => c.BillingProvince)
-            //    .Include(c => c.BillingTerms)
-            //    .Include(c => c.Currency)
-            //    .Include(c => c.ShippingCountry)
-            //    .Include(c => c.ShippingProvince)
-            //    .Include(c => c.CompanyTypes).ThenInclude(p => p.Type).ThenInclude(p => p.SubTypes)
-            //                      select a;
-
             Company record1 = hagerIndContext.SingleOrDefault(p => p.ID == id1);
             Company record2 = hagerIndContext.SingleOrDefault(p => p.ID == id2);
+            PopulateAssignedCatagoriesData(record1);
+            PopulateAssignedCatagoriesData2(record2);
 
-            //ViewData["Company1"] = company1;
-            //ViewData["Company2"] = company2;
-
-            
             var merge = new MergeVM();
             merge.Company1 = record1;
             merge.Company2 = record2;
             return View(merge);
-            
-
-            //IEnumerable<Company> companies = ViewData["MergeRecords"] as IEnumerable<Company>;
-
-            //ViewData["Name"] = new SelectList(companies, "Name", "Name");
-            //ViewData["Location"] = new SelectList(companies, "Location", "Location");
-            //ViewData["Name"] = new SelectList(companies, "Name", "Name");
-            //ViewData["BillingTermsID"] = new SelectList(companies, "BillingTermsID", "BillingTerms.Term");
-            //ViewData["Name"] = new SelectList(companies, "Name", "Name");
-            //ViewData["Location"] = new SelectList(companies, "Location", "Location");
-            //ViewData["Name"] = new SelectList(companies, "Name", "Name");
-            //ViewData["Location"] = new SelectList(companies, "Location", "Location");
-            //ViewData["Name"] = new SelectList(companies, "Name", "Name");
-            //ViewData["Location"] = new SelectList(companies, "Location", "Location");
-            //PopulateAssignedCatagoriesData(company);
         }
 
         // POST: Companies/Merge
@@ -637,7 +691,12 @@ namespace Hager_Ind_CRM.Controllers
             string input_BillingAddress2, int input_BillingCountryID, int input_BillingProvinceID,
             string input_BillingPostal, string input_ShippingAddress1, string input_ShippingAddress2,
             int input_ShippingCountryID, int input_ShippingProvinceID, string input_ShippingPostal,
-            bool input_CreditCheck, bool input_Active
+            bool input_CreditCheck, bool input_Active, string[] YourCheckboxes,
+
+            string[] selectedOptionsCustomer, string[] selectedOptionsVendor, string[] selectedOptionsContractor,
+            string[] selectedOptionsCustomer2, string[] selectedOptionsVendor2, string[] selectedOptionsContractor2,
+            string isCustomer, string isVendor, string isContractor
+
             )
         {
             var mergeCMP = await _context.Companies
@@ -695,6 +754,19 @@ namespace Hager_Ind_CRM.Controllers
                     mergeCMP.CredCheck = input_CreditCheck;
                     mergeCMP.Active = input_Active;
 
+                    
+                    if (selectedOptionsContractor.Length != 0 || selectedOptionsCustomer.Length != 0 || selectedOptionsVendor.Length != 0)
+                    {
+                        UpdateTypesAndSubs(mergeCMP, isCustomer, selectedOptionsCustomer, isVendor, selectedOptionsVendor, isContractor, selectedOptionsContractor);
+                    }
+                    else if (selectedOptionsContractor2.Length != 0 || selectedOptionsCustomer2.Length != 0 || selectedOptionsVendor2.Length != 0)
+                    {
+                        UpdateTypesAndSubs(mergeCMP, isCustomer, selectedOptionsCustomer2, isVendor, selectedOptionsVendor2, isContractor, selectedOptionsContractor2);
+                    }
+                    else
+                    {
+                        UpdateTypesAndSubs(mergeCMP, isCustomer, selectedOptionsCustomer, isVendor, selectedOptionsVendor, isContractor, selectedOptionsContractor);
+                    }
                     await _context.SaveChangesAsync();
 
                     var delCMP = await _context.Companies.FindAsync(input_ID_2);

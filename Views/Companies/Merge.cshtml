@@ -23,25 +23,28 @@
     @*<input type="hidden" asp-for="ID" />*@
     <input id="input_ID_1" name="input_ID_1" type="hidden" value="@Model.Company1.ID" />
     <input id="input_ID_2" name="input_ID_2" type="hidden" value="@Model.Company2.ID" />
-    <input id="input_Location" name="input_Location" type="hidden" value="@Model.Company1.Location"/>
-    <input id="input_Name" name="input_Name" type="hidden" value="@Model.Company1.Name"/>
-    <input id="input_BillingTermsID" name="input_BillingTermsID" type="hidden" value="@Model.Company1.BillingTermsID"/>
-    <input id="input_CurrencyID" name="input_CurrencyID" type="hidden" value="@Model.Company1.CurrencyID"/>
-    <input id="input_Phone" name="input_Phone" type="hidden" value="@Model.Company1.Phone"/>
-    <input id="input_Website" name="input_Website" type="hidden" value="@Model.Company1.Website"/>
-    <input id="input_Notes" name="input_Notes" type="hidden" value="@Model.Company1.Notes"/>
-    <input id="input_BillingAddress1" name="input_BillingAddress1" type="hidden" value="@Model.Company1.BillingAddress1"/>
-    <input id="input_BillingAddress2" name="input_BillingAddress2" type="hidden" value="@Model.Company1.BillingAddress2"/>
-    <input id="input_BillingCountryID" name="input_BillingCountryID" type="hidden" value="@Model.Company1.BillingCountryID"/>
-    <input id="input_BillingProvinceID" name="input_BillingProvinceID" type="hidden" value="@Model.Company1.BillingProvinceID"/>
-    <input id="input_BillingPostal" name="input_BillingPostal" type="hidden" value="@Model.Company1.BillingPostalCode"/>
-    <input id="input_ShippingAddress1" name="input_ShippingAddress1" type="hidden" value="@Model.Company1.ShippingAddress1"/>
-    <input id="input_ShippingAddress2" name="input_ShippingAddress2" type="hidden" value="@Model.Company1.ShippingAddress2"/>
-    <input id="input_ShippingCountryID" name="input_ShippingCountryID" type="hidden" value="@Model.Company1.ShippingCountryID"/>
-    <input id="input_ShippingProvinceID" name="input_ShippingProvinceID" type="hidden" value="@Model.Company1.ShippingProvinceID"/>
-    <input id="input_ShippingPostal" name="input_ShippingPostal" type="hidden" value="@Model.Company1.ShippingPostalCode"/>
-    <input id="input_CreditCheck" name="input_CreditCheck" type="hidden" value="@Model.Company1.CredCheck"/>
-    <input id="input_Active" name="input_Active" type="hidden" value="@Model.Company1.Active"/>
+    <input id="input_Location" name="input_Location" type="hidden" value="@Model.Company1.Location" />
+    <input id="input_Name" name="input_Name" type="hidden" value="@Model.Company1.Name" />
+    <input id="input_BillingTermsID" name="input_BillingTermsID" type="hidden" value="@Model.Company1.BillingTermsID" />
+    <input id="input_CurrencyID" name="input_CurrencyID" type="hidden" value="@Model.Company1.CurrencyID" />
+    <input id="input_Phone" name="input_Phone" type="hidden" value="@Model.Company1.Phone" />
+    <input id="input_Website" name="input_Website" type="hidden" value="@Model.Company1.Website" />
+    <input id="input_Notes" name="input_Notes" type="hidden" value="@Model.Company1.Notes" />
+    <input id="input_BillingAddress1" name="input_BillingAddress1" type="hidden" value="@Model.Company1.BillingAddress1" />
+    <input id="input_BillingAddress2" name="input_BillingAddress2" type="hidden" value="@Model.Company1.BillingAddress2" />
+    <input id="input_BillingCountryID" name="input_BillingCountryID" type="hidden" value="@Model.Company1.BillingCountryID" />
+    <input id="input_BillingProvinceID" name="input_BillingProvinceID" type="hidden" value="@Model.Company1.BillingProvinceID" />
+    <input id="input_BillingPostal" name="input_BillingPostal" type="hidden" value="@Model.Company1.BillingPostalCode" />
+    <input id="input_ShippingAddress1" name="input_ShippingAddress1" type="hidden" value="@Model.Company1.ShippingAddress1" />
+    <input id="input_ShippingAddress2" name="input_ShippingAddress2" type="hidden" value="@Model.Company1.ShippingAddress2" />
+    <input id="input_ShippingCountryID" name="input_ShippingCountryID" type="hidden" value="@Model.Company1.ShippingCountryID" />
+    <input id="input_ShippingProvinceID" name="input_ShippingProvinceID" type="hidden" value="@Model.Company1.ShippingProvinceID" />
+    <input id="input_ShippingPostal" name="input_ShippingPostal" type="hidden" value="@Model.Company1.ShippingPostalCode" />
+    <input id="input_CreditCheck" name="input_CreditCheck" type="hidden" value="@Model.Company1.CredCheck" />
+    <input id="input_Active" name="input_Active" type="hidden" value="@Model.Company1.Active" />
+    <input id="inputCustomer" name="isCustomer" type="hidden" value="false" />
+    <input id="inputVendor" name="isVendor" type="hidden" value="false" />
+    <input id="inputContractor" name="isContractor" type="hidden" value="false" />
 
     <div class="row">
         <div class="col-xl-6 col-lg-12 d-flex align-items-stretch">
@@ -56,7 +59,7 @@
                             <b>Name:</b>
                         </div>
                         <div class="col-sm-4 d-flex justify-content-end">
-                            <label class="text-primary" id="name1">@Model.Company1.Name</label>
+                            <label class="text-primary font-weight-bold" id="name1">@Model.Company1.Name</label>
                         </div>
                         <div class="col-sm-2 d-flex justify-content-center">
                             <label class="switch">
@@ -75,7 +78,7 @@
                             <b>Location:</b>
                         </div>
                         <div class="col-sm-4 d-flex justify-content-end">
-                            <label class="text-primary" id="location1">@Model.Company1.Location</label>
+                            <label class="text-primary font-weight-bold" id="location1">@Model.Company1.Location</label>
                         </div>
                         <div class="col-sm-2 d-flex justify-content-center">
                             <label class="switch">
@@ -94,7 +97,7 @@
                             <b>Billing Terms:</b>
                         </div>
                         <div class="col-sm-3 d-flex justify-content-end">
-                            <label class="text-primary" id="billingTerms1">
+                            <label class="text-primary font-weight-bold" id="billingTerms1">
                                 @if (@Model.Company1.BillingTerms.Terms != null)
                                 {
                                     @Model.Company1.BillingTerms.Terms
@@ -144,7 +147,7 @@
                             <b>Currency:</b>
                         </div>
                         <div class="col-sm-4 d-flex justify-content-end">
-                            <label class="text-primary" id="currency1">
+                            <label class="text-primary font-weight-bold" id="currency1">
                                 @if (@Model.Company1.Currency.Name != null)
                                 {
                                     @Model.Company1.Currency.Name
@@ -194,7 +197,7 @@
                             <b>Phone:</b>
                         </div>
                         <div class="col-sm-4 d-flex justify-content-end">
-                            <label class="text-primary" id="phone1">@Model.Company1.Phone</label>
+                            <label class="text-primary font-weight-bold" id="phone1">@Model.Company1.Phone</label>
                         </div>
                         <div class="col-sm-2 d-flex justify-content-center">
                             <label class="switch">
@@ -213,7 +216,7 @@
                             <b>Website:</b>
                         </div>
                         <div class="col-sm-4 d-flex justify-content-end">
-                            <label class="text-primary" id="website1">@Model.Company1.Website</label>
+                            <label class="text-primary font-weight-bold" id="website1">@Model.Company1.Website</label>
                         </div>
                         <div class="col-sm-2 d-flex justify-content-center">
                             <label class="switch">
@@ -246,7 +249,7 @@
                                     <label class="custom-control-label" for="active_2"></label>
                                 </div>
                             }
-                            <label class="text-primary" id="creditCheck1" hidden="hidden">
+                            <label class="text-primary font-weight-bold" id="creditCheck1" hidden="hidden">
                                 @if (@Model.Company1.CredCheck == true)
                                 {
                                     @:true
@@ -278,7 +281,7 @@
                                     <label class="custom-control-label" for="active_4"></label>
                                 </div>
                             }
-                            <label class="text-primary" id="creditCheck2" hidden="hidden">
+                            <label class="text-primary font-weight-bold" id="creditCheck2" hidden="hidden">
 
                                 @if (@Model.Company2.CredCheck == true)
                                 {
@@ -312,7 +315,7 @@
                                     <label class="custom-control-label" for="active_6"></label>
                                 </div>
                             }
-                            <label class="text-primary" id="active1" hidden="hidden">
+                            <label class="text-primary font-weight-bold" id="active1" hidden="hidden">
                                 @if (@Model.Company1.Active == true)
                                 {
                                     @:true
@@ -344,7 +347,7 @@
                                     <label class="custom-control-label" for="active_8"></label>
                                 </div>
                             }
-                            <label class="text-primary" id="active2" hidden="hidden">
+                            <label class="text-primary font-weight-bold" id="active2" hidden="hidden">
 
                                 @if (@Model.Company2.Active == true)
                                 {
@@ -364,7 +367,7 @@
                             <b>Notes:</b>
                         </div>
                         <div class="col-sm-4 d-flex justify-content-end">
-                            <label class="text-primary" id="notes1">@Model.Company1.Notes</label>
+                            <label class="text-primary font-weight-bold" id="notes1">@Model.Company1.Notes</label>
                         </div>
                         <div class="col-sm-2 d-flex justify-content-center">
                             <label class="switch">
@@ -392,7 +395,7 @@
                                 <b>Address:</b>
                             </div>
                             <div class="col-sm-4 d-flex justify-content-end">
-                                <label class="text-primary" id="billingAddress1_company1">
+                                <label class="text-primary font-weight-bold" id="billingAddress1_company1">
                                     @if (@Model.Company1.BillingAddress1 != null)
                                     {
                                         @Model.Company1.BillingAddress1
@@ -429,7 +432,7 @@
                                 <b>Address:</b>
                             </div>
                             <div class="col-sm-4 d-flex justify-content-end">
-                                <label class="text-primary" id="billingAddress2_company1">
+                                <label class="text-primary font-weight-bold" id="billingAddress2_company1">
                                     @if (@Model.Company1.BillingAddress2 != null)
                                     {
                                         @Model.Company1.BillingAddress2
@@ -466,7 +469,7 @@
                                 <b>Country:</b>
                             </div>
                             <div class="col-sm-4 d-flex justify-content-end">
-                                <label class="text-primary" id="billingCountry1">
+                                <label class="text-primary font-weight-bold" id="billingCountry1">
                                     @if (@Model.Company1.BillingCountry != null)
                                     {
                                         @Model.Company1.BillingCountry.Name
@@ -517,7 +520,7 @@
                                 <b>Province:</b>
                             </div>
                             <div class="col-sm-4 d-flex justify-content-end">
-                                <label class="text-primary" id="billingProvince1">
+                                <label class="text-primary font-weight-bold" id="billingProvince1">
                                     @if (@Model.Company1.BillingProvince != null)
                                     {
                                         @Model.Company1.BillingProvince.Name
@@ -568,7 +571,7 @@
                                     <b>Postal:</b>
                                 </div>
                                 <div class="col-sm-4 d-flex justify-content-end">
-                                    <label class="text-primary" id="billingPostal1">@Model.Company1.BillingPostalCode</label>
+                                    <label class="text-primary font-weight-bold" id="billingPostal1">@Model.Company1.BillingPostalCode</label>
                                 </div>
                                 <div class="col-sm-2 d-flex justify-content-center">
                                     <label class="switch">
@@ -596,7 +599,7 @@
                                 <b>Address:</b>
                             </div>
                             <div class="col-sm-4 d-flex justify-content-end">
-                                <label class="text-primary" id="shippingAddress1_company1">
+                                <label class="text-primary font-weight-bold" id="shippingAddress1_company1">
                                     @if (@Model.Company1.ShippingAddress1 != null)
                                     {
                                         @Model.Company1.ShippingAddress1
@@ -633,7 +636,7 @@
                                 <b>Address:</b>
                             </div>
                             <div class="col-sm-4 d-flex justify-content-end">
-                                <label class="text-primary" id="shippingAddress2_company1">
+                                <label class="text-primary font-weight-bold" id="shippingAddress2_company1">
                                     @if (@Model.Company1.ShippingAddress2 != null)
                                     {
                                         @Model.Company1.ShippingAddress2
@@ -670,7 +673,7 @@
                                 <b>Country:</b>
                             </div>
                             <div class="col-sm-4 d-flex justify-content-end">
-                                <label class="text-primary" id="shippingCountry1">
+                                <label class="text-primary font-weight-bold" id="shippingCountry1">
                                     @if (@Model.Company1.ShippingCountry != null)
                                     {
                                         @Model.Company1.ShippingCountry.Name
@@ -720,7 +723,7 @@
                                 <b>Province:</b>
                             </div>
                             <div class="col-sm-4 d-flex justify-content-end">
-                                <label class="text-primary" id="shippingProvince1">
+                                <label class="text-primary font-weight-bold" id="shippingProvince1">
                                     @if (@Model.Company1.ShippingProvince.Name != null)
                                     {
                                         @Model.Company1.ShippingProvince.Name
@@ -771,7 +774,7 @@
                                     <b>Postal:</b>
                                 </div>
                                 <div class="col-sm-4 d-flex justify-content-end">
-                                    <label class="text-primary" id="shippingPostal1">@Model.Company1.ShippingPostalCode</label>
+                                    <label class="text-primary font-weight-bold" id="shippingPostal1">@Model.Company1.ShippingPostalCode</label>
                                 </div>
                                 <div class="col-sm-2 d-flex justify-content-center">
                                     <label class="switch">
@@ -789,46 +792,259 @@
             </div>
         </div>
     </div>
-    @*<div class="row">
-            <div class="col-xl-4 col-sm-12 d-flex align-items-stretch">
-                <div class="breadcrumb">
-                    <div class="form-group col-12">
-                        <h4>Customer Type</h4>
-                        <hr class="mb-0" />
+    <div class="row">
+        <div class="col-12">
+            <div class="breadcrumb">
+                <div class="form-group col-12">
+                    <h4>Types and Subtypes</h4>
+                    <hr class="mb-0" />
+                </div>
+                <div class="form-group col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <b>Select company:</b>
+                        </div>
+                        <div class="col-sm-4 d-flex justify-content-end">
+                            <label class="text-primary font-weight-bold" id="types1">@Model.Company1.Name - @Model.Company1.Location</label>
+                        </div>
+                        <div class="col-sm-2 d-flex justify-content-center">
+                            <label class="switch">
+                                <input type="checkbox" id="toggle_Types">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div class="col-sm-4 d-flex justify-content-start">
+                            <label class="text-secondary" id="types2">@Model.Company2.Name - @Model.Company2.Location</label>
+                        </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="selection2">
+        <div class="col-xl-4 col-sm-12 d-flex align-items-stretch">
+            <div class="breadcrumb">
+                <div class="form-group col-12">
+                    <h4>Customer Type</h4>
+                    <hr class="mb-0" />
+                </div>
 
-                    @{
-                        int typesCount = Model.CompanyTypes.Count;
-                        bool customer = false;
-                        if (typesCount > 0)
+                @{
+                    int typesCount2 = Model.Company2.CompanyTypes.Count;
+                    bool customer2 = false;
+                    if (typesCount2 > 0)
+                    {
+                        foreach (CompanyType companyType in Model.Company2.CompanyTypes)
                         {
-                            foreach (CompanyType companyType in Model.CompanyTypes)
+                            if (companyType.Type.Name == "Customer")
                             {
-                                if (companyType.Type.Name == "Customer")
-                                {
-                                    customer = true;
-                                    break;
-                                }
+                                customer2 = true;
+                                break;
                             }
+                        }
 
-                            if (customer == true)
-                            {
-                                <div class="col-12">
-                                    <div class="custom-control custom-checkbox">
-                                        <input class="custom-control-input" id="isCustomer" type="checkbox" checked="checked" />
-                                        <label class="custom-control-label" for="isCustomer">Is this company a customer?</label>
-                                    </div>
+                        if (customer2 == true)
+                        {
+                            <div class="col-12">
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" id="isCustomer2" type="checkbox" checked="checked" />
+                                    <label class="custom-control-label" for="isCustomer2">Is this company a customer?</label>
                                 </div>
-                            }
-                            else
-                            {
-                                <div class="col-12">
-                                    <div class="custom-control custom-checkbox">
-                                        <input class="custom-control-input" id="isCustomer" type="checkbox" />
-                                        <label class="custom-control-label" for="isCustomer">Is this company a customer?</label>
-                                    </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-12">
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" id="isCustomer2" type="checkbox" />
+                                    <label class="custom-control-label" for="isCustomer2">Is this company a customer?</label>
                                 </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="col-12">
+                            <div class="custom-control custom-checkbox">
+                                <input class="custom-control-input" id="isCustomer2" type="checkbox" />
+                                <label class="custom-control-label" for="isCustomer2">Is this company a customer?</label>
+                            </div>
+                        </div>
+                    }
+                }
+
+                <div class="form-group col-md-12">
+                    <label class="control-label"> Customer Subtypes Assigned</label> <button type="button" id="btnRightCustomer2" class="btn btn-danger btn-sm">
+                        <strong>-</strong>
+                    </button>
+                    @Html.ListBox("selectedOptionsCustomer2", (MultiSelectList)ViewBag.selOptsCustomer2, new { @size = 5, @class = "form-control", @style = "height: 85%;", @id = "selectedOptionsCustomer2" })
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label class="control-label"> Customer Subtypes Available</label> <button type="button" id="btnLeftCustomer2" class="btn btn-success btn-sm">
+                        <strong>+</strong>
+                    </button>
+                    @Html.ListBox("availOptionsCustomer2", (MultiSelectList)ViewBag.availOptsCustomer2, new { @size = 5, @class = "form-control", @style = "height: 85%;", @id = "availOptionsCustomer2" })
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-sm-12 d-flex align-items-stretch">
+            <div class="breadcrumb">
+                <div class="form-group col-12">
+                    <h4>Vendor Type</h4>
+                    <hr class="mb-0" />
+                </div>
+                @{
+                    bool vendor2 = false;
+                    if (typesCount2 > 0)
+                    {
+                        foreach (CompanyType companyType in Model.Company2.CompanyTypes)
+                        {
+                            if (companyType.Type.Name == "Vendor")
+                            {
+                                vendor2 = true;
+                                break;
                             }
+                        }
+
+                        if (vendor2 == true)
+                        {
+                            <div class="col-12">
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" id="isVendor2" type="checkbox" checked="checked" />
+                                    <label class="custom-control-label" for="isVendor2">Is this company a vendor?</label>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-12">
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" id="isVendor2" type="checkbox" />
+                                    <label class="custom-control-label" for="isVendor2">Is this company a vendor?</label>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="col-12">
+                            <div class="custom-control custom-checkbox">
+                                <input class="custom-control-input" id="isVendor2" type="checkbox" />
+                                <label class="custom-control-label" for="isVendor2">Is this company a vendor?</label>
+                            </div>
+                        </div>
+                    }
+                }
+                <div class="form-group col-md-12">
+                    <label class="control-label"> Vendor Subtypes Assigned</label> <button type="button" id="btnRightVendor2" class="btn btn-danger btn-sm">
+                        <strong>-</strong>
+                    </button>
+                    @Html.ListBox("selectedOptionsVendor2", (MultiSelectList)ViewBag.selOptsVendor2, new { @size = 5, @class = "form-control", @style = "height: 85%;", @id = "selectedOptionsVendor2" })
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label class="control-label"> Vendor Subtypes Available</label> <button type="button" id="btnLeftVendor2" class="btn btn-success btn-sm">
+                        <strong>+</strong>
+                    </button>
+                    @Html.ListBox("availOptionsVendor2", (MultiSelectList)ViewBag.availOptsVendor2, new { @size = 5, @class = "form-control", @style = "height: 85%;", @id = "availOptionsVendor2" })
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-sm-12 d-flex align-items-stretch">
+            <div class="breadcrumb">
+                <div class="form-group col-12">
+                    <h4>Contractor Type</h4>
+                    <hr class="mb-0" />
+                </div>
+                @{
+                    bool contractor2 = false;
+                    if (typesCount2 > 0)
+                    {
+                        foreach (CompanyType companyType in Model.Company2.CompanyTypes)
+                        {
+                            if (companyType.Type.Name == "Contractor")
+                            {
+                                contractor2 = true;
+                                break;
+                            }
+                        }
+
+                        if (contractor2 == true)
+                        {
+                            <div class="col-12">
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" id="isContractor2" type="checkbox" checked="checked" />
+                                    <label class="custom-control-label" for="isContractor2">Is this company a contractor?</label>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-12">
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" id="isContractor2" type="checkbox" />
+                                    <label class="custom-control-label" for="isContractor2">Is this company a contractor?</label>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="col-12">
+                            <div class="custom-control custom-checkbox">
+                                <input class="custom-control-input" id="isContractor2" type="checkbox" />
+                                <label class="custom-control-label" for="isContractor2">Is this company a contractor?</label>
+                            </div>
+                        </div>
+                    }
+                }
+                <div class="form-group col-md-12">
+                    <label class="control-label"> Contractor Subtypes Assigned</label> <button type="button" id="btnRightContractor2" class="btn btn-danger btn-sm">
+                        <strong>-</strong>
+                    </button>
+                    @Html.ListBox("selectedOptionsContractor2", (MultiSelectList)ViewBag.selOptsContractor2, new { @size = 5, @class = "form-control", @style = "height: 85%;", @id = "selectedOptionsContractor2" })
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label class="control-label"> Contractor Subtypes Available</label> <button type="button" id="btnLeftContractor2" class="btn btn-success btn-sm">
+                        <strong>+</strong>
+                    </button>
+                    @Html.ListBox("availOptionsContractor2", (MultiSelectList)ViewBag.availOptsContractor2, new { @size = 5, @class = "form-control", @style = "height: 85%;", @id = "availOptionsContractor2" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="selection1">
+        <div class="col-xl-4 col-sm-12 d-flex align-items-stretch">
+            <div class="breadcrumb">
+                <div class="form-group col-12">
+                    <h4>Customer Type</h4>
+                    <hr class="mb-0" />
+                </div>
+
+                @{
+                    int typesCount = Model.Company1.CompanyTypes.Count;
+                    bool customer = false;
+                    if (typesCount > 0)
+                    {
+                        foreach (CompanyType companyType in Model.Company1.CompanyTypes)
+                        {
+                            if (companyType.Type.Name == "Customer")
+                            {
+                                customer = true;
+                                break;
+                            }
+                        }
+
+                        if (customer == true)
+                        {
+                            <div class="col-12">
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" id="isCustomer" type="checkbox" checked="checked" />
+                                    <label class="custom-control-label" for="isCustomer">Is this company a customer?</label>
+                                </div>
+                            </div>
                         }
                         else
                         {
@@ -840,59 +1056,59 @@
                             </div>
                         }
                     }
+                    else
+                    {
+                        <div class="col-12">
+                            <div class="custom-control custom-checkbox">
+                                <input class="custom-control-input" id="isCustomer" type="checkbox" />
+                                <label class="custom-control-label" for="isCustomer">Is this company a customer?</label>
+                            </div>
+                        </div>
+                    }
+                }
 
-                    <div class="form-group col-md-12">
-                        <label class="control-label"> Customer Subtypes Assigned</label> <button type="button" id="btnRightCustomer" class="btn btn-danger btn-sm">
-                            <strong>-</strong>
-                        </button>
-                        @Html.ListBox("selectedOptionsCustomer", (MultiSelectList)ViewBag.selOptsCustomer, new { @size = 5, @class = "form-control", @style = "height: 85%;", @id = "selectedOptionsCustomer" })
-                    </div>
+                <div class="form-group col-md-12">
+                    <label class="control-label"> Customer Subtypes Assigned</label> <button type="button" id="btnRightCustomer" class="btn btn-danger btn-sm">
+                        <strong>-</strong>
+                    </button>
+                    @Html.ListBox("selectedOptionsCustomer", (MultiSelectList)ViewBag.selOptsCustomer, new { @size = 5, @class = "form-control", @style = "height: 85%;", @id = "selectedOptionsCustomer" })
+                </div>
 
-                    <div class="form-group col-md-12">
-                        <label class="control-label"> Customer Subtypes Available</label> <button type="button" id="btnLeftCustomer" class="btn btn-success btn-sm">
-                            <strong>+</strong>
-                        </button>
-                        @Html.ListBox("availOptionsCustomer", (MultiSelectList)ViewBag.availOptsCustomer, new { @size = 5, @class = "form-control", @style = "height: 85%;", @id = "availOptionsCustomer" })
-                    </div>
+                <div class="form-group col-md-12">
+                    <label class="control-label"> Customer Subtypes Available</label> <button type="button" id="btnLeftCustomer" class="btn btn-success btn-sm">
+                        <strong>+</strong>
+                    </button>
+                    @Html.ListBox("availOptionsCustomer", (MultiSelectList)ViewBag.availOptsCustomer, new { @size = 5, @class = "form-control", @style = "height: 85%;", @id = "availOptionsCustomer" })
                 </div>
             </div>
-            <div class="col-xl-4 col-sm-12 d-flex align-items-stretch">
-                <div class="breadcrumb">
-                    <div class="form-group col-12">
-                        <h4>Vendor Type</h4>
-                        <hr class="mb-0" />
-                    </div>
-                    @{
-                        bool vendor = false;
-                        if (typesCount > 0)
+        </div>
+        <div class="col-xl-4 col-sm-12 d-flex align-items-stretch">
+            <div class="breadcrumb">
+                <div class="form-group col-12">
+                    <h4>Vendor Type</h4>
+                    <hr class="mb-0" />
+                </div>
+                @{
+                    bool vendor = false;
+                    if (typesCount > 0)
+                    {
+                        foreach (CompanyType companyType in Model.Company1.CompanyTypes)
                         {
-                            foreach (CompanyType companyType in Model.CompanyTypes)
+                            if (companyType.Type.Name == "Vendor")
                             {
-                                if (companyType.Type.Name == "Vendor")
-                                {
-                                    vendor = true;
-                                    break;
-                                }
+                                vendor = true;
+                                break;
                             }
+                        }
 
-                            if (vendor == true)
-                            {
-                                <div class="col-12">
-                                    <div class="custom-control custom-checkbox">
-                                        <input class="custom-control-input" id="isVendor" type="checkbox" checked="checked" />
-                                        <label class="custom-control-label" for="isVendor">Is this company a vendor?</label>
-                                    </div>
+                        if (vendor == true)
+                        {
+                            <div class="col-12">
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" id="isVendor" type="checkbox" checked="checked" />
+                                    <label class="custom-control-label" for="isVendor">Is this company a vendor?</label>
                                 </div>
-                            }
-                            else
-                            {
-                                <div class="col-12">
-                                    <div class="custom-control custom-checkbox">
-                                        <input class="custom-control-input" id="isVendor" type="checkbox" />
-                                        <label class="custom-control-label" for="isVendor">Is this company a vendor?</label>
-                                    </div>
-                                </div>
-                            }
+                            </div>
                         }
                         else
                         {
@@ -904,58 +1120,58 @@
                             </div>
                         }
                     }
-                    <div class="form-group col-md-12">
-                        <label class="control-label"> Vendor Subtypes Assigned</label> <button type="button" id="btnRightVendor" class="btn btn-danger btn-sm">
-                            <strong>-</strong>
-                        </button>
-                        @Html.ListBox("selectedOptionsVendor", (MultiSelectList)ViewBag.selOptsVendor, new { @size = 5, @class = "form-control", @style = "height: 85%;", @id = "selectedOptionsVendor" })
-                    </div>
+                    else
+                    {
+                        <div class="col-12">
+                            <div class="custom-control custom-checkbox">
+                                <input class="custom-control-input" id="isVendor" type="checkbox" />
+                                <label class="custom-control-label" for="isVendor">Is this company a vendor?</label>
+                            </div>
+                        </div>
+                    }
+                }
+                <div class="form-group col-md-12">
+                    <label class="control-label"> Vendor Subtypes Assigned</label> <button type="button" id="btnRightVendor" class="btn btn-danger btn-sm">
+                        <strong>-</strong>
+                    </button>
+                    @Html.ListBox("selectedOptionsVendor", (MultiSelectList)ViewBag.selOptsVendor, new { @size = 5, @class = "form-control", @style = "height: 85%;", @id = "selectedOptionsVendor" })
+                </div>
 
-                    <div class="form-group col-md-12">
-                        <label class="control-label"> Vendor Subtypes Available</label> <button type="button" id="btnLeftVendor" class="btn btn-success btn-sm">
-                            <strong>+</strong>
-                        </button>
-                        @Html.ListBox("availOptionsVendor", (MultiSelectList)ViewBag.availOptsVendor, new { @size = 5, @class = "form-control", @style = "height: 85%;", @id = "availOptionsVendor" })
-                    </div>
+                <div class="form-group col-md-12">
+                    <label class="control-label"> Vendor Subtypes Available</label> <button type="button" id="btnLeftVendor" class="btn btn-success btn-sm">
+                        <strong>+</strong>
+                    </button>
+                    @Html.ListBox("availOptionsVendor", (MultiSelectList)ViewBag.availOptsVendor, new { @size = 5, @class = "form-control", @style = "height: 85%;", @id = "availOptionsVendor" })
                 </div>
             </div>
-            <div class="col-xl-4 col-sm-12 d-flex align-items-stretch">
-                <div class="breadcrumb">
-                    <div class="form-group col-12">
-                        <h4>Contractor Type</h4>
-                        <hr class="mb-0" />
-                    </div>
-                    @{
-                        bool contractor = false;
-                        if (typesCount > 0)
+        </div>
+        <div class="col-xl-4 col-sm-12 d-flex align-items-stretch">
+            <div class="breadcrumb">
+                <div class="form-group col-12">
+                    <h4>Contractor Type</h4>
+                    <hr class="mb-0" />
+                </div>
+                @{
+                    bool contractor = false;
+                    if (typesCount > 0)
+                    {
+                        foreach (CompanyType companyType in Model.Company1.CompanyTypes)
                         {
-                            foreach (CompanyType companyType in Model.CompanyTypes)
+                            if (companyType.Type.Name == "Contractor")
                             {
-                                if (companyType.Type.Name == "Contractor")
-                                {
-                                    contractor = true;
-                                    break;
-                                }
+                                contractor = true;
+                                break;
                             }
+                        }
 
-                            if (contractor == true)
-                            {
-                                <div class="col-12">
-                                    <div class="custom-control custom-checkbox">
-                                        <input class="custom-control-input" id="isContractor" type="checkbox" checked="checked" />
-                                        <label class="custom-control-label" for="isContractor">Is this company a contractor?</label>
-                                    </div>
+                        if (contractor == true)
+                        {
+                            <div class="col-12">
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" id="isContractor" type="checkbox" checked="checked" />
+                                    <label class="custom-control-label" for="isContractor">Is this company a contractor?</label>
                                 </div>
-                            }
-                            else
-                            {
-                                <div class="col-12">
-                                    <div class="custom-control custom-checkbox">
-                                        <input class="custom-control-input" id="isContractor" type="checkbox" />
-                                        <label class="custom-control-label" for="isContractor">Is this company a contractor?</label>
-                                    </div>
-                                </div>
-                            }
+                            </div>
                         }
                         else
                         {
@@ -967,40 +1183,184 @@
                             </div>
                         }
                     }
-                    <div class="form-group col-md-12">
-                        <label class="control-label"> Contractor Subtypes Assigned</label> <button type="button" id="btnRightContractor" class="btn btn-danger btn-sm">
-                            <strong>-</strong>
-                        </button>
-                        @Html.ListBox("selectedOptionsContractor", (MultiSelectList)ViewBag.selOptsContractor, new { @size = 5, @class = "form-control", @style = "height: 85%;", @id = "selectedOptionsContractor" })
-                    </div>
+                    else
+                    {
+                        <div class="col-12">
+                            <div class="custom-control custom-checkbox">
+                                <input class="custom-control-input" id="isContractor" type="checkbox" />
+                                <label class="custom-control-label" for="isContractor">Is this company a contractor?</label>
+                            </div>
+                        </div>
+                    }
+                }
+                <div class="form-group col-md-12">
+                    <label class="control-label"> Contractor Subtypes Assigned</label> <button type="button" id="btnRightContractor" class="btn btn-danger btn-sm">
+                        <strong>-</strong>
+                    </button>
+                    @Html.ListBox("selectedOptionsContractor", (MultiSelectList)ViewBag.selOptsContractor, new { @size = 5, @class = "form-control", @style = "height: 85%;", @id = "selectedOptionsContractor" })
+                </div>
 
-                    <div class="form-group col-md-12">
-                        <label class="control-label"> Contractor Subtypes Available</label> <button type="button" id="btnLeftContractor" class="btn btn-success btn-sm">
-                            <strong>+</strong>
-                        </button>
-                        @Html.ListBox("availOptionsContractor", (MultiSelectList)ViewBag.availOptsContractor, new { @size = 5, @class = "form-control", @style = "height: 85%;", @id = "availOptionsContractor" })
+                <div class="form-group col-md-12">
+                    <label class="control-label"> Contractor Subtypes Available</label> <button type="button" id="btnLeftContractor" class="btn btn-success btn-sm">
+                        <strong>+</strong>
+                    </button>
+                    @Html.ListBox("availOptionsContractor", (MultiSelectList)ViewBag.availOptsContractor, new { @size = 5, @class = "form-control", @style = "height: 85%;", @id = "availOptionsContractor" })
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (Model.Company1.Contacts.Count > 0)
+    {
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table mr-1"></i>
+                        Contacts assigned to <b> @Model.Company1.Name - @Model.Company1.Location </b>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered display" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Select
+                                        </th>
+                                        <th>
+                                            Full Name
+                                        </th>
+                                        <th>
+                                            Job Title
+                                        </th>
+                                        <th>
+                                            Cell Phone
+                                        </th>
+                                        <th>
+                                            Email
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Company1.Contacts)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="custom-control custom-checkbox pt-2">
+                                                    <input type="checkbox" name="YourCheckBoxes" value="@item.ID" />
+                                                </div>
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.FullName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.JobTitle)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CellPhone)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Email)
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-6 col-sm-12">
-                @if (ViewData["Companies"] != null)
-                {
-                    <input type="submit" id="btnSubmit" value="Merge Tables" class="btn btn-primary" />
-                }
-                else
-                {
-                    <input type="submit" id="btnSubmit" value="Save" class="btn btn-primary" />
-                }
-                <a class="btn btn-outline-danger" asp-action="Index">Cancel</a>
+        </div>
+    }
+    @if (Model.Company2.Contacts.Count > 0)
+    {
+        <div class="row">
+            <div class="col-12 ">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table mr-1"></i>
+                        Contacts assigned to <b> @Model.Company2.Name - @Model.Company2.Location </b>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered display" id="dataTable2" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Select
+                                        </th>
+                                        <th>
+                                            Full Name
+                                        </th>
+                                        <th>
+                                            Job Title
+                                        </th>
+                                        <th>
+                                            Cell Phone
+                                        </th>
+                                        <th>
+                                            Email
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Company2.Contacts)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="custom-control custom-checkbox pt-2">
+                                                    <input type="checkbox" name="YourCheckBoxes" value="@item.ID" />
+                                                </div>
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.FullName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.JobTitle)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CellPhone)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Email)
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>*@
+        </div>
+    }
     <div class="col-xl-6 col-sm-12">
-        <input type="submit" value="Merge" class="btn btn-primary" />
+        <input type="submit" value="Merge" id="btnSubmit" class="btn btn-primary" />
         <a class="btn btn-outline-danger" asp-action="Index">Cancel</a>
     </div>
 </form>
 
 @section Scripts {
     <script src="~/js/merge12.js"></script>
+    <script src="~/js/types_merge.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript">
+        $('#dataTable').DataTable({
+            sDom: 'lrtip',
+            "bInfo": false,
+            paging: false,
+            rowReorder: {
+                selector: 'tr'
+            }
+        });
 
+        $('#dataTable2').DataTable({
+            sDom: 'lrtip',
+            "bInfo": false,
+            paging: false,
+            rowReorder: {
+                selector: 'tr'
+            }
+        });
+    </script>
 }
