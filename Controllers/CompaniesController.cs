@@ -683,8 +683,6 @@ namespace Hager_Ind_CRM.Controllers
         [ValidateAntiForgeryToken]
         [Authorize(Policy = PolicyTypes.Companies.Create)]
         public async Task<IActionResult> Merge(int input_ID_1, int input_ID_2,
-            //string[] selectedOptionsCustomer, string[] selectedOptionsVendor, string[] selectedOptionsContractor,
-            //string isCustomer, string isVendor, string isContractor,
 
             string input_Location, string input_Name, int input_BillingTermsID, int input_CurrencyID,
             Int64 input_Phone, string input_Website, string input_Notes, string input_BillingAddress1,
@@ -716,8 +714,6 @@ namespace Hager_Ind_CRM.Controllers
             {
                 return NotFound();
             }
-
-            //UpdateTypesAndSubs(companyToUpdate, isCustomer, selectedOptionsCustomer, isVendor, selectedOptionsVendor, isContractor, selectedOptionsContractor);
 
             //if (await TryUpdateModelAsync<Company>(mergeCMP, "",
             //    d => d.Name, d => d.Location, d => d.CredCheck, d => d.Active,
@@ -754,7 +750,7 @@ namespace Hager_Ind_CRM.Controllers
                     mergeCMP.CredCheck = input_CreditCheck;
                     mergeCMP.Active = input_Active;
 
-                    
+                    //assign the types / sub types
                     if (selectedOptionsContractor.Length != 0 || selectedOptionsCustomer.Length != 0 || selectedOptionsVendor.Length != 0)
                     {
                         UpdateTypesAndSubs(mergeCMP, isCustomer, selectedOptionsCustomer, isVendor, selectedOptionsVendor, isContractor, selectedOptionsContractor);
@@ -767,6 +763,18 @@ namespace Hager_Ind_CRM.Controllers
                     {
                         UpdateTypesAndSubs(mergeCMP, isCustomer, selectedOptionsCustomer, isVendor, selectedOptionsVendor, isContractor, selectedOptionsContractor);
                     }
+
+                    //assign the contacts the new ID
+                    foreach (var item in YourCheckboxes)
+                    {
+                        var contact = await _context.Contacts
+                        .Include(c => c.Company).ThenInclude(p => p.CompanyTypes).ThenInclude(p => p.Type)
+                        .Include(c => c.ContactCatagories).ThenInclude(p => p.Catagory)
+                        .SingleOrDefaultAsync(p => p.ID == int.Parse(item));
+
+                        contact.CompanyID = input_ID_1;
+                    }
+
                     await _context.SaveChangesAsync();
 
                     var delCMP = await _context.Companies.FindAsync(input_ID_2);
