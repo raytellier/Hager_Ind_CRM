@@ -764,6 +764,27 @@ namespace Hager_Ind_CRM.Controllers
                         UpdateTypesAndSubs(mergeCMP, isCustomer, selectedOptionsCustomer, isVendor, selectedOptionsVendor, isContractor, selectedOptionsContractor);
                     }
 
+                    //remove each company ID
+                    var contactContext_1 = await _context.Contacts
+                        .Include(c => c.Company).ThenInclude(p => p.CompanyTypes).ThenInclude(p => p.Type)
+                        .Include(c => c.ContactCatagories).ThenInclude(p => p.Catagory)
+                        .Where(c => c.CompanyID == input_ID_1)
+                        .ToListAsync();
+                    var contactContext_2 = await _context.Contacts
+                       .Include(c => c.Company).ThenInclude(p => p.CompanyTypes).ThenInclude(p => p.Type)
+                       .Include(c => c.ContactCatagories).ThenInclude(p => p.Catagory)
+                       .Where(c => c.CompanyID == input_ID_2)
+                       .ToListAsync();
+
+                    foreach (var contact in contactContext_1)
+                    {
+                        contact.CompanyID = null;
+                    }
+                    foreach (var contact in contactContext_2)
+                    {
+                        contact.CompanyID = null;
+                    }
+
                     //assign the contacts the new ID
                     foreach (var item in YourCheckboxes)
                     {

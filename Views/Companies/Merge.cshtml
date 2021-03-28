@@ -98,7 +98,7 @@
                         </div>
                         <div class="col-sm-3 d-flex justify-content-end">
                             <label class="text-primary font-weight-bold" id="billingTerms1">
-                                @if (@Model.Company1.BillingTerms.Terms != null)
+                                @if (@Model.Company1.BillingTerms != null)
                                 {
                                     @Model.Company1.BillingTerms.Terms
                                 }
@@ -112,6 +112,10 @@
                                 {
                                     @Model.Company1.BillingTermsID
                                 }
+                                else
+                                {
+                                    @null
+                                }
                             </label>
                         </div>
                         <div class="col-sm-2 d-flex justify-content-center">
@@ -121,7 +125,7 @@
                             </label>
                         </div>
                         <div class="col-sm-4 d-flex justify-content-start">
-                            <label class="text-secondary" id="billingTerms2">
+                            <label class="text-secondary" id="billingTerms2" >
                                 @if (@Model.Company2.BillingTerms != null)
                                 {
                                     @Model.Company2.BillingTerms.Terms
@@ -130,12 +134,15 @@
                                 {
                                     @:Not provided
                                 }
-
                             </label>
                             <label id="billingTerms2ID" hidden="hidden">
                                 @if (@Model.Company2.BillingTermsID != null)
                                 {
                                     @Model.Company2.BillingTermsID
+                                }
+                                else
+                                {
+                                    @null
                                 }
                             </label>
                         </div>
@@ -148,7 +155,7 @@
                         </div>
                         <div class="col-sm-4 d-flex justify-content-end">
                             <label class="text-primary font-weight-bold" id="currency1">
-                                @if (@Model.Company1.Currency.Name != null)
+                                @if (@Model.Company1.Currency != null)
                                 {
                                     @Model.Company1.Currency.Name
                                 }
@@ -724,7 +731,7 @@
                             </div>
                             <div class="col-sm-4 d-flex justify-content-end">
                                 <label class="text-primary font-weight-bold" id="shippingProvince1">
-                                    @if (@Model.Company1.ShippingProvince.Name != null)
+                                    @if (@Model.Company1.ShippingProvince != null)
                                     {
                                         @Model.Company1.ShippingProvince.Name
                                     }
