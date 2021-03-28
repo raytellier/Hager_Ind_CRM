@@ -59,90 +59,90 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                    <tr>
-                        <td>
-                            <a class="btn btn-light" asp-action="Details" asp-route-id="@item.ID">
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </a>
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Location)
-                        </td>
-                        <td>
-                            @{
-                                int typesCount = item.CompanyTypes.Count;
-                                if (typesCount > 0)
-                                {
-                                    string firstType = item.CompanyTypes.FirstOrDefault().Type.Name;
-                                    if (typesCount > 1)
+                        <tr>
+                            <td>
+                                <a class="btn btn-light" asp-action="Details" asp-route-id="@item.ID">
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Location)
+                            </td>
+                            <td>
+                                @{
+                                    int typesCount = item.CompanyTypes.Count;
+                                    if (typesCount > 0)
                                     {
-                                        string typeList = "";
-                                        var c = item.CompanyTypes.ToList();
-                                        for (int i = 1; i < typesCount; i++)
+                                        string firstType = item.CompanyTypes.FirstOrDefault().Type.Name;
+                                        if (typesCount > 1)
                                         {
-                                            typeList += c[i].Type.Name + " <br />";
+                                            string typeList = "";
+                                            var c = item.CompanyTypes.ToList();
+                                            for (int i = 1; i < typesCount; i++)
+                                            {
+                                                typeList += c[i].Type.Name + " <br />";
+                                            }
+                                            <a class="" role="button" data-toggle="collapse" href="#collapseSum@(item.ID)" aria-expanded="false" aria-controls="collapseSum@(item.ID)">
+                                                @firstType <span class="badge badge-info">@typesCount</span>
+                                            </a>
+                                            <div class="collapse" id="collapseSum@(item.ID)">
+                                                @Html.Raw(typeList)
+                                            </div>
                                         }
-                                        <a class="" role="button" data-toggle="collapse" href="#collapseSum@(item.ID)" aria-expanded="false" aria-controls="collapseSum@(item.ID)">
-                                            @firstType <span class="badge badge-info">@typesCount</span>
-                                        </a>
-                                        <div class="collapse" id="collapseSum@(item.ID)">
-                                            @Html.Raw(typeList)
+                                        else
+                                        {
+                                            @firstType
+                                        }
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CredCheck)
+                                @{if (item.CredCheck == true)
+                                    {
+                                        <div hidden="hidden">
+                                            Checked
                                         </div>
                                     }
-                                    else
+                                }
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Active)
+                                @{if (item.Active == true)
                                     {
-                                        @firstType
+                                        <div hidden="hidden">
+                                            Active
+                                        </div>
                                     }
                                 }
-                            }
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CredCheck)
-                            @{if (item.CredCheck == true)
-                                {
-                                    <div hidden="hidden">
-                                        Checked
-                                    </div>
-                                }
-                            }
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Active)
-                            @{if (item.Active == true)
-                                {
-                                    <div hidden="hidden">
-                                        Active
-                                    </div>
-                                }
-                            }
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.BillingTerms.Terms)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Phone)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Website)
-                        </td>
-                        @*<td>
-            @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Update))
-                {
-                    <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
-                }
-            }
-            @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Detail))
-                {
-                    <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ID">Details</a>
-                }
-            }
-            @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Delete))
-                {
-                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-                }
-            }
-        </td>*@
-                    </tr>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BillingTerms.Terms)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Phone)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Website)
+                            </td>
+                            @*<td>
+                                    @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Update))
+                                        {
+                                            <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+                                        }
+                                    }
+                                    @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Detail))
+                                        {
+                                            <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ID">Details</a>
+                                        }
+                                    }
+                                    @{ if (User.HasClaim(CustomClaimTypes.Permission, Companies.Delete))
+                                        {
+                                            <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                                        }
+                                    }
+                                </td>*@
+                        </tr>
                     }
                 </tbody>
             </table>
@@ -150,9 +150,27 @@
     </div>
 </div>
 @section Scripts {
-    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <style>
+        div.dt-buttons {
+            float: right;
+            margin-left: 10px;
+        }
+    </style>
     <script type="text/javascript">
+        //$(document).ready(function () {
+        //    $('#dataTable').DataTable();
+        //});
+        $.fn.dataTable.ext.buttons.alert = {
+            className: 'buttons-alert',
+
+            action: function (e, dt, node, config) {
+                dt.search('').draw();
+            }
+        };
         $(document).ready(function () {
             $.fn.dataTable.ext.order['dom-checkbox'] = function (settings, col) {
                 return this.api().column(col, { order: 'index' }).nodes().map(function (td, i) {
@@ -160,9 +178,30 @@
                 });
             };
             @*These have to match the amount of columns there are, null if its not a boolean and { "orderDataType": "dom-checkbox" } in the boolean column*@
-            $('#dataTable').DataTable({
+            var active = true;
+            var table = $('#dataTable').DataTable({
                 "stateSave": true,
                 "stateDuration": -1,
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'alert',
+                        text: 'Clear'
+                    },
+                    {
+                        text: 'Active',
+                        action: function () {
+                            if (active) {
+                                table.column(4).search('').draw()
+                            }
+                            else {
+                                table.column(4).search('active').draw()
+                            }
+                            active=!active
+
+                        }
+                    }
+                ],
                 "columns": [
                     null,
                     null,
@@ -174,8 +213,9 @@
                     null,
                 ]
             });
+            table.column(4).search('active').draw()
         });
 
     </script>
-    
+
 }

@@ -127,10 +127,10 @@
                                             {
                                                 subtypeList += s[j].ToString() + " <br />";
                                             }
-                                            <a class="" role="button" data-toggle="collapse" href="#collapseSum@(Model.ID)" aria-expanded="false" aria-controls="collapseSum@(Model.ID)">
+                                            <a class="" role="button" data-toggle="collapse" href="#collapseSum@(c[i].Type.Name)" aria-expanded="false" aria-controls="collapseSum@(c[i].Type.Name)">
                                                 @firstSubType <span class="badge badge-info">@subtypes.Count</span>
                                             </a>
-                                            <div class="collapse" id="collapseSum@(Model.ID)">
+                                            <div class="collapse" id="collapseSum@(c[i].Type.Name)">
                                                 @Html.Raw(subtypeList)
                                             </div>
                                         }
@@ -166,10 +166,10 @@
                                         {
                                             subtypeList += s[j].ToString() + " <br />";
                                         }
-                                        <a class="" role="button" data-toggle="collapse" href="#collapseSum@(Model.ID)" aria-expanded="false" aria-controls="collapseSum@(Model.ID)">
+                                        <a class="" role="button" data-toggle="collapse" href="#collapseSum@(firstType)" aria-expanded="false" aria-controls="collapseSum@(firstType)">
                                             @firstSubType <span class="badge badge-info">@subtypes.Count</span>
                                         </a>
-                                        <div class="collapse" id="collapseSum@(Model.ID)">
+                                        <div class="collapse" id="collapseSum@(firstType)">
                                             @Html.Raw(subtypeList)
                                         </div>
                                     }
