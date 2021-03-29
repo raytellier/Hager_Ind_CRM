@@ -684,11 +684,11 @@ namespace Hager_Ind_CRM.Controllers
         [Authorize(Policy = PolicyTypes.Companies.Create)]
         public async Task<IActionResult> Merge(int input_ID_1, int input_ID_2,
 
-            string input_Location, string input_Name, int input_BillingTermsID, int input_CurrencyID,
-            Int64 input_Phone, string input_Website, string input_Notes, string input_BillingAddress1,
-            string input_BillingAddress2, int input_BillingCountryID, int input_BillingProvinceID,
-            string input_BillingPostal, string input_ShippingAddress1, string input_ShippingAddress2,
-            int input_ShippingCountryID, int input_ShippingProvinceID, string input_ShippingPostal,
+            string? input_Location, string input_Name, int? input_BillingTermsID, int? input_CurrencyID,
+            Int64? input_Phone, string? input_Website, string? input_Notes, string? input_BillingAddress1,
+            string? input_BillingAddress2, int? input_BillingCountryID, int? input_BillingProvinceID,
+            string? input_BillingPostal, string? input_ShippingAddress1, string? input_ShippingAddress2,
+            int? input_ShippingCountryID, int? input_ShippingProvinceID, string? input_ShippingPostal,
             bool input_CreditCheck, bool input_Active, string[] YourCheckboxes,
 
             string[] selectedOptionsCustomer, string[] selectedOptionsVendor, string[] selectedOptionsContractor,
@@ -732,24 +732,25 @@ namespace Hager_Ind_CRM.Controllers
                     //Update all data
                     mergeCMP.Location = input_Location;
                     mergeCMP.Name = input_Name;
-                    mergeCMP.BillingTermsID = input_BillingTermsID;
-                    mergeCMP.CurrencyID = input_CurrencyID;
                     mergeCMP.Phone = input_Phone;
                     mergeCMP.Website = input_Website;
                     mergeCMP.Notes = input_Notes;
                     mergeCMP.BillingAddress1 = input_BillingAddress1;
                     mergeCMP.BillingAddress2 = input_BillingAddress2;
-                    mergeCMP.BillingCountryID = input_BillingCountryID;
-                    mergeCMP.BillingProvinceID = input_BillingProvinceID;
                     mergeCMP.BillingPostalCode = input_BillingPostal;
                     mergeCMP.ShippingAddress1 = input_ShippingAddress1;
                     mergeCMP.ShippingAddress2 = input_ShippingAddress2;
-                    mergeCMP.ShippingCountryID = input_ShippingCountryID;
-                    mergeCMP.ShippingProvinceID = input_ShippingProvinceID;
                     mergeCMP.ShippingPostalCode = input_ShippingPostal;
                     mergeCMP.CredCheck = input_CreditCheck;
                     mergeCMP.Active = input_Active;
 
+                    //foreign keys                    
+                    mergeCMP.CurrencyID = input_CurrencyID;
+                    mergeCMP.BillingTermsID = input_BillingTermsID;
+                    mergeCMP.BillingCountryID = input_BillingCountryID;
+                    mergeCMP.BillingProvinceID = input_BillingProvinceID;
+                    mergeCMP.ShippingCountryID = input_ShippingCountryID;
+                    mergeCMP.ShippingProvinceID = input_ShippingProvinceID;
                     //assign the types / sub types
                     if (selectedOptionsContractor.Length != 0 || selectedOptionsCustomer.Length != 0 || selectedOptionsVendor.Length != 0)
                     {
