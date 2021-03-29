@@ -155,7 +155,7 @@
         //    $('#dataTable').DataTable();
         //});
         $.fn.dataTable.ext.buttons.alert = {
-            className: 'buttons-alert',
+            className: 'btn btn-primary',
 
             action: function (e, dt, node, config) {
                 dt.search('').draw();
@@ -179,7 +179,8 @@
                         text: 'Clear'
                     },
                     {
-                        text: 'Active',
+                        className: 'btn btn-primary',
+                        text: 'Filter Active',
                         action: function () {
                             if (active) {
                                 table.column(6).search('').draw()

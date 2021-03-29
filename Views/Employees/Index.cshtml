@@ -55,6 +55,9 @@
                         <th>
                             @Html.DisplayNameFor(model => model.Email)
                         </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Active)
+                        </th>
                         @*<th></th>*@
                     </tr>
                 </thead>
@@ -78,6 +81,16 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Active)
+                                @{if (item.Active == true)
+                                    {
+                                        <div hidden="hidden">
+                                            Active
+                                        </div>
+                                    }
+                                }
                             </td>
                             @*<td>
                                     <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
@@ -107,7 +120,7 @@
         //    $('#dataTable').DataTable();
         //});
         $.fn.dataTable.ext.buttons.alert = {
-            className: 'buttons-alert',
+            className: 'btn btn-primary',
 
             action: function (e, dt, node, config) {
                 dt.search('').draw();
@@ -128,9 +141,18 @@
                     {
                         extend: 'alert',
                         text: 'Clear'
-                    }
-                    ]
+                    },
+                ],
+                "columns": [
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    { "orderDataType": "dom-checkbox"}
+                ]
             });
+            table.column(5).search('active').draw()
         });
 
     </script>
