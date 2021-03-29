@@ -23,15 +23,12 @@
             </div>
             <div class="modal-body">
                 <br />
-                <b> @Html.Raw(ViewBag.Message)</b><br /><br />
-                <b>What would you like to do?</b><br /><br />
+                <b> @Html.Raw(ViewBag.Message)</b><br/><br/>
+                <b>Would you like to merge the two Companies?</b><br/><br/>
             </div>
             <div class="modal-footer">
-                @Html.ActionLink("View", "MergeDetails", "Companies", new
-                {
-                    id = ViewBag.Msg
-                }, new { @class = "btn btn-outline-info" })
-                <button class="btn btn-outline-primary" data-dismiss="modal" id="btnUpdate">Merge</button>
+                @Html.ActionLink("Merge", "Merge", "Companies", new {@id1=ViewBag.Msg , @id2=ViewBag.ID }, new { @class = "btn btn-outline-primary" })
+              
                 @Html.ActionLink("Cancel", "Index", "Companies", new { }, new { @class = "btn btn-outline-secondary" })
             </div>
         </div>
@@ -198,6 +195,7 @@
                         <strong>-</strong>
                     </button>
                     @Html.ListBox("selectedOptionsCustomer", (MultiSelectList)ViewBag.selOptsCustomer, new { @size = 5, @class = "form-control", @style = "height: 85%;", @id = "selectedOptionsCustomer" })
+
                 </div>
 
                 <div class="form-group col-md-12">
@@ -224,7 +222,7 @@
                     <label class="control-label"> Vendor Subtypes Assigned</label> <button type="button" id="btnRightVendor" class="btn btn-danger btn-sm">
                         <strong>-</strong>
                     </button>
-                    @Html.ListBox("selectedOptionsVendor", (MultiSelectList)ViewBag.selOptsVendor, new { @size = 5, @class = "form-control", @style = "height: 85%;", @id = "selectedOptionsVendor" })
+                    @Html.ListBox("selectedOptionsVendor", (MultiSelectList)ViewBag.selOptsVendor, new { @size = 5, @class = "form-control", @style = "height: 85%;", @id = "selectedOptionsVendor"})
                 </div>
 
                 <div class="form-group col-md-12">
@@ -408,22 +406,5 @@
             $('#myModal').modal('show');
         }
     });
-    $('#btnUpdate').click(function (event) {
-        event.preventDefault();
-        var form = $('#CreateCompanyForm');
-        if (form.valid()) {
-            $.ajax({
-                type: "POST",
-                url: '@Url.Action("Edit","Companies",new {id= ViewBag.Msg})',
-                data: form.serialize(),
-                success: function () {
-                  window.location.href = "@Url.Action("Index", "Companies")";
-                },
-                error: function () {
-                    alert("Merge Failed. There was a problem merging the record.");
-                }
-            });
-        }
-        return false;
-    });
+   
 </script>

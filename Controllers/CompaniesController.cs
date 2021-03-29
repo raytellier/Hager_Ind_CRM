@@ -10,12 +10,39 @@ using Hager_Ind_CRM.Models;
 using Microsoft.AspNetCore.Authorization;
 using Hager_Ind_CRM.ViewModels;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.AspNetCore.Http;
 
 namespace Hager_Ind_CRM.Controllers
 {
     public class CompaniesController : Controller
     {
+
         private readonly HagerIndContext _context;
+        private static string cName;
+        private static string cLocation;
+        private static bool cCredCheck;
+        private static int? cBillingTermsID;
+        private static int? cCurrencyID;
+        private static long? cPhone;
+        private static string cWebsite;
+        private static string cBillingAddress1;
+        private static string cBillingAddress2;
+        private static int? cBillingProvinceID;
+        private static string cBillingPostalCode;
+        private static int? cBillingCountryID;
+        private static string cShippingAddress1;
+        private static string cShippingAddress2;
+        private static int? cShippingProvinceID;
+        private static string cShippingPostalCode;
+        private static int? cShippingCountryID;
+        private static bool cActive;
+        private static string cNotes;
+        private static string cisCustomer;
+        private static string cisVendor;
+        private static string cisContractor;
+       private static List<string> CustomerSubTypeList = new List<string>();
+       private static  List<string> VendorSubTypeList = new List<string>();
+       private static List<string> ContractorSubTypeList = new List<string>();
 
         public CompaniesController(HagerIndContext context)
         {
@@ -101,19 +128,30 @@ namespace Hager_Ind_CRM.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Policy = PolicyTypes.Companies.Create)]
-        public async Task<IActionResult> Create([Bind("ID,Name,Location,CredCheck,BillingTermsID,CurrencyID,Phone,Website,BillingAddress1,BillingAddress2,BillingProvinceID,BillingPostalCode,BillingCountryID,ShippingAddress1,ShippingAddress2,ShippingProvinceID,ShippingPostalCode,ShippingCountryID,Active,Notes")] Company company,
+        public async Task<IActionResult> Create([Bind("ID,Name,Location,CredCheck,BillingTermsID,CurrencyID,Phone," +
+            "Website,BillingAddress1,BillingAddress2,BillingProvinceID,BillingPostalCode,BillingCountryID,ShippingAddress1," +
+            "ShippingAddress2,ShippingProvinceID,ShippingPostalCode,ShippingCountryID,Active,Notes")] Company company,
             string[] selectedOptionsCustomer, string[] selectedOptionsVendor, string[] selectedOptionsContractor,
             string isCustomer, string isVendor, string isContractor)
         {
             if (ModelState.IsValid)
             {
-                if (_context.Companies.ToList().Any(c => (c.Name == company.Name)&&(c.Phone==company.Phone)))
+                if (_context.Companies.ToList().Any(c => (c.Name == company.Name) && (c.Phone == company.Phone)))
                 {
                     var id = (from d in _context.Companies
-                              where d.Name == company.Name && d.Phone==company.Phone
+                              where d.Name == company.Name && d.Phone == company.Phone
                               select d.ID).SingleOrDefault();
                     ViewBag.Msg = id;
                     ViewBag.Message = "The Company already exists.";
+                    UpdateTypesAndSubs(company, isCustomer, selectedOptionsCustomer, isVendor, selectedOptionsVendor, isContractor, selectedOptionsContractor);
+                    _context.Add(company);
+                    
+                    await _context.SaveChangesAsync();
+                    var id2= (from d in _context.Companies
+                              where d.ID == company.ID
+                              select d.ID).SingleOrDefault();
+                    ViewBag.ID=id2;
+
                 }
                 else
                 {
@@ -254,6 +292,7 @@ namespace Hager_Ind_CRM.Controllers
             return View(companyToUpdate);
         }
 
+
         // GET: Companies/Delete/5
         [Authorize(Policy = PolicyTypes.Companies.Delete)]
         public async Task<IActionResult> Delete(int? id)
@@ -295,34 +334,7 @@ namespace Hager_Ind_CRM.Controllers
         {
             return _context.Companies.Any(e => e.ID == id);
         }
-        [Authorize(Policy = PolicyTypes.Companies.Detail)]
-        public async Task<IActionResult> MergeDetails(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var company = await _context.Companies
-                .Include(c => c.Contacts).ThenInclude(c => c.ContactCatagories).ThenInclude(c => c.Catagory)
-                .Include(c => c.BillingCountry)
-                .Include(c => c.BillingProvince)
-                .Include(c => c.BillingTerms)
-                .Include(c => c.Currency)
-                .Include(c => c.ShippingCountry)
-                .Include(c => c.ShippingProvince)
-                .Include(c => c.CompanyTypes).ThenInclude(p => p.Type).ThenInclude(p => p.SubTypes)
-                .Include(c => c.CompanySubTypes).ThenInclude(p => p.SubType)
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (company == null)
-            {
-                return NotFound();
-            }
-
-            GetContacts(id);
-            return View(company);
-        }
-
+      
         private void PopulateDropDownLists(Company company = null)
         {
             if ((company?.BillingProvinceID).HasValue)
@@ -333,7 +345,7 @@ namespace Hager_Ind_CRM.Controllers
             else
             {
                 ViewData["BillingCountryID"] = CountriesSelectList(null);
-                ViewData["BillingProvinceID"] = ProvincesSelectList(null,null);
+                ViewData["BillingProvinceID"] = ProvincesSelectList(null, null);
             }
             if ((company?.ShippingProvinceID).HasValue)
             {
@@ -343,7 +355,7 @@ namespace Hager_Ind_CRM.Controllers
             else
             {
                 ViewData["ShippingCountryID"] = CountriesSelectList(null);
-                ViewData["ShippingProvinceID"] = ProvincesSelectList(null,null);
+                ViewData["ShippingProvinceID"] = ProvincesSelectList(null, null);
             }
             ViewData["BillingTermsID"] = BillingTermsSelectList(company?.BillingTermsID);
             ViewData["CurrencyID"] = CurrenciesSelectList(company?.CurrencyID);
@@ -477,7 +489,7 @@ namespace Hager_Ind_CRM.Controllers
             ViewData["availOptsContractor"] = new MultiSelectList(availableContractor.OrderBy(s => s.DisplayText), "ID", "DisplayText");
         }
 
-        private void UpdateTypesAndSubs(Company company, 
+        private void UpdateTypesAndSubs(Company company,
             string isCustomer, string[] subTypesCustomer,
             string isVendor, string[] subTypesVendor,
             string isContractor, string[] subTypesContractor)
@@ -490,7 +502,7 @@ namespace Hager_Ind_CRM.Controllers
                 types.Add(isCustomer);
                 subtypes.AddRange(subTypesCustomer);
             }
-            
+
             if (isVendor == "Vendor")
             {
                 types.Add(isVendor);
@@ -617,5 +629,276 @@ namespace Hager_Ind_CRM.Controllers
             //}
 
         }
+        private void PopulateAssignedCatagoriesData2(Company company)
+        {
+            var allOptions = _context.SubTypes.Include(s => s.Type);
+            var currentOptionsHS = new HashSet<int>(company.CompanySubTypes.Select(b => b.SubTypeID));
+
+            var selectedCustomer = new List<ListOptionVM>();
+            var availableCustomer = new List<ListOptionVM>();
+
+            var selectedVendor = new List<ListOptionVM>();
+            var availableVendor = new List<ListOptionVM>();
+
+            var selectedContractor = new List<ListOptionVM>();
+            var availableContractor = new List<ListOptionVM>();
+
+            foreach (var s in allOptions)
+            {
+                if (currentOptionsHS.Contains(s.ID))
+                {
+                    if (s.Type.Name == "Customer")
+                    {
+                        selectedCustomer.Add(new ListOptionVM
+                        {
+                            ID = s.ID,
+                            DisplayText = s.Name
+                        });
+                    }
+                    else if (s.Type.Name == "Vendor")
+                    {
+                        selectedVendor.Add(new ListOptionVM
+                        {
+                            ID = s.ID,
+                            DisplayText = s.Name
+                        });
+                    }
+                    else if (s.Type.Name == "Contractor")
+                    {
+                        selectedContractor.Add(new ListOptionVM
+                        {
+                            ID = s.ID,
+                            DisplayText = s.Name
+                        });
+                    }
+                }
+                else
+                {
+                    if (s.Type.Name == "Customer")
+                    {
+                        availableCustomer.Add(new ListOptionVM
+                        {
+                            ID = s.ID,
+                            DisplayText = s.Name
+                        });
+                    }
+                    else if (s.Type.Name == "Vendor")
+                    {
+                        availableVendor.Add(new ListOptionVM
+                        {
+                            ID = s.ID,
+                            DisplayText = s.Name
+                        });
+                    }
+                    else if (s.Type.Name == "Contractor")
+                    {
+                        availableContractor.Add(new ListOptionVM
+                        {
+                            ID = s.ID,
+                            DisplayText = s.Name
+                        });
+                    }
+                }
+            }
+
+            ViewData["selOptsCustomer2"] = new MultiSelectList(selectedCustomer.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+            ViewData["availOptsCustomer2"] = new MultiSelectList(availableCustomer.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+
+            ViewData["selOptsVendor2"] = new MultiSelectList(selectedVendor.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+            ViewData["availOptsVendor2"] = new MultiSelectList(availableVendor.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+
+            ViewData["selOptsContractor2"] = new MultiSelectList(selectedContractor.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+            ViewData["availOptsContractor2"] = new MultiSelectList(availableContractor.OrderBy(s => s.DisplayText), "ID", "DisplayText");
+        }
+
+        // GET: Companies/Merge
+        [Authorize(Policy = PolicyTypes.Companies.Create)]
+        public ActionResult Merge(int id1, int id2)
+        {
+            if (id1 < 0 || id2 < 0)
+            {
+                return NotFound();
+            }
+
+            var hagerIndContext = from a in _context.Companies
+                .Include(d => d.CompanyTypes).ThenInclude(d => d.Type)
+                .Include(d => d.CompanySubTypes).ThenInclude(d => d.SubType)
+                .Include(c => c.Contacts).ThenInclude(c => c.ContactCatagories).ThenInclude(c => c.Catagory)
+                .Include(c => c.BillingCountry)
+                .Include(c => c.BillingProvince)
+                .Include(c => c.BillingTerms)
+                .Include(c => c.Currency)
+                .Include(c => c.ShippingCountry)
+                .Include(c => c.ShippingProvince)
+                                  select a;
+
+            Company record1 = hagerIndContext.SingleOrDefault(p => p.ID == id1);
+            Company record2 = hagerIndContext.SingleOrDefault(p => p.ID == id2);
+            PopulateAssignedCatagoriesData(record1);
+            PopulateAssignedCatagoriesData2(record2);
+
+            var merge = new MergeVM();
+            merge.Company1 = record1;
+            merge.Company2 = record2;
+            return View(merge);
+        }
+
+        // POST: Companies/Merge
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Policy = PolicyTypes.Companies.Create)]
+        public async Task<IActionResult> Merge(int input_ID_1, int input_ID_2,
+
+            string? input_Location, string input_Name, int? input_BillingTermsID, int? input_CurrencyID,
+            Int64? input_Phone, string? input_Website, string? input_Notes, string? input_BillingAddress1,
+            string? input_BillingAddress2, int? input_BillingCountryID, int? input_BillingProvinceID,
+            string? input_BillingPostal, string? input_ShippingAddress1, string? input_ShippingAddress2,
+            int? input_ShippingCountryID, int? input_ShippingProvinceID, string? input_ShippingPostal,
+            bool input_CreditCheck, bool input_Active, string[] YourCheckboxes,
+
+            string[] selectedOptionsCustomer, string[] selectedOptionsVendor, string[] selectedOptionsContractor,
+            string[] selectedOptionsCustomer2, string[] selectedOptionsVendor2, string[] selectedOptionsContractor2,
+            string isCustomer, string isVendor, string isContractor
+
+            )
+        {
+            var mergeCMP = await _context.Companies
+                .Include(d => d.CompanyTypes).ThenInclude(d => d.Type)
+                .Include(d => d.CompanySubTypes).ThenInclude(d => d.SubType)
+                .Include(c => c.Contacts).ThenInclude(c => c.ContactCatagories).ThenInclude(c => c.Catagory)
+                .Include(c => c.BillingCountry)
+                .Include(c => c.BillingProvince)
+                .Include(c => c.BillingTerms)
+                .Include(c => c.Currency)
+                .Include(c => c.ShippingCountry)
+                .Include(c => c.ShippingProvince)
+                .SingleOrDefaultAsync(p => p.ID == input_ID_1);
+
+            //Check that you got it or exit with a not found error
+            if (mergeCMP == null)
+            {
+                return NotFound();
+            }
+
+            //if (await TryUpdateModelAsync<Company>(mergeCMP, "",
+            //    d => d.Name, d => d.Location, d => d.CredCheck, d => d.Active,
+            //    d => d.BillingTermsID, d => d.CurrencyID, d => d.Phone,
+            //    d => d.Website, d => d.BillingAddress1, d => d.BillingAddress2,
+            //    d => d.BillingProvinceID, d => d.BillingPostalCode, d => d.BillingCountryID,
+            //    d => d.ShippingAddress1, d => d.ShippingAddress2, d => d.ShippingProvinceID,
+            //    d => d.ShippingPostalCode, d => d.ShippingCountryID, d => d.Notes))
+            //{
+            if (1 == 1)
+            {
+                try
+                {
+                    //UpdateTypesAndSubs(mergeCMP, isCustomer, selectedOptionsCustomer, isVendor, selectedOptionsVendor, isContractor, selectedOptionsContractor);
+
+                    //Update all data
+                    mergeCMP.Location = input_Location;
+                    mergeCMP.Name = input_Name;
+                    mergeCMP.Phone = input_Phone;
+                    mergeCMP.Website = input_Website;
+                    mergeCMP.Notes = input_Notes;
+                    mergeCMP.BillingAddress1 = input_BillingAddress1;
+                    mergeCMP.BillingAddress2 = input_BillingAddress2;
+                    mergeCMP.BillingPostalCode = input_BillingPostal;
+                    mergeCMP.ShippingAddress1 = input_ShippingAddress1;
+                    mergeCMP.ShippingAddress2 = input_ShippingAddress2;
+                    mergeCMP.ShippingPostalCode = input_ShippingPostal;
+                    mergeCMP.CredCheck = input_CreditCheck;
+                    mergeCMP.Active = input_Active;
+
+                    //foreign keys                    
+                    mergeCMP.CurrencyID = input_CurrencyID;
+                    mergeCMP.BillingTermsID = input_BillingTermsID;
+                    mergeCMP.BillingCountryID = input_BillingCountryID;
+                    mergeCMP.BillingProvinceID = input_BillingProvinceID;
+                    mergeCMP.ShippingCountryID = input_ShippingCountryID;
+                    mergeCMP.ShippingProvinceID = input_ShippingProvinceID;
+                    //assign the types / sub types
+                    if (selectedOptionsContractor.Length != 0 || selectedOptionsCustomer.Length != 0 || selectedOptionsVendor.Length != 0)
+                    {
+                        UpdateTypesAndSubs(mergeCMP, isCustomer, selectedOptionsCustomer, isVendor, selectedOptionsVendor, isContractor, selectedOptionsContractor);
+                    }
+                    else if (selectedOptionsContractor2.Length != 0 || selectedOptionsCustomer2.Length != 0 || selectedOptionsVendor2.Length != 0)
+                    {
+                        UpdateTypesAndSubs(mergeCMP, isCustomer, selectedOptionsCustomer2, isVendor, selectedOptionsVendor2, isContractor, selectedOptionsContractor2);
+                    }
+                    else
+                    {
+                        UpdateTypesAndSubs(mergeCMP, isCustomer, selectedOptionsCustomer, isVendor, selectedOptionsVendor, isContractor, selectedOptionsContractor);
+                    }
+
+                    //remove each company ID
+                    var contactContext_1 = await _context.Contacts
+                        .Include(c => c.Company).ThenInclude(p => p.CompanyTypes).ThenInclude(p => p.Type)
+                        .Include(c => c.ContactCatagories).ThenInclude(p => p.Catagory)
+                        .Where(c => c.CompanyID == input_ID_1)
+                        .ToListAsync();
+                    var contactContext_2 = await _context.Contacts
+                       .Include(c => c.Company).ThenInclude(p => p.CompanyTypes).ThenInclude(p => p.Type)
+                       .Include(c => c.ContactCatagories).ThenInclude(p => p.Catagory)
+                       .Where(c => c.CompanyID == input_ID_2)
+                       .ToListAsync();
+
+                    foreach (var contact in contactContext_1)
+                    {
+                        contact.CompanyID = null;
+                    }
+                    foreach (var contact in contactContext_2)
+                    {
+                        contact.CompanyID = null;
+                    }
+
+                    //assign the contacts the new ID
+                    foreach (var item in YourCheckboxes)
+                    {
+                        var contact = await _context.Contacts
+                        .Include(c => c.Company).ThenInclude(p => p.CompanyTypes).ThenInclude(p => p.Type)
+                        .Include(c => c.ContactCatagories).ThenInclude(p => p.Catagory)
+                        .SingleOrDefaultAsync(p => p.ID == int.Parse(item));
+
+                        contact.CompanyID = input_ID_1;
+                    }
+
+                    await _context.SaveChangesAsync();
+
+                    var delCMP = await _context.Companies.FindAsync(input_ID_2);
+                    _context.Companies.Remove(delCMP);
+                    await _context.SaveChangesAsync();
+
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (RetryLimitExceededException /* dex */)
+                {
+                    ModelState.AddModelError("", "Unable to save changes after multiple attempts. Try again, and if the problem persists, see your system administrator.");
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CompanyExists(mergeCMP.ID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                catch (DbUpdateException)
+                {
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+                }
+            }
+            //}
+            PopulateAssignedCatagoriesData(mergeCMP);
+            ////return View(mergeCMP);
+            return RedirectToAction(nameof(Index));
+        }
+
     }
-}
+
+
+
+}   
+
