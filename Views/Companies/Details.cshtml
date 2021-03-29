@@ -293,6 +293,9 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
+                <div class="col-12 d-flex justify-content-end" style="margin-bottom: 10px;">
+                    <a  class="btn btn-primary" asp-controller="Contacts" asp-action="Create">Add New Contact</a>
+                </div>
                 <table class="table table-bordered display" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
@@ -372,22 +375,22 @@
                                     @Html.DisplayFor(modelItem => item.Email)
                                 </td>
                                 @*<td>
-                                        @{ if (User.HasClaim(CustomClaimTypes.Permission, Contacts.Update))
-                                            {
-                                                <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
-                                            }
-                                        }
-                                        @{ if (User.HasClaim(CustomClaimTypes.Permission, Contacts.Detail))
-                                            {
-                                                <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ID">Details</a>
-                                            }
-                                        }
-                                        @{ if (User.HasClaim(CustomClaimTypes.Permission, Contacts.Delete))
-                                            {
-                                                <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-                                            }
-                                        }
-                                    </td>*@
+                            @{ if (User.HasClaim(CustomClaimTypes.Permission, Contacts.Update))
+                                {
+                                    <a class="btn btn-outline-dark" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+                                }
+                            }
+                            @{ if (User.HasClaim(CustomClaimTypes.Permission, Contacts.Detail))
+                                {
+                                    <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ID">Details</a>
+                                }
+                            }
+                            @{ if (User.HasClaim(CustomClaimTypes.Permission, Contacts.Delete))
+                                {
+                                    <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                                }
+                            }
+                        </td>*@
                             </tr>
                         }
                     </tbody>
