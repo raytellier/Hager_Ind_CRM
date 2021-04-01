@@ -77,7 +77,13 @@ namespace Hager_Ind_CRM.Controllers
         {
             Contact contact = new Contact();
             PopulateAssignedCatagoriesData(contact);
-            PopulateDropDownLists(compID);
+            PopulateDropDownLists(compID, null);
+
+            //to change the button direction on the create page if the user comes from the company details page
+            if (compID != null)
+            {
+                ViewData["cmpID"] = compID;
+            }
             return View();
         }
 
@@ -87,17 +93,27 @@ namespace Hager_Ind_CRM.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,JobTitle,CellPhone,WorkPhone,Email,Active,CompanyID")] Contact contact,
-            string[] selectedOptions)
+            string[] selectedOptions, int? cmpDET)
         {
             UpdateContactCatagories(selectedOptions, contact);
             if (ModelState.IsValid)
             {
                 _context.Add(contact);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (cmpDET != null)
+                {
+                    return RedirectToAction("Details", "Companies", new { id = cmpDET });
+                }
+                else
+                {
+                    return View(contact);
+                }
             }
             PopulateDropDownLists(null, contact);
             PopulateAssignedCatagoriesData(contact);
+
+            //to change the button direction on the create page if the user comes from the company details page
+            
             return View(contact);
         }
 
@@ -126,7 +142,7 @@ namespace Hager_Ind_CRM.Controllers
 
         // POST: Users/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.p
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Policy = PolicyTypes.Contacts.Update)]
@@ -220,27 +236,18 @@ namespace Hager_Ind_CRM.Controllers
             return _context.Contacts.Any(e => e.ID == id);
         }
 
-        private void PopulateDropDownLists(int? compID, Contact contact = null)
+        private void PopulateDropDownLists(int? cmpID, Contact contact = null)
         {
-            ViewData["CompanyID"] = CompaniesSelectList(contact?.CompanyID, compID);
+            int? id = null;
+            if (contact?.CompanyID != null) { id = contact?.CompanyID; } else { id = cmpID; }
+            ViewData["CompanyID"] = CompaniesSelectList(id);
         }
-        private SelectList CompaniesSelectList(int? id, int? compID)
+        private SelectList CompaniesSelectList(int? id)
         {
             var dQuery = (from d in _context.Companies
                           orderby d.ID
                           select d).ToList();
-            SelectList cmpnySL = new SelectList(dQuery, "ID", "Name", id);
-
-            
-
-            if (compID != null)
-            {
-                var selected = cmpnySL.Where(x => x.Value == compID.ToString()).First();
-                selected.Selected = true;
-            }
-
-            return cmpnySL;
-            
+            return new SelectList(dQuery, "ID", "Name", id);
         }
 
         private void PopulateAssignedCatagoriesData(Contact contact)
