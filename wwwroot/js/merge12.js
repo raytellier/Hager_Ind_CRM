@@ -1,4 +1,32 @@
-﻿document.getElementById("toggle_Name").onclick = function () {
+﻿document.addEventListener("DOMContentLoaded", function () {
+    if (document.getElementById("creditCheck1").textContent.indexOf("true") >= 0) {
+        document.getElementById("input_CreditCheck").value = "true";
+    }
+    else {
+        document.getElementById("input_CreditCheck").value = "false";
+    }
+    //alert("it runs when onloads");
+
+    //if (document.getElementById("creditCheck1").text().indexOf("true") > -1) {
+    //    document.getElementById("input_CreditCheck").value = "true";
+    //    alert("true");
+    //}
+    //else {
+    //    document.getElementById("input_CreditCheck").value = "false";
+    //    alert("false");
+    //}
+
+
+    if (document.getElementById("active1").textContent.indexOf("true") >= 0) {
+        document.getElementById("input_Active").value = "true";
+    }
+    else {
+        document.getElementById("input_Active").value = "false";
+    }
+});
+
+
+document.getElementById("toggle_Name").onclick = function () {
     
     if (!this.checked) {
         var left = document.getElementById("name1");

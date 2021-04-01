@@ -40,8 +40,8 @@
     <input id="input_ShippingCountryID" name="input_ShippingCountryID" type="hidden" value="@Model.Company1.ShippingCountryID" />
     <input id="input_ShippingProvinceID" name="input_ShippingProvinceID" type="hidden" value="@Model.Company1.ShippingProvinceID" />
     <input id="input_ShippingPostal" name="input_ShippingPostal" type="hidden" value="@Model.Company1.ShippingPostalCode" />
-    <input id="input_CreditCheck" name="input_CreditCheck" type="hidden" value="@Model.Company1.CredCheck" />
-    <input id="input_Active" name="input_Active" type="hidden" value="@Model.Company1.Active" />
+    <input id="input_CreditCheck" name="input_CreditCheck" type="hidden" />
+    <input id="input_Active" name="input_Active" type="hidden" />
     <input id="inputCustomer" name="isCustomer" type="hidden" value="false" />
     <input id="inputVendor" name="isVendor" type="hidden" value="false" />
     <input id="inputContractor" name="isContractor" type="hidden" value="false" />
@@ -102,10 +102,6 @@
                                 {
                                     @Model.Company1.BillingTerms.Terms
                                 }
-                                else
-                                {
-                                    @:Not provided
-                                }
                             </label>
                             <label id="billingTerms1ID" hidden="hidden">
                                 @if (@Model.Company1.BillingTermsID != null)
@@ -129,10 +125,6 @@
                                 @if (@Model.Company2.BillingTerms != null)
                                 {
                                     @Model.Company2.BillingTerms.Terms
-                                }
-                                else
-                                {
-                                    @:Not provided
                                 }
                             </label>
                             <label id="billingTerms2ID" hidden="hidden">
@@ -159,10 +151,6 @@
                                 {
                                     @Model.Company1.Currency.Name
                                 }
-                                else
-                                {
-                                    @:Not provided
-                                }
                             </label>
                             <label id="currency1ID" hidden="hidden">
                                 @if (@Model.Company1.CurrencyID != null)
@@ -182,10 +170,6 @@
                                 @if (@Model.Company2.Currency != null)
                                 {
                                     @Model.Company2.Currency.Name
-                                }
-                                else
-                                {
-                                    @:Not provided
                                 }
                             </label>
                             <label id="currency2ID" hidden="hidden">
@@ -407,10 +391,6 @@
                                     {
                                         @Model.Company1.BillingAddress1
                                     }
-                                    else
-                                    {
-                                        @:Not provided
-                                    }
                                 </label>
                             </div>
                             <div class="col-sm-2 d-flex justify-content-center">
@@ -424,10 +404,6 @@
                                     @if (@Model.Company2.BillingAddress1 != null)
                                     {
                                         @Model.Company2.BillingAddress1
-                                    }
-                                    else
-                                    {
-                                        @:Not provided
                                     }
                                 </label>
                             </div>
@@ -444,10 +420,6 @@
                                     {
                                         @Model.Company1.BillingAddress2
                                     }
-                                    else
-                                    {
-                                        @:Not provided
-                                    }
                                 </label>
                             </div>
                             <div class="col-sm-2 d-flex justify-content-center">
@@ -461,10 +433,6 @@
                                     @if (@Model.Company2.BillingAddress2 != null)
                                     {
                                         @Model.Company2.BillingAddress2
-                                    }
-                                    else
-                                    {
-                                        @:Not provided
                                     }
                                 </label>
                             </div>
@@ -481,11 +449,6 @@
                                     {
                                         @Model.Company1.BillingCountry.Name
                                     }
-                                    else
-                                    {
-                                        @:Not provided
-                                    }
-
                                 </label>
                                 <label id="billingCountry1ID" hidden="hidden">
                                     @if (@Model.Company1.BillingCountryID != null)
@@ -506,11 +469,6 @@
                                     {
                                         @Model.Company2.BillingCountry.Name
                                     }
-                                    else
-                                    {
-                                        @:Not provided
-                                    }
-
                                 </label>
                                 <label id="billingCountry2ID" hidden="hidden">
                                     @if (@Model.Company2.BillingCountryID != null)
@@ -532,11 +490,6 @@
                                     {
                                         @Model.Company1.BillingProvince.Name
                                     }
-                                    else
-                                    {
-                                        @:Not provided
-                                    }
-
                                 </label>
                                 <label id="billingProvince1ID" hidden="hidden">
                                     @if (@Model.Company1.BillingProvinceID != null)
@@ -556,10 +509,6 @@
                                     @if (@Model.Company2.BillingProvince != null)
                                     {
                                         @Model.Company2.BillingProvince.Name
-                                    }
-                                    else
-                                    {
-                                        @:Not provided
                                     }
                                 </label>
                                 <label id="billingProvince2ID" hidden="hidden">
@@ -611,10 +560,6 @@
                                     {
                                         @Model.Company1.ShippingAddress1
                                     }
-                                    else
-                                    {
-                                        @:Not provided
-                                    }
                                 </label>
                             </div>
                             <div class="col-sm-2 d-flex justify-content-center">
@@ -629,10 +574,7 @@
                                     {
                                         @Model.Company2.ShippingAddress1
                                     }
-                                    else
-                                    {
-                                        @:Not provided
-                                    }
+                                    
                                 </label>
                             </div>
                         </div>
@@ -648,10 +590,6 @@
                                     {
                                         @Model.Company1.ShippingAddress2
                                     }
-                                    else
-                                    {
-                                        @:Not provided
-                                    }
                                 </label>
                             </div>
                             <div class="col-sm-2 d-flex justify-content-center">
@@ -665,10 +603,6 @@
                                     @if (@Model.Company2.ShippingAddress2 != null)
                                     {
                                         @Model.Company2.ShippingAddress2
-                                    }
-                                    else
-                                    {
-                                        @:Not provided
                                     }
                                 </label>
                             </div>
@@ -684,10 +618,6 @@
                                     @if (@Model.Company1.ShippingCountry != null)
                                     {
                                         @Model.Company1.ShippingCountry.Name
-                                    }
-                                    else
-                                    {
-                                        @:Not provided
                                     }
                                 </label>
                                 <label id="shippingCountry1ID" hidden="hidden">
@@ -709,11 +639,6 @@
                                     {
                                         @Model.Company2.ShippingCountry.Name
                                     }
-                                    else
-                                    {
-                                        @:Not provided
-                                    }
-
                                 </label>
                                 <label id="shippingCountry2ID" hidden="hidden">
                                     @if (@Model.Company2.ShippingCountryID != null)
@@ -735,11 +660,6 @@
                                     {
                                         @Model.Company1.ShippingProvince.Name
                                     }
-                                    else
-                                    {
-                                        @:Not provided
-                                    }
-
                                 </label>
                                 <label id="shippingProvince1ID" hidden="hidden">
                                     @if (@Model.Company1.ShippingProvinceID != null)
@@ -759,10 +679,6 @@
                                     @if (@Model.Company2.ShippingProvince != null)
                                     {
                                         @Model.Company2.ShippingProvince.Name
-                                    }
-                                    else
-                                    {
-                                        @:Not provided
                                     }
                                 </label>
                                 <label id="shippingProvince2ID" hidden="hidden">
