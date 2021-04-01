@@ -73,11 +73,11 @@ namespace Hager_Ind_CRM.Controllers
         }
 
         // GET: Users/Create
-        public IActionResult Create()
+        public IActionResult Create(int? compID)
         {
             Contact contact = new Contact();
             PopulateAssignedCatagoriesData(contact);
-            PopulateDropDownLists();
+            PopulateDropDownLists(compID);
             return View();
         }
 
@@ -96,7 +96,7 @@ namespace Hager_Ind_CRM.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            PopulateDropDownLists(contact);
+            PopulateDropDownLists(null, contact);
             PopulateAssignedCatagoriesData(contact);
             return View(contact);
         }
@@ -119,7 +119,7 @@ namespace Hager_Ind_CRM.Controllers
             {
                 return NotFound();
             }
-            PopulateDropDownLists(contact);
+            PopulateDropDownLists(null, contact);
             PopulateAssignedCatagoriesData(contact);
             return View(contact);
         }
@@ -176,7 +176,7 @@ namespace Hager_Ind_CRM.Controllers
 
             }
             
-            PopulateDropDownLists(contact);
+            PopulateDropDownLists(null, contact);
             PopulateAssignedCatagoriesData(contact);
             return View(contact);
         }
@@ -220,17 +220,29 @@ namespace Hager_Ind_CRM.Controllers
             return _context.Contacts.Any(e => e.ID == id);
         }
 
-        private void PopulateDropDownLists(Contact contact = null)
+        private void PopulateDropDownLists(int? compID, Contact contact = null)
         {
-            ViewData["CompanyID"] = CompaniesSelectList(contact?.CompanyID);
+            ViewData["CompanyID"] = CompaniesSelectList(contact?.CompanyID, compID);
         }
-        private SelectList CompaniesSelectList(int? id)
+        private SelectList CompaniesSelectList(int? id, int? compID)
         {
             var dQuery = (from d in _context.Companies
                           orderby d.ID
                           select d).ToList();
-            return new SelectList(dQuery, "ID", "Name", id);
+            SelectList cmpnySL = new SelectList(dQuery, "ID", "Name", id);
+
+            
+
+            if (compID != null)
+            {
+                var selected = cmpnySL.Where(x => x.Value == compID.ToString()).First();
+                selected.Selected = true;
+            }
+
+            return cmpnySL;
+            
         }
+
         private void PopulateAssignedCatagoriesData(Contact contact)
         {
             var allOptions = _context.Catagories;
