@@ -209,10 +209,10 @@
                         text: 'Filter Active',
                         action: function () {
                             if (active) {
-                                table.column(4).search('').draw()
+                                table.column(5).search('').draw()
                             }
                             else {
-                                table.column(4).search('active').draw()
+                                table.column(5).search('active').draw()
                             }
                             active=!active
 
@@ -223,14 +223,15 @@
                     null,
                     null,
                     null,
-                    { "orderDataType": "dom-checkbox", "targets": 4 },
-                    { "orderDataType": "dom-checkbox", "targets": 5},
+                    null,
+                    { "orderDataType": "dom-checkbox", "targets": 5 },
+                    { "orderDataType": "dom-checkbox", "targets": 6},
                     null,
                     null,
                     null,
                 ]
             });
-            table.column(4).search('active').draw()
+            table.column(5).search('active').draw()
         });
 
         </script>
