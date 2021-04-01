@@ -689,7 +689,7 @@ namespace Hager_Ind_CRM.Controllers
             string? input_BillingAddress2, int? input_BillingCountryID, int? input_BillingProvinceID,
             string? input_BillingPostal, string? input_ShippingAddress1, string? input_ShippingAddress2,
             int? input_ShippingCountryID, int? input_ShippingProvinceID, string? input_ShippingPostal,
-            bool input_CreditCheck, bool input_Active, string[] YourCheckboxes,
+            string input_CreditCheck, string input_Active, string[] YourCheckboxes,
 
             string[] selectedOptionsCustomer, string[] selectedOptionsVendor, string[] selectedOptionsContractor,
             string[] selectedOptionsCustomer2, string[] selectedOptionsVendor2, string[] selectedOptionsContractor2,
@@ -741,8 +741,23 @@ namespace Hager_Ind_CRM.Controllers
                     mergeCMP.ShippingAddress1 = input_ShippingAddress1;
                     mergeCMP.ShippingAddress2 = input_ShippingAddress2;
                     mergeCMP.ShippingPostalCode = input_ShippingPostal;
-                    mergeCMP.CredCheck = input_CreditCheck;
-                    mergeCMP.Active = input_Active;
+                    if (input_CreditCheck.ToUpper().Contains("TRUE"))
+                    {
+                        mergeCMP.CredCheck = true;
+                    }
+                    else
+                    {
+                        mergeCMP.CredCheck = false;
+                    }
+
+                    if (input_Active.ToUpper().Contains("TRUE"))
+                    {
+                        mergeCMP.Active = true;
+                    }
+                    else
+                    {
+                        mergeCMP.Active = false;
+                    }
 
                     //foreign keys                    
                     mergeCMP.CurrencyID = input_CurrencyID;
