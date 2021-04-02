@@ -182,16 +182,19 @@
                     },
                     {
                         className: 'btn btn-primary',
-                        text: 'Filter Active',
+                        attr: {id:'buttonID'},
+                        text: 'Active Filter Off',
                         action: function () {
                             if (active) {
-                                table.column(7).search('').draw()
+                                table.column(7).search('').draw();
+                                document.querySelector('#buttonID').textContent = 'Active Filter On';
                             }
                             else {
-                                table.column(7).search('active').draw()
+                                table.column(7).search('active').draw();
+                                document.querySelector('#buttonID').textContent = 'Active Filter Off';
                             }
                             active=!active
-                            
+
                         }
                     }
                 ],
@@ -203,7 +206,7 @@
                     null,
                     null,
                     null,
-                    { "orderDataType": "dom-checkbox"}
+                    { "orderDataType": "dom-checkbox", "targets": 8 }
                 ]
             });
             table.column(7).search('active').draw()
