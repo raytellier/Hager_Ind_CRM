@@ -210,11 +210,11 @@
                         text: 'Active Filter Off',
                         action: function () {
                             if (active) {
-                                table.column(4).search('').draw();
+                                table.column(5).search('').draw();
                                 document.querySelector('#buttonID').textContent = 'Active Filter On';
                             }
                             else {
-                                table.column(4).search('active').draw();
+                                table.column(5).search('active').draw();
                                 document.querySelector('#buttonID').textContent = 'Active Filter Off';
                             }
                             active = !active
