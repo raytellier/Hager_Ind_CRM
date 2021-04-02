@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Edit";
+    
 }
 
 <h1 class="mt-4">Edit Company</h1>
@@ -44,7 +45,7 @@
                 <div class="form-group col-xl-3 col-md-6 col-sm-6">
                     <label asp-for="BillingTermsID" class="control-label"></label>
                     <select asp-for="BillingTermsID" class="form-control" asp-items="ViewBag.BillingTermsID">
-                        <option value="">Select...</option>
+                        <option value="" >Select...</option>
                     </select>
                     <span asp-validation-for="BillingTermsID" class="text-danger"></span>
                 </div>

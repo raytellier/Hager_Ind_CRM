@@ -296,7 +296,8 @@ namespace Hager_Ind_CRM.Controllers
         {
             if (theExcel is null)
             {
-                throw new ArgumentNullException(nameof(theExcel));
+                ModelState.AddModelError("Error", "No File Selected or Unknown data in the Excel File");
+                return RedirectToAction(nameof(Index));
             }
 
             try
@@ -341,17 +342,34 @@ namespace Hager_Ind_CRM.Controllers
                         }
 
                     ////Get the foreign keys from the names of the positions
-                    int provinceID = (await _context.Provinces
+                    ///
+                    int? provinceID = null;
+                    int? countryID = null;
+                    int? jobPosID = null;
+                    int? empTypeID = null;
+                    if (!String.IsNullOrEmpty(workSheet.Cells[row, 13].Text))
+                    {
+                        provinceID = (await _context.Provinces
                             .FirstOrDefaultAsync(p => p.Name == workSheet.Cells[row, 13].Text)).ID;
+                    }
 
-                        int countryID = (await _context.Countries
+                    if (!String.IsNullOrEmpty(workSheet.Cells[row, 14].Text))
+                    {
+                        countryID = (await _context.Countries
                             .FirstOrDefaultAsync(p => p.Name == workSheet.Cells[row, 14].Text)).ID;
+                    }
 
-                        int jobPosID = (await _context.JobPositions
+                    if (!String.IsNullOrEmpty(workSheet.Cells[row, 15].Text))
+                    {
+                        jobPosID = (await _context.JobPositions
                             .FirstOrDefaultAsync(p => p.Name == workSheet.Cells[row, 15].Text)).ID;
+                    }
 
-                        int empTypeID = (await _context.EmploymentTypes
+                    if (!String.IsNullOrEmpty(workSheet.Cells[row, 16].Text))
+                    {
+                        empTypeID = (await _context.EmploymentTypes
                             .FirstOrDefaultAsync(p => p.Type == workSheet.Cells[row, 16].Text)).ID;
+                    }
 
                         //Bools
                         bool isUserBool = StringToBool(workSheet.Cells[row, 19].Text);
@@ -419,7 +437,7 @@ namespace Hager_Ind_CRM.Controllers
                     _context.SaveChanges();
 
                 }
-                catch (Exception ex)
+                catch (ArgumentNullException ex)
                 {
                     if (ex.GetBaseException().Message.Contains(""))
                     {

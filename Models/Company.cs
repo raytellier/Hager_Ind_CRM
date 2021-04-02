@@ -97,7 +97,6 @@ namespace Hager_Ind_CRM.Models
 
         [StringLength(511, ErrorMessage = "Notes cannot be more than 511 characters long.")]
         public string Notes { get; set; }
-
         public ICollection<Contact> Contacts { get; set; }
         [Display(Name = "Company Types")]
         public ICollection<CompanyType> CompanyTypes { get; set; }
