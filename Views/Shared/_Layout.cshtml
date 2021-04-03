@@ -21,7 +21,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"></script>
 </head>
-<body class="sb-nav-fixed">
+<body class="sb-nav-fixed"  onload="myFunction1()" onunload="myFunction()">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <div class="col-2">
             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
@@ -181,10 +181,56 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/scripts.js" asp-append-version="true"></script>
     <script>
-        //function myFunction() {
-        //    $('#collapseCompanies').addClass('collapse in').removeClass('collapse');
-        //}
+        function myFunction() {
+            if (document.getElementById("collapseCompanies").className == "collapse show") {
+                sessionStorage.setItem("key", document.getElementById("collapseCompanies").className);
+                //$('#collapseCompanies').addClass('collapse show').removeClass('collapse');
+            }
+            else if (document.getElementById("collapseContacts").className == "collapse show") {
+                sessionStorage.setItem("key1", document.getElementById("collapseContacts").className);
+            }
+            else if (document.getElementById("collapseManagement").className == "collapse show") {
+                sessionStorage.setItem("key2", document.getElementById("collapseManagement").className);
+            }
+            else if (document.getElementById("collapseAdminOptions").className == "collapse show") {
+                sessionStorage.setItem("key3", document.getElementById("collapseAdminOptions").className);
+            }
+            else {
+                sessionStorage.clear();
+            }
+        }
+        function myFunction1() {
+            if (sessionStorage.getItem("key") == "collapse show") {
+                $('#collapseCompanies').removeClass('collapse').addClass('collapse show');
+                //else if (document.getElementById("collapseCompanies").className == "collapse") {
+                //    sessionStorage.removeItem("key");
+                sessionStorage.clear();
+            }
+            else if (sessionStorage.getItem("key1") == "collapse show") {
+                $('#collapseContacts').removeClass('collapse').addClass('collapse show');
+                sessionStorage.clear();
+            }
+            else if (sessionStorage.getItem("key2") == "collapse show") {
+                $('#collapseManagement').removeClass('collapse').addClass('collapse show');
+                sessionStorage.clear();
+            }
+            else if (sessionStorage.getItem("key3") == "collapse show") {
+                $('#collapseAdminOptions').removeClass('collapse').addClass('collapse show');
+                sessionStorage.clear();
+            }
 
+            //document.getElementById("myDIV").className = "mystyle";
+            //alert(document.getElementById("myDIV").className);
+        }
+        //if ()
+        //if (typeof (Storage) !== "undefined") {
+        //    // Store
+        //    localStorage.setItem("lastname", "Smith");
+        //    // Retrieve
+        //    document.getElementById("collapseCompanies").innerHTML = localStorage.getItem("lastname");
+        //} else {
+        //    document.getElementById("collapseCompanies").innerHTML = "Sorry, your browser does not support Web Storage...";
+        //}
     </script>
     @RenderSection("Scripts", required: false)
 
