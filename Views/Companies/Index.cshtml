@@ -190,18 +190,15 @@
                     },
                     {
                         className: 'btn btn-primary',
-                        attr: { id: 'buttonID' },
-                        text: 'Active Filter Off',
+                        text: 'Filter Active',
                         action: function () {
                             if (active) {
-                                table.column(4).search('').draw();
-                                document.querySelector('#buttonID').textContent = 'Active Filter On';
+                                table.column(4).search('').draw()
                             }
                             else {
-                                table.column(4).search('active').draw();
-                                document.querySelector('#buttonID').textContent = 'Active Filter Off';
+                                table.column(4).search('active').draw()
                             }
-                            active = !active
+                            active=!active
 
                         }
                     }
