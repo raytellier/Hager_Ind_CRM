@@ -1,8 +1,12 @@
 ﻿@using Hager_Ind_CRM.Data
 @using Hager_Ind_CRM.Support
+@using Hager_Ind_CRM.ViewModels
 @{
     ViewData["Title"] = "Home Page";
     IEnumerable<Announcement> announcements = ViewData["Announcements"] as IEnumerable<Announcement>;
+    IEnumerable<Company> creditChecks = ViewData["CreditChecks"] as IEnumerable<Company>;
+    IEnumerable<Contact> contacts = ViewData["MissingContactInfo"] as IEnumerable<Contact>;
+    //IEnumerable<JobPositionCountVM> jobPositions = ViewData["JobPosition"] as IEnumerable<JobPositionCountVM>;
 }
 
 <h1 class="mt-4">Home</h1>
@@ -73,53 +77,139 @@
 
 
                         @if (User.IsInRole("Admin"))
-                         {
-                                <p>
-                                    <a class="btn btn-light" asp-controller="Announcements" asp-action="Edit" asp-route-id="@item.ID">
-                                        @Html.DisplayFor(modelItem => item.Notice)
-                                    </a>
-                                </p>
-                         }
+                        {
+                            <p>
+                                <a class="btn btn-light" asp-controller="Announcements" asp-action="Edit" asp-route-id="@item.ID">
+                                    @Html.DisplayFor(modelItem => item.Notice)
+                                </a>
+                            </p>
+                        }
                         else
                         {
                             <p>
                                 @Html.DisplayFor(modelItem => item.Notice)
                             </p>
                         }
-                     }
+                    }
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+<!--Credit Check & Missing Contact Info Section-->
+
+<div class="row">
+    @if (User.HasClaim(CustomClaimTypes.Permission, Companies.Update))
+        {
+            <div class="col-4">
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Credit Checks To-Do</h6>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="chart-area">
+                            @foreach (var item in creditChecks)
+                            {
+                                <p>
+                                    <a class="btn btn-light" asp-controller="Companies" asp-action="Edit" asp-route-id="@item.ID">
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </a>
+                                </p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (User.HasClaim(CustomClaimTypes.Permission, Contacts.Update))
+            {
+                <!--Missing Contact Info-->
+                <div class="col-4">
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Dropdown -->
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">Missing Contact Info</h6>
+                        </div>
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="chart-area">
+                                @foreach (var item in contacts)
+                                {
+                                    <p>
+                                        <a class="btn btn-light" asp-controller="Contacts" asp-action="Edit" asp-route-id="@item.ID">
+                                            @Html.DisplayFor(modelItem => item.FullName)
+                                        </a>
+                                    </p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+<!--Concept for Pie Chart Analytics-->
+
+@*@section Scripts{
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            var data = google.visualization.arrayToDataTable([
+               
+
+                ['Position', 'Count'],
+
+                @foreach (var item in jobPositions)
+                {
+                    <text>['@item.Position, @item.Count'],</text>
+                }
+            ]);
+
+            var options = {
+                title: 'My Daily Activities'
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+            chart.draw(data, options);
+        }
+    </script>
+}*@
 
 @*<div class="table-responsive">
-    <table class="table table-bordered display" id="dataTable" width="100%" cellspacing="0">
-        <thead>
-            <tr>
-                <th>
-                    Notice
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in announcements)
-            {
+        <table class="table table-bordered display" id="dataTable" width="100%" cellspacing="0">
+            <thead>
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Notice)
-                    </td>
-                    <td>
-                        @{ if (User.IsInRole("Admin"))
-                            {
-                                <a class="btn btn-outline-dark" asp-controller="Announcements" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
-                            }
-                        }
-
-                    </td>
+                    <th>
+                        Notice
+                    </th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>*@
+            </thead>
+            <tbody>
+                @foreach (var item in announcements)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Notice)
+                        </td>
+                        <td>
+                            @{ if (User.IsInRole("Admin"))
+                                {
+                                    <a class="btn btn-outline-dark" asp-controller="Announcements" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+                                }
+                            }
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>*@

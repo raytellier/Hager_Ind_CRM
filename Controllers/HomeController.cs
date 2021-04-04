@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Hager_Ind_CRM.ViewModels;
 
 namespace Hager_Ind_CRM.Controllers
 {
@@ -27,6 +28,9 @@ namespace Hager_Ind_CRM.Controllers
         public IActionResult Index()
         {
             GetAnnouncements();
+            GetCreditChecks();
+            GetMissingContactInfo();
+            GetJobPosition();
             return View();
         }
 
@@ -57,6 +61,35 @@ namespace Hager_Ind_CRM.Controllers
                                  orderby d.Notice
                                  select d);
             ViewData["Announcements"] = announcements;
+        }
+
+        private void GetCreditChecks()
+        {
+            var creditChecks = (from c in _context.Companies
+                                 orderby c.Name
+                                 where c.CredCheck == false
+                                 select c);
+            ViewData["CreditChecks"] = creditChecks;
+        }
+
+        private void GetMissingContactInfo()
+        {
+            var contacts = (from c in _context.Contacts
+                                orderby c.FirstName
+                                where c.Email == null || c.CellPhone == null
+                                select c);
+            ViewData["MissingContactInfo"] = contacts;
+        }
+
+        private void GetJobPosition()
+        {
+            var jobPositions = from j in _context.Employees
+                               .AsEnumerable()
+                               group j by j.JobPosition into j
+                               select new { Position = j.Key, Count = j.Count() };
+
+
+            ViewData["JobPosition"] = jobPositions;
         }
     }
 }
