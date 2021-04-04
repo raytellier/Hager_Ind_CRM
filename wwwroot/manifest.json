@@ -1,0 +1,17 @@
+{
+  "name": "Hager Industries",
+  "short_name": "Hager Ind.",
+  "description": "The most awesome application in the world",
+  "icons": [
+    {
+      "src": "/img/HagerLogo_192.png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/img/HagerLogo_512.png",
+      "sizes": "512x512"
+    }
+  ],
+  "display": "standalone",
+  "start_url": "/"
+}
