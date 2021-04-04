@@ -23,12 +23,15 @@
             </div>
             <div class="modal-body">
                 <br />
-                <b> @Html.Raw(ViewBag.Message)</b><br/><br/>
-                <b>Would you like to merge the two Companies?</b><br/><br/>
+                <b> @Html.Raw(ViewBag.Message)</b><br /><br />
+                <b>What would you like to do?</b><br /><br />
             </div>
             <div class="modal-footer">
-                @Html.ActionLink("Merge", "Merge", "Companies", new { @id1 = ViewBag.Msg, @id2 = ViewBag.ID }, new { @class = "btn btn-outline-primary" })
-
+                @Html.ActionLink("View", "Details", "Companies", new
+                {
+                    id = ViewBag.Msg
+                }, new { @class = "btn btn-outline-info" })
+                <button class="btn btn-outline-primary" data-dismiss="modal" id="btnUpdate">Merge</button>
                 @Html.ActionLink("Cancel", "Index", "Companies", new { }, new { @class = "btn btn-outline-secondary" })
             </div>
         </div>
@@ -404,5 +407,23 @@
         if ('@ViewBag.Message' != "") {
             $('#myModal').modal('show');
         }
+    });
+    $('#btnUpdate').click(function (event) {
+        event.preventDefault();
+        var form = $('#CreateCompanyForm');
+        if (form.valid()) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Edit","Companies",new {id= ViewBag.Msg})',
+                data: form.serialize(),
+                success: function () {
+                  window.location.href = "@Url.Action("Index", "Companies")";
+                },
+                error: function () {
+                    alert("Merge Failed. There was a problem merging the record.");
+                }
+            });
+        }
+        return false;
     });
 </script>

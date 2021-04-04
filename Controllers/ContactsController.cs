@@ -73,17 +73,11 @@ namespace Hager_Ind_CRM.Controllers
         }
 
         // GET: Users/Create
-        public IActionResult Create(int? compID)
+        public IActionResult Create()
         {
             Contact contact = new Contact();
             PopulateAssignedCatagoriesData(contact);
-            PopulateDropDownLists(compID, null);
-
-            //to change the button direction on the create page if the user comes from the company details page
-            if (compID != null)
-            {
-                ViewData["cmpID"] = compID;
-            }
+            PopulateDropDownLists();
             return View();
         }
 
@@ -93,27 +87,17 @@ namespace Hager_Ind_CRM.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,JobTitle,CellPhone,WorkPhone,Email,Active,CompanyID")] Contact contact,
-            string[] selectedOptions, int? cmpDET)
+            string[] selectedOptions)
         {
             UpdateContactCatagories(selectedOptions, contact);
             if (ModelState.IsValid)
             {
                 _context.Add(contact);
                 await _context.SaveChangesAsync();
-                if (cmpDET != null)
-                {
-                    return RedirectToAction("Details", "Companies", new { id = cmpDET });
-                }
-                else
-                {
-                    return View(contact);
-                }
+                return RedirectToAction(nameof(Index));
             }
-            PopulateDropDownLists(null, contact);
+            PopulateDropDownLists(contact);
             PopulateAssignedCatagoriesData(contact);
-
-            //to change the button direction on the create page if the user comes from the company details page
-            
             return View(contact);
         }
 
@@ -135,14 +119,14 @@ namespace Hager_Ind_CRM.Controllers
             {
                 return NotFound();
             }
-            PopulateDropDownLists(null, contact);
+            PopulateDropDownLists(contact);
             PopulateAssignedCatagoriesData(contact);
             return View(contact);
         }
 
         // POST: Users/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.p
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Policy = PolicyTypes.Contacts.Update)]
@@ -192,7 +176,7 @@ namespace Hager_Ind_CRM.Controllers
 
             }
             
-            PopulateDropDownLists(null, contact);
+            PopulateDropDownLists(contact);
             PopulateAssignedCatagoriesData(contact);
             return View(contact);
         }
@@ -236,11 +220,9 @@ namespace Hager_Ind_CRM.Controllers
             return _context.Contacts.Any(e => e.ID == id);
         }
 
-        private void PopulateDropDownLists(int? cmpID, Contact contact = null)
+        private void PopulateDropDownLists(Contact contact = null)
         {
-            int? id = null;
-            if (contact?.CompanyID != null) { id = contact?.CompanyID; } else { id = cmpID; }
-            ViewData["CompanyID"] = CompaniesSelectList(id);
+            ViewData["CompanyID"] = CompaniesSelectList(contact?.CompanyID);
         }
         private SelectList CompaniesSelectList(int? id)
         {
@@ -249,7 +231,6 @@ namespace Hager_Ind_CRM.Controllers
                           select d).ToList();
             return new SelectList(dQuery, "ID", "Name", id);
         }
-
         private void PopulateAssignedCatagoriesData(Contact contact)
         {
             var allOptions = _context.Catagories;
