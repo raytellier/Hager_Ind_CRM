@@ -182,18 +182,18 @@
     <script src="~/js/scripts.js" asp-append-version="true"></script>
     <script>
         function myFunction() {
-            if (document.getElementById("collapseCompanies").className == "collapse show" || document.getElementById("collapseCompanies").className == "collapse in show") {
-                sessionStorage.setItem("key", "collapse show");
+            if (document.getElementById("collapseCompanies").className == "collapse show") {
+                sessionStorage.setItem("key", document.getElementById("collapseCompanies").className);
                 //$('#collapseCompanies').addClass('collapse show').removeClass('collapse');
             }
-            else if (document.getElementById("collapseContacts").className == "collapse show" || document.getElementById("collapseContacts").className == "collapse in show") {
-                sessionStorage.setItem("key1", "collapse show");
+            else if (document.getElementById("collapseContacts").className == "collapse show") {
+                sessionStorage.setItem("key1", document.getElementById("collapseContacts").className);
             }
-            else if (document.getElementById("collapseManagement").className == "collapse show" || document.getElementById("collapseManagement").className == "collapse in show") {
-                sessionStorage.setItem("key2", "collapse show");
+            else if (document.getElementById("collapseManagement").className == "collapse show") {
+                sessionStorage.setItem("key2", document.getElementById("collapseManagement").className);
             }
-            else if (document.getElementById("collapseAdminOptions").className == "collapse show" || document.getElementById("collapseAdminOptions").className == "collapse in show") {
-                sessionStorage.setItem("key3", "collapse show");
+            else if (document.getElementById("collapseAdminOptions").className == "collapse show") {
+                sessionStorage.setItem("key3", document.getElementById("collapseAdminOptions").className);
             }
             else {
                 sessionStorage.clear();
