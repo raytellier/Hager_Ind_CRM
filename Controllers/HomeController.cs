@@ -30,7 +30,8 @@ namespace Hager_Ind_CRM.Controllers
             GetAnnouncements();
             GetCreditChecks();
             GetMissingContactInfo();
-            GetJobPosition();
+            GetUpcomingBirthday();
+            //GetJobPosition();
             return View();
         }
 
@@ -66,30 +67,60 @@ namespace Hager_Ind_CRM.Controllers
         private void GetCreditChecks()
         {
             var creditChecks = (from c in _context.Companies
-                                 orderby c.Name
-                                 where c.CredCheck == false
-                                 select c);
+                                orderby c.Name
+                                where c.CredCheck == false
+                                select c);
             ViewData["CreditChecks"] = creditChecks;
         }
 
         private void GetMissingContactInfo()
         {
             var contacts = (from c in _context.Contacts
-                                orderby c.FirstName
-                                where c.Email == null || c.CellPhone == null
-                                select c);
+                            orderby c.FirstName
+                            where c.Email == null || c.CellPhone == null
+                            select c);
             ViewData["MissingContactInfo"] = contacts;
         }
 
-        private void GetJobPosition()
+        private void GetUpcomingBirthday()
         {
-            var jobPositions = from j in _context.Employees
-                               .AsEnumerable()
-                               group j by j.JobPosition into j
-                               select new { Position = j.Key, Count = j.Count() };
+            var upcomingBirthday = from e in _context.Employees.AsEnumerable()
+                                   where e.DateOfBirth != null
+                                   let today = DateTime.Today
+                                   let age = today.Year - e.DateOfBirth.Value.Year
+                                   let birthdayOccured = e.DateOfBirth.Value.Month < today.Month || (e.DateOfBirth.Value.Day <= today.Day && e.DateOfBirth.Value.Month == today.Month)
+                                   let nextBirthday = e.DateOfBirth.Value.AddYears(age + (birthdayOccured ? 1 : 0))
+                                   let birthdayDifference = nextBirthday - today
+                                   orderby birthdayDifference
+                                   select e;
 
+            ViewData["UpcomingBirthday"] = upcomingBirthday.Take(5);
 
-            ViewData["JobPosition"] = jobPositions;
         }
+
+        //private void GetJobPosition()
+        //{
+        //    //var jobPositions = from e in _context.Employees join j in _context.JobPositions on e.JobPositionID equals j.ID
+        //    //                   group e by e.JobPosition into e
+        //    //                   select new JobPositionCountVM { Position = e.Key.Name, Count = e.Count() };
+
+        //    var jobPositions = from j in _context.JobPositions
+        //                       select j;
+
+        //    List<JobPositionCountVM> positionStats = new List<JobPositionCountVM>();
+
+        //    foreach (var item in jobPositions)
+        //    {
+        //        JobPositionCountVM stats = new JobPositionCountVM
+        //        {
+        //            Position = item.Name,
+        //            Count = item.Employees.Count()
+        //        };
+        //        positionStats.Add(stats);
+        //    }
+
+
+        //    ViewData["JobPosition"] = jobPositions;
+        //}
     }
 }

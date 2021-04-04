@@ -8,7 +8,7 @@ namespace Hager_Ind_CRM.ViewModels
 {
     public class JobPositionCountVM
     {
-        public JobPosition Position { get; set; }
+        public string Position { get; set; }
         public int Count { get; set; }
     }
 }
