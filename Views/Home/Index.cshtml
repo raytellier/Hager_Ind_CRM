@@ -53,61 +53,110 @@
 
 
 
-<div class="row">
-    <div class="col-12">
-        <div class="card shadow mb-4">
+<div class="row d-flex justify-content-center">
+    <div class="col-xl-8 col-md-10">
+        <div class="card shadow bg-light mb-3">
             <!-- Card Header - Dropdown -->
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Announcements</h6>
-                <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        @*<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>*@
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                         aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" asp-controller="Announcements" asp-action="Create">Create New</a>
+                <h6 class="m-0 font-weight-bold">Announcements 📢</h6>
+                @if (User.IsInRole("Admin"))
+                {
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-dark dropdown-toggle rounded" role="button" id="dropdownMenuLink"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                             aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" asp-controller="Announcements" asp-action="Create">Create New</a>
+                        </div>
                     </div>
-                </div>
+                }
+
             </div>
             <!-- Card Body -->
             <div class="card-body">
-                <div class="chart-area">
-                    @foreach (var item in announcements)
-                    {
+                <table class="table">
+                    <tbody>
+                        @foreach (var item in announcements)
+                        {
+                            <tr>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <td>
+                                        <a class="btn btn-light" asp-controller="Announcements" asp-action="Edit" asp-route-id="@item.ID">
+                                            @Html.DisplayFor(modelItem => item.Notice)
+                                        </a>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Notice)
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
 
 
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <p>
-                                <a class="btn btn-light" asp-controller="Announcements" asp-action="Edit" asp-route-id="@item.ID">
-                                    @Html.DisplayFor(modelItem => item.Notice)
-                                </a>
-                            </p>
-                        }
-                        else
-                        {
-                            <p>
-                                @Html.DisplayFor(modelItem => item.Notice)
-                            </p>
-                        }
-                    }
-                </div>
+
             </div>
         </div>
     </div>
 </div>
-
 <!--Credit Check & Missing Contact Info Section-->
 
-<div class="row">
+<div class="row d-flex">
+
+    <!--Upcoming Birthday Info-->
+    <div class="col-xl-4 col-md-6">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold">Upcoming Birthdays 🎉</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Birthday</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in upcomingBirthday)
+                        {
+                            string dob = item.DateOfBirth.Value.ToLongDateString();
+                            <tr>
+                                <td>
+                                    @{ if (User.HasClaim(CustomClaimTypes.Permission, Employees.Read))
+                                        {
+                                            <a class="btn btn-light" asp-controller="Contacts" asp-action="Details" asp-route-id="@item.ID">
+                                                @Html.DisplayFor(modelItem => item.FullName)
+                                            </a>
+                                        }
+                                        else
+                                        { @Html.DisplayFor(modelItem => item.FullName)}
+                                    }
+                                </td>
+                                <td>@Html.DisplayFor(modelItem => dob)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
     @if (User.HasClaim(CustomClaimTypes.Permission, Companies.Update))
     {
-        <div class="col-4">
-            <div class="card shadow mb-4">
+        <div class="col-xl-4 col-md-6">
+            <div class="card shadow mb-3">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Credit Checks To-Do</h6>
+                    <h6 class="m-0 font-weight-bold">Incomplete Credit Checks 💳</h6>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
@@ -129,11 +178,11 @@
     @if (User.HasClaim(CustomClaimTypes.Permission, Contacts.Update))
     {
         <!--Missing Contact Info-->
-        <div class="col-4">
-            <div class="card shadow mb-4">
+        <div class="col-xl-4 col-md-6">
+            <div class="card shadow mb-3">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Missing Contact Info</h6>
+                    <h6 class="m-0 font-weight-bold">Missing Contact Info 📇</h6>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
@@ -152,98 +201,69 @@
         </div>
     }
 
-    @if (User.HasClaim(CustomClaimTypes.Permission, Employees.Read))
-    {
-        <!--Upcoming Birthday Info-->
-        <div class="col-4">
-            <div class="card shadow mb-4">
-                <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Upcoming Birthdays</h6>
-                </div>
-                <!-- Card Body -->
-                <div class="card-body">
-                    <div class="chart-area">
-                        @foreach (var item in upcomingBirthday)
-                        {
-                            string dob = item.DateOfBirth.Value.ToLongDateString();
-                            <p>
-                                <a class="btn btn-light" asp-controller="Contacts" asp-action="Edit" asp-route-id="@item.ID">
-                                    @Html.DisplayFor(modelItem => item.FullName)
-                                </a>
-                                @Html.DisplayFor(modelItem => dob)
-                            </p>
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
-
-
 </div>
 
 @*<div id="piechart"></div>
 
 
-        Concept for Pie Chart Analytics
+    Concept for Pie Chart Analytics
 
-        @section Scripts{
-            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-            <script type="text/javascript">
-        google.charts.load('current', { 'packages': ['corechart'] });
-        google.charts.setOnLoadCallback(drawChart);
+    @section Scripts{
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
 
-        function drawChart() {
+    function drawChart() {
 
-            var data = google.visualization.arrayToDataTable([
+        var data = google.visualization.arrayToDataTable([
 
 
-                ['Position', 'Count'],
+            ['Position', 'Count'],
 
-                @foreach (var item in jobPositions)
+            @foreach (var item in jobPositions)
+            {
+                <text>['@item.Position, @item.Count'],</text>
+            }
+        ]);
+
+        var options = {
+            title: 'My Daily Activities'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+    }
+        </script>
+    }*@
+
+@*<div class="table-responsive">
+        <table class="table table-bordered display" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>
+                        Notice
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in announcements)
                 {
-                    <text>['@item.Position, @item.Count'],</text>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Notice)
+                        </td>
+                        <td>
+                            @{ if (User.IsInRole("Admin"))
+                                {
+                                    <a class="btn btn-outline-dark" asp-controller="Announcements" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+                                }
+                            }
+
+                        </td>
+                    </tr>
                 }
-            ]);
-
-            var options = {
-                title: 'My Daily Activities'
-            };
-
-            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
-            chart.draw(data, options);
-        }
-            </script>
-        }*@
-
-        @*<div class="table-responsive">
-                <table class="table table-bordered display" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>
-                                Notice
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in announcements)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Notice)
-                                </td>
-                                <td>
-                                    @{ if (User.IsInRole("Admin"))
-                                        {
-                                            <a class="btn btn-outline-dark" asp-controller="Announcements" asp-action="Edit" asp-route-id="@item.ID">Edit</a>
-                                        }
-                                    }
-
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>*@
+            </tbody>
+        </table>
+    </div>*@
