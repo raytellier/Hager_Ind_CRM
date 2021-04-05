@@ -10,6 +10,17 @@
     //List<JobPositionCountVM> jobPositions = ViewData["JobPosition"] as List<JobPositionCountVM>;
 }
 
+@section Scripts{
+
+    <!-- Page level plugins -->
+    <script src="js/charts/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/charts/chart-pie-demo1.js"></script>
+    @*<script src="js/chart-area-demo.js"></script>*@
+    <script src="js/chart-bar-demo1.js"></script>
+}
+
 <h1 class="mt-4">Home</h1>
 <ol class="breadcrumb mb-4">
     <li class="breadcrumb-item active"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
@@ -51,13 +62,11 @@
 </div>
 
 
-
-
-<div class="row d-flex justify-content-center">
-    <div class="col-xl-8 col-md-10">
-        <div class="card shadow bg-light mb-3">
+<div class="row">
+    <div class="col-12 ">
+        <div class="card shadow bg-light mb-3 d-flex flex-column align-items-stretch">
             <!-- Card Header - Dropdown -->
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between ">
                 <h6 class="m-0 font-weight-bold">Announcements 📢</h6>
                 @if (User.IsInRole("Admin"))
                 {
@@ -103,8 +112,60 @@
             </div>
         </div>
     </div>
+
+    
 </div>
-<!--Credit Check & Missing Contact Info Section-->
+
+<div class="row mb-3">
+    @*<div class="col-lg-4 col-md-12">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-chart-area mr-1"></i>
+                Area Chart Example
+            </div>
+            <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+        </div>
+    </div>*@
+    <div class="col-lg-6 col-md-12">
+        <div class="card shadow bg-light d-flex h-100 flex-column mb-3 ">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 ">
+                <h6 class="m-0 font-weight-bold">Job Positions 👷🏾</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="chart-pie pt-4 pb-2">
+                    <canvas id="myBarChart" width="100%" height="50"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-12 ">
+        <div class="card shadow bg-light d-flex h-100 flex-column mb-3">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold">Companies 🏢</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="chart-pie pt-4 pb-2 d-flex h-75 flex-column">
+                    <canvas id="myPieChart"></canvas>
+                </div>
+                <div class="text-center small d-flex h-25 justify-content-center align-items-center">
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-primary"></i> Customer
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-success "></i> Vendor
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-info"></i> Conractor
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="row d-flex">
 
