@@ -19,6 +19,19 @@
     <script src="js/charts/chart-pie-demo1.js"></script>
     @*<script src="js/chart-area-demo.js"></script>*@
     <script src="js/chart-bar-demo1.js"></script>
+    <script>
+        //Register the service worker.
+        //Note is is still not "installable" without the manifest
+        if (navigator.serviceWorker.controller) {
+            console.log('Active service worker found, no need to register');
+        } else {
+            navigator.serviceWorker.register('sw.js', {
+                scope: './'
+            }).then(function (reg) {
+                console.log('Service worker has been registered for scope:' + reg.scope);
+            });
+        }
+    </script>
 }
 
 <h1 class="mt-4">Home</h1>
@@ -113,19 +126,19 @@
         </div>
     </div>
 
-    
+
 </div>
 
 <div class="row mb-3">
     @*<div class="col-lg-4 col-md-12">
-        <div class="card mb-4">
-            <div class="card-header">
-                <i class="fas fa-chart-area mr-1"></i>
-                Area Chart Example
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-area mr-1"></i>
+                    Area Chart Example
+                </div>
+                <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
             </div>
-            <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
-        </div>
-    </div>*@
+        </div>*@
     <div class="col-lg-6 col-md-12">
         <div class="card shadow bg-light d-flex h-100 flex-column mb-3 ">
             <!-- Card Header - Dropdown -->
