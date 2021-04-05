@@ -206,7 +206,7 @@
                                 <td>
                                     @{ if (User.HasClaim(CustomClaimTypes.Permission, Employees.Read))
                                         {
-                                            <a class="btn btn-light" asp-controller="Contacts" asp-action="Details" asp-route-id="@item.ID">
+                                            <a class="btn btn-light" asp-controller="Employees" asp-action="Details" asp-route-id="@item.ID">
                                                 @Html.DisplayFor(modelItem => item.FullName)
                                             </a>
                                         }
