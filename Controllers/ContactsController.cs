@@ -106,7 +106,7 @@ namespace Hager_Ind_CRM.Controllers
                 }
                 else
                 {
-                    return View(contact);
+                    return RedirectToAction("Index");
                 }
             }
             PopulateDropDownLists(null, contact);
