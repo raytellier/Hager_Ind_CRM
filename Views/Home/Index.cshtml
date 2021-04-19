@@ -7,6 +7,15 @@
     IEnumerable<Company> creditChecks = ViewData["CreditChecks"] as IEnumerable<Company>;
     IEnumerable<Contact> contacts = ViewData["MissingContactInfo"] as IEnumerable<Contact>;
     IEnumerable<Employee> upcomingBirthday = ViewData["UpcomingBirthday"] as IEnumerable<Employee>;
+    IEnumerable<Company> vendors = ViewData["Vendors"] as IEnumerable<Company>;
+    IEnumerable<Company> customers = ViewData["Customers"] as IEnumerable<Company>;
+    IEnumerable<Company> contractors = ViewData["Contractors"] as IEnumerable<Company>;
+    IEnumerable<Employee> parttime = ViewData["Parttime"] as IEnumerable<Employee>;
+    IEnumerable<Employee> fulltime = ViewData["Fulltime"] as IEnumerable<Employee>;
+
+    IEnumerable<Employee> seasonal = ViewData["Seasonal"] as IEnumerable<Employee>;
+    IEnumerable<Employee> coop = ViewData["Coop"] as IEnumerable<Employee>;
+    IEnumerable<Employee> contract = ViewData["Contract"] as IEnumerable<Employee>;
     //List<JobPositionCountVM> jobPositions = ViewData["JobPosition"] as List<JobPositionCountVM>;
 }
 
@@ -16,9 +25,9 @@
     <script src="js/charts/Chart.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/charts/chart-pie-demo1.js"></script>
+    <script src="js/charts/chart-pie-demo123.js"></script>
     @*<script src="js/chart-area-demo.js"></script>*@
-    <script src="js/chart-bar-demo1.js"></script>
+    <script src="js/chart-bar-demo12.js"></script>
     <script>
         //Register the service worker.
         //Note is is still not "installable" without the manifest
@@ -41,6 +50,31 @@
 <!--<div class="text-lg-center">-->
 @* Access to the Notice Page : <a asp-area="" asp-controller="Announcements" asp-action="Index">Announcemnets</a>*@
 <!--</div>-->
+
+<label id="vendors_num" hidden="hidden">
+    @vendors.ToList().Count().ToString()
+</label>
+<label id="customers_num" hidden="hidden">
+    @customers.ToList().Count().ToString()
+</label>
+<label id="contractors_num" hidden="hidden">
+    @contractors.ToList().Count().ToString()
+</label>
+<label id="parttime_num" hidden="hidden">
+    @parttime.ToList().Count().ToString()
+</label>
+<label id="fulltime_num" hidden="hidden">
+    @fulltime.ToList().Count().ToString()
+</label>
+<label id="seasonal_num" hidden="hidden">
+    @seasonal.ToList().Count().ToString()
+</label>
+<label id="coop_num" hidden="hidden">
+    @coop.ToList().Count().ToString()
+</label>
+<label id="contract_num" hidden="hidden">
+    @contract.ToList().Count().ToString()
+</label>
 
 <div class="row">
     <div class="col-xl-4 col-md-6">

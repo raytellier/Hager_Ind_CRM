@@ -31,6 +31,7 @@ namespace Hager_Ind_CRM.Controllers
             GetCreditChecks();
             GetMissingContactInfo();
             GetUpcomingBirthday();
+            GetDataForJS();
             //GetJobPosition();
             return View();
         }
@@ -62,6 +63,62 @@ namespace Hager_Ind_CRM.Controllers
                                  orderby d.Notice
                                  select d);
             ViewData["Announcements"] = announcements;
+        }
+
+        private void GetDataForJS()
+        {
+            var vendors = (from d in _context.Companies
+                           where d.CompanyTypes.Any(a => a.Type.Name == "Vendor")
+                           select d);
+
+            ViewData["Vendors"] = vendors;
+
+            var customers = (from d in _context.Companies
+                           where d.CompanyTypes.Any(a => a.Type.Name == "Customer")
+                           select d);
+
+            ViewData["Customers"] = customers;
+
+            var contractors = (from d in _context.Companies
+                           where d.CompanyTypes.Any(a => a.Type.Name == "Contractor")
+                           select d);
+
+            ViewData["Contractors"] = contractors;
+
+
+            //Empl types
+            var parttime = (from d in _context.Employees
+                           where d.EmploymentType.Type == "Part-Time"
+                           select d);
+
+            ViewData["Parttime"] = parttime;
+
+            var fulltime = (from d in _context.Employees
+                            where d.EmploymentType.Type == "Full-Time"
+                            select d);
+
+            ViewData["Fulltime"] = fulltime;
+
+            var seasonal = (from d in _context.Employees
+                            where d.EmploymentType.Type == "Seasonal"
+                            select d);
+
+            ViewData["Seasonal"] = seasonal;
+
+
+            var coop = (from d in _context.Employees
+                            where d.EmploymentType.Type == "Co-op Student"
+                            select d);
+
+            ViewData["Coop"] = coop;
+
+            var contract = (from d in _context.Employees
+                        where d.EmploymentType.Type == "Contract"
+                            select d);
+
+            ViewData["Contract"] = contract;
+
+
         }
 
         private void GetCreditChecks()

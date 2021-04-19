@@ -12,7 +12,11 @@ var myLineChart = new Chart(ctx, {
       label: "Positions",
       backgroundColor: "rgba(2,117,216,1)",
       borderColor: "rgba(2,117,216,1)",
-      data: [2, 3, 5, 2, 4],
+        data: [document.getElementById("parttime_num").textContent,
+            document.getElementById("fulltime_num").textContent,
+            document.getElementById("seasonal_num").textContent,
+            document.getElementById("coop_num").textContent,
+            document.getElementById("contract_num").textContent],
     }],
   },
   options: {
